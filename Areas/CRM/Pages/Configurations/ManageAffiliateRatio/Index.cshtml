@@ -1,0 +1,137 @@
+﻿@page
+@model Jovera.Areas.CRM.Pages.Configurations.ManageAffiliateRatio.IndexModel
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    Layout = "_Layout";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="List">
+            <div class="card-header border-0">
+                <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
+
+                <div class="row g-4 align-items-center">
+
+                    <div class="col-sm-auto ms-auto">
+                      
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive table-card">
+                        <table id="myTable" class="table  dt-responsive nowrap  align-middle" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+
+                                    <th data-ordering="false">@sharedResource["Affiliate Ratio"]</th>
+                                    <th data-ordering="false">@sharedResource["Actions"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                <tbody class="list form-check-all">
+                                        @{
+                                            foreach (var item in Model.AffiliateRatioList)
+                                            {
+                                            <tr>
+                                                <td class="company_name">@item.ratioInPrecentage  <span style="color:blue">&nbsp &nbsp %</span></td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0">
+
+
+
+                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                            data-bs-trigger="hover" data-bs-placement="top"
+                                                            title=@sharedResource["Edit"]>
+                                                            <a class="edit-item-btn" href="javascript:void(0)"
+                                                               data-bs-toggle="modal">
+                                                                <i class="ri-pencil-fill align-bottom text-muted" onclick="editButtonClick(@item.AffiliateRatioId)"></i>
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </td>
+
+
+                                            </tr>
+                                            }
+                                        }
+
+                                </tbody>
+                                }
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--end modal-->
+        </div>
+    </div>
+    <!--end col-->
+</div>
+
+
+<partial name="_EditPopup" model="@Model.affiliateRatio" view-data="ViewData" />
+
+<!--datatable js-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section scripts{
+    <!-- list.js min js -->
+    <script src="~/assets/libs/list.js/list.min.js"></script>
+    <script src="~/assets/libs/list.pagination.js/list.pagination.min.js"></script>
+    <!-- crm leads init -->
+    <script src="~/assets/js/pages/crm-leads.init.js"></script>
+}
+
+
+<script>
+
+
+
+
+
+
+    function editButtonClick(AffiliateRatioId) {
+        console.log(AffiliateRatioId);
+        $.ajax({
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+            ,
+            url: "/CRM/Configurations/ManageAffiliateRatio/Index?handler=SingleAffiliateRatioForEdit",
+
+            data: { "AffiliateRatioId": AffiliateRatioId },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log("before");
+                document.getElementById("AffiliateRatioHiddenId").value = response.AffiliateRatioId
+                console.log("before1");
+                document.getElementById("ratioInPrecentageId").value = response.ratioInPrecentage
+                console.log("before2");
+                $('#showEditModal').modal('show');
+            },
+
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+
+
+ 
+
+
+
+</script>  

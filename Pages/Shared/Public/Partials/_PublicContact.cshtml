@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<section id="contact" class="section bg-color-grey-scale-1 border-0 py-0 m-0" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 p-5 my-5">
+
+                <div class="appear-animation px-4" data-appear-animation="fadeIn" data-appear-animation-delay="800">
+                    @*<h4 class="mt-2 mb-1">Our <strong>@sharedResource["Contact"]</strong></h4>*@
+                    <h2 class="font-weight-bold line-height-1 mb-2">@sharedResource["Contact Us"]</h2>
+                    <ul class="list list-icons list-icons-style-2 mt-2">
+                        <li><i class="fas fa-map-marker-alt top-6"></i> <strong class="text-dark">@sharedResource["Address:"]</strong> Kwait</li>
+                        <li><i class="fas fa-phone top-6"></i> <strong class="text-dark">@sharedResource["Phone:"]</strong> (965) 54321</li>
+                        <li><i class="fas fa-envelope top-6"></i> <strong class="text-dark">@sharedResource["Email:"]</strong> <a href=""><span class="__cf_email__" data-cfemail="cfa2aea6a38faab7aea2bfa3aae1aca0a2">admin@Info.com</span></a></li>
+                    </ul>
+                </div>
+
+              
+
+                @*<h4 class="pt-5">Get in <strong>Touch</strong></h4>
+                <p class="lead mb-0 text-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget leo at velit imperdiet varius. In eu ipsum vitae velit congue iaculis vitae at risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+*@
+            </div>
+          @*  <div class="col-md-6">
+                <div id="map" style="height:602px;width:660px;margin:auto"></div>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfsM19EfsfREOaCkPjRAVMYdTIXToo0FE&callback=initMap&v=weekly" defer></script>
+
+                @*<iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7485777.785836187!2d36.923033812499995!3d23.634263629427693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f051c34cdc92f%3A0xeec9b9df4e2e9ad8!2sMashaer.store!5e0!3m2!1sen!2seg!4v1672177076945!5m2!1sen!2seg" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>*@
+
+                <!-- Google Maps - Settings on footer -->
+                @*<div id="googlemaps" class="google-map h-100 m-0" style="min-height: 400px;"></div>
+
+            </div>*@
+            <div class="col-md-6 p-5 my-5">
+
+                <div class="px-4">
+                   @* <h2 class="font-weight-bold line-height-1 mb-2">@sharedResource["Contact Us"]</h2>*@
+                    @*<p class="text-3 mb-4">LOREM IPSUM DOLOR SIT A MET</p>*@
+                    <form class=" form-style-2 pe-xl-5" asp-page="/Index" asp-page-handler="AddContactUS" method="POST">
+                       @* <div class="contact-form-success alert alert-success d-none mt-4">
+                            <strong>Success!</strong> Your message has been sent to us.
+                        </div>
+
+                        <div class="contact-form-error alert alert-danger d-none mt-4">
+                            <strong>Error!</strong> There was an error sending your message.
+                            <span class="mail-error-message text-1 d-block"></span>
+                        </div>*@
+
+                        <div class="row">
+                            <div class="form-group col-xl-4">
+                                <input type="text" value="" data-msg-required="@sharedResource["Please enter your name."]" maxlength="100" class="form-control" name="name" placeholder="@sharedResource["Name"]" required>
+                            </div>
+                            <div class="form-group col-xl-8">
+                                <input type="email" value="" data-msg-required="@sharedResource["Please enter your email address."]" data-msg-email="@sharedResource["Please enter your email address."]" maxlength="100" class="form-control" name="email" placeholder="@sharedResource["Email"]" required>
+                            </div>
+                        </div>
+                       @* <div class="row">
+                            <div class="form-group col">
+                                <input type="text" value="" data-msg-required="Please enter the subject." maxlength="100" class="form-control" name="subject" placeholder="Subject" required>
+                            </div>
+                        </div>*@
+                        <div class="row">
+                            <div class="form-group col">
+                                <textarea maxlength="5000" data-msg-required="@sharedResource["Please enter your message."]" rows="4" class="form-control" name="message" placeholder="@sharedResource["Message"]" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <input type="submit" value="@sharedResource["Submit"]" class="btn btn-primary btn-rounded font-weight-semibold px-5 btn-py-2 text-2" data-loading-text="@sharedResource["Loading..."]">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    var flag = false;
+    function initMap() {
+
+        var myLatlng = { lat: 29.378586, lng: 47.990341 };
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatlng,
+        });
+
+        var infoWindow = new google.maps.InfoWindow();
+        var MarkerObj = { lat: myLatlng.lat, lng: myLatlng.lng };
+        var marker = new google.maps.Marker({
+            position: MarkerObj,
+            map: map
+        });
+
+        infoWindow.open(map, marker);
+        infoWindow.close();
+
+    }
+    window.initMap = initMap;
+
+
+
+</script>

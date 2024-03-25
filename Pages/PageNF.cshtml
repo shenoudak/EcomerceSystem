@@ -1,0 +1,59 @@
+﻿@page
+@model PageNFModel
+@{
+    
+}
+   <div id="wrapper">
+                <!-- content-->
+                <div class="content">
+                    <!--  section  -->
+                    <section class="parallax-section small-par" data-scrollax-parent="true">
+                        <div class="bg"  data-bg="images/bg/hero/1.jpg" data-scrollax="properties: { translateY: '30%' }"></div>
+                        <div class="overlay op7"></div>
+                        <div class="container">
+                            <div class="error-wrap">
+                                <div class="bubbles">
+                                    <h2>404</h2>
+                                </div>
+                                <p>@sharedResource["We're sorry, but the Page you were looking for, couldn't be found."]</p>
+                                <div class="clearfix"></div>
+                                <form action="#">
+                                    <input name="se" id="se" type="text" class="search" placeholder="@sharedResource["Search.."]" >
+                                    <button class="search-submit color-bg" id="submit_btn"><i class="fal fa-search"></i> </button>
+                                </form>
+                                <div class="clearfix"></div>
+                                <p>@sharedResource["Or"]</p>
+                                <a asp-page="/Index" class="btn   color2-bg">@sharedResource["Back to Home Page"]<i class="far fa-home-alt"></i></a>
+                            </div>
+                        </div>
+                    </section>
+                    <!--  section  end-->
+                </div>
+                <!--content end-->
+            </div>
+           @{
+    var locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+    var BrowserCulture = locale.RequestCulture.UICulture.ToString();
+    //English
+    if (BrowserCulture == "en-US")
+    {
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Template/css/reset.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Template/css/plugins.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Template/css/style.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Template/css/color.css")">
+
+
+    }
+    //Arabic
+    else
+    {
+
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/TemplateRTL/css/reset.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/TemplateRTL/css/plugins.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/TemplateRTL/css/style.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/TemplateRTL/css/rtl-style.css")">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/TemplateRTL/css/color.css")">
+
+
+    }
+}

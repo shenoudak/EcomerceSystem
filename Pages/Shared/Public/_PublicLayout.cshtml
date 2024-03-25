@@ -1,0 +1,347 @@
+﻿@using Microsoft.AspNetCore.Localization;
+@using Jovera.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var locale = Context.Request.HttpContext.Features.Get<IRequestCultureFeature>();
+    var BrowserCulture = locale.RequestCulture.UICulture.ToString();
+    var currentuser = await UserManager.GetUserAsync(User);
+}
+
+<!DOCTYPE html>
+<html id="htmlRoot" class="sticky-header-active">
+<head>
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Jovera</title>
+
+    <meta name="keywords" content="Jovera" />
+    <meta name="description" content="Jovera">
+    <meta name="author" content="Jovera">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/KidsLogo.jpg" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/images/KidsLogo.jpg">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+
+    <!-- Web Fonts  -->
+   @* <link id="googleFonts" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light&amp;display=swap" rel="stylesheet" type="text/css">
+*@
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/Public/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Public/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/Public/vendor/animate/animate.compat.css">
+    <link rel="stylesheet" href="~/Public/vendor/simple-line-icons/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="~/Public/vendor/owl.carousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Public/vendor/owl.carousel/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Public/vendor/magnific-popup/magnific-popup.min.css">
+
+
+
+ 
+
+
+
+    @{
+
+        //English
+        if (BrowserCulture == "en-US")
+        {
+            <script>
+                var masterPage = document.getElementById("htmlRoot");
+                masterPage.dir = "ltr";
+            </script>
+            <!-- Theme CSS -->
+            <link rel="stylesheet" href="~/Public/css/theme.css">
+            <link rel="stylesheet" href="~/Public/css/theme-elements.css">
+            <link rel="stylesheet" href="~/Public/css/theme-blog.css">
+            <link rel="stylesheet" href="~/Public/css/theme-shop.css">
+
+
+        }
+        //Arabic
+        else
+        {
+            <script>
+                var masterPage = document.getElementById("htmlRoot");
+                masterPage.dir = "rtl";
+            </script>
+            <!-- Theme CSS -->
+            <link rel="stylesheet" href="~/Public/css/rtl-theme.css">
+            <link rel="stylesheet" href="~/Public/css/rtl-theme-elements.css">
+            <link rel="stylesheet" href="~/Public/css/rtl-theme-blog.css">
+            <link rel="stylesheet" href="~/Public/css/rtl-theme-shop.css">
+           <style>
+              /* .ps-xl-3 {
+                    width: 48rem !important
+
+                }*/
+
+</style>
+        }
+
+        <!-- Current Page CSS -->
+        <link rel="stylesheet" href="~/Public/vendor/circle-flip-slideshow/css/component.css">
+
+        <!-- Skin CSS -->
+        <link id="skinCSS" rel="stylesheet" href="~/Public/css/skins/default.css">
+       
+        <script src="~/Public/vendor/modernizr/modernizr.min.js"></script>
+
+
+
+
+
+      
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-42715764-11"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-42715764-11');
+        </script>
+
+        <!-- Theme Custom CSS -->
+        <link rel="stylesheet" href="~/Public/css/custom.css">
+
+    }
+    @*<link href="~/adminassets/css_rtl/arabicfont.css" rel="stylesheet" />
+    <link href="~/css/css_rtl/arabicfont.css" rel="stylesheet" />*@
+   
+</head>
+
+<body data-plugin-page-transition>
+
+    <div >
+
+        @Html.Partial("Public/Partials/_Header")
+
+        @RenderBody()
+
+        @Html.Partial("Public/Partials/_PublicFooter")
+
+
+    </div>
+    @*<partial name="_LoginPopup" model="@Model.loginVM" view-data="ViewData" />*@
+
+    @*<partial name="Public/Partials/_LoginPopup" />*@
+
+
+
+    <!-- Vendor -->
+    @await Component.InvokeAsync("NToastNotify")
+    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+    <script src="~/Public/vendor/plugins/js/plugins.min.js"></script>
+    <script src="~/public/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Public/js/theme.js"></script>
+
+    <script src="~/Public/js/views/view.contact.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Public/js/theme.init.js"></script>
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhpYHdYRY2U6V_VfyyNtkPHhywLjDkhfg"></script>
+
+
+    <!-- Examples -->
+    <script src="~/Public/js/examples/particles.min.js"></script>
+    <script src="~/Public/js/examples/examples.particles.js"></script>
+    <script>
+      
+
+        function initializeGoogleMaps() {
+            // Map Markers
+            var mapMarkers = [{
+                address: "New York, NY 10017",
+                html: "<strong>New York Office</strong><br>New York, NY 10017<br><br><a href='#' onclick='mapCenterAt({latitude: 40.75198, longitude: -73.96978, zoom: 16}, event)'>[+] zoom here</a>",
+                icon: {
+                    image: "img/pin.png",
+                    iconsize: [26, 46],
+                    iconanchor: [12, 46]
+                }
+            }];
+
+            // Map Initial Location
+            var initLatitude = 40.75198;
+            var initLongitude = -73.96978;
+
+            // Map Extended Settings
+            var mapSettings = {
+                controls: {
+                    draggable: (($.browser.mobile) ? false : true),
+                    panControl: true,
+                    zoomControl: true,
+                    mapTypeControl: true,
+                    scaleControl: true,
+                    streetViewControl: true,
+                    overviewMapControl: true
+                },
+                scrollwheel: false,
+                markers: mapMarkers,
+                latitude: initLatitude,
+                longitude: initLongitude,
+                zoom: 5
+            };
+
+            var map = $('#googlemaps').gMap(mapSettings),
+                mapRef = $('#googlemaps').data('gMap.reference');
+
+            // Styles from https://snazzymaps.com/
+            var styles = [{
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#e9e9e9"
+                }, {
+                    "lightness": 17
+                }]
+            }, {
+                "featureType": "landscape",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#f5f5f5"
+                }, {
+                    "lightness": 20
+                }]
+            }, {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#ffffff"
+                }, {
+                    "lightness": 17
+                }]
+            }, {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#ffffff"
+                }, {
+                    "lightness": 29
+                }, {
+                    "weight": 0.2
+                }]
+            }, {
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#ffffff"
+                }, {
+                    "lightness": 18
+                }]
+            }, {
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#ffffff"
+                }, {
+                    "lightness": 16
+                }]
+            }, {
+                "featureType": "poi",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#f5f5f5"
+                }, {
+                    "lightness": 21
+                }]
+            }, {
+                "featureType": "poi.park",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#dedede"
+                }, {
+                    "lightness": 21
+                }]
+            }, {
+                "elementType": "labels.text.stroke",
+                "stylers": [{
+                    "visibility": "on"
+                }, {
+                    "color": "#ffffff"
+                }, {
+                    "lightness": 16
+                }]
+            }, {
+                "elementType": "labels.text.fill",
+                "stylers": [{
+                    "saturation": 36
+                }, {
+                    "color": "#333333"
+                }, {
+                    "lightness": 40
+                }]
+            }, {
+                "elementType": "labels.icon",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            }, {
+                "featureType": "transit",
+                "elementType": "geometry",
+                "stylers": [{
+                    "color": "#f2f2f2"
+                }, {
+                    "lightness": 19
+                }]
+            }, {
+                "featureType": "administrative",
+                "elementType": "geometry.fill",
+                "stylers": [{
+                    "color": "#fefefe"
+                }, {
+                    "lightness": 20
+                }]
+            }, {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [{
+                    "color": "#fefefe"
+                }, {
+                    "lightness": 17
+                }, {
+                    "weight": 1.2
+                }]
+            }];
+
+            var styledMap = new google.maps.StyledMapType(styles, {
+                name: 'Styled Map'
+            });
+
+            mapRef.mapTypes.set('map_style', styledMap);
+            mapRef.setMapTypeId('map_style');
+        }
+
+        // Initialize Google Maps when element enter on browser view
+        theme.fn.intObs('.google-map', 'initializeGoogleMaps()', {});
+
+        // Map text-center At
+        var mapCenterAt = function (options, e) {
+            e.preventDefault();
+            $('#googlemaps').gMap("centerAt", options);
+        }
+        function showLoginPopup() {
+            console.log("Login")
+            $('#formModal').modal('show');
+        }
+    </script>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+
+
+</html>

@@ -1,0 +1,59 @@
+﻿@{
+}
+@model Jovera.Models.AffiliateRatio
+
+<div class="modal fade" id="showEditModal" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">@sharedResource["Edit Affiliate Ratio"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" id="close-modal"></button>
+            </div>
+
+            <form asp-area="CRM" asp-page="/Configurations/ManageAffiliateRatio/Index" asp-page-handler="EditAffiliateRatio" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    <input type="hidden" id="id-field" />
+
+                    <div class="row g-3">
+                      
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="@Model.ratioInPrecentage"
+                                       class="form-label">@sharedResource["Affiliate Ratio"]</label>
+                                <input type="number" min="1" asp-for="@Model.ratioInPrecentage" id="ratioInPrecentageId"
+                                       class="form-control"
+                                       placeholder="@sharedResource["Enter Affiliate Ration"]" required />
+                                
+                                <span asp-validation-for="@Model.ratioInPrecentage" class="text-danger"></span>
+                            </div>
+                           
+                        </div>
+                        
+                 
+                       
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <input asp-for="@Model.AffiliateRatioId" id="AffiliateRatioHiddenId" hidden>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            @sharedResource["Close"]
+                        </button>
+                        <button type="submit" class="btn btn-success"
+                                id="add-btn">
+                            @sharedResource["Edit Affiliate Ratio"]
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
