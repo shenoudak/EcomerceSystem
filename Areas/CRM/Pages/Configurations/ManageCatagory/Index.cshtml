@@ -101,6 +101,13 @@
                                                                 <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteCatagory(@item.CategoryId)"></i>
                                                             </a>
                                                         </li>
+                                                        <li class="list-inline-item">
+                                                            @*<a class="btn btn-success" asp-page="../ManageSubCatagory/index">*@
+                                                            <a class="btn btn-success btn-sm" asp-page="../ManageSubCatagory/index" asp-route-CatagoryId="@item.CategoryId">
+                                                                    @sharedResource["SubCatagories"]
+                                                               
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </td>
 

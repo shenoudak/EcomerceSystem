@@ -24,14 +24,14 @@
                 <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
 
                 <div class="row g-4 align-items-center">
-                   
+
                     <div class="col-sm-auto ms-auto">
                         <div class="hstack gap-2">
 
                             <button type="button" class="btn btn-success add-btn"
                                     data-bs-toggle="modal" id="create-btn"
                                     data-bs-target="#AddModal">
-                                <i class="ri-add-line align-bottom me-1"></i> @sharedResource["Add Catagory"]
+                                <i class="ri-add-line align-bottom me-1"></i> @sharedResource["Add Product"]
                             </button>
 
                         </div>
@@ -47,8 +47,10 @@
                                     <th data-ordering="false">@sharedResource["Image"]</th>
                                     <th data-ordering="false">@sharedResource["Arabic Title"]</th>
                                     <th data-ordering="false">@sharedResource["English Title"]</th>
+                                    <th data-ordering="false">@sharedResource["Price"]</th>
                                     <th data-ordering="false">@sharedResource["Sort Index"]</th>
                                     <th data-ordering="false">@sharedResource["Is Active?"]</th>
+                                    <th data-ordering="false">@sharedResource["Has SubProduct"]</th>
                                     <th data-ordering="false">@sharedResource["Actions"]</th>
                                 </tr>
                             </thead>
@@ -68,10 +70,13 @@
                                                         </div>
                                                     </div>
                                                 </td>
+
                                                 <td class="company_name">@item.ItemTitleAr</td>
                                                 <td class="leads_score">@item.ItemTitleEn</td>
+                                                <td class="phone">@item.ItemPrice</td>
                                                 <td class="phone">@item.OrderIndex</td>
                                                 <td class="location">@item.IsActive</td>
+                                                <td class="location">@item.HasSubProduct</td>
 
 
                                                 <td>
@@ -81,26 +86,37 @@
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
                                                             title=@sharedResource["View"]>
-                                                            <a href="javascript:void(0)" data-bs-toggle="modal">
-                                                                <i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp(@item.ItemId)"></i>
+                                                            <a asp-page="../ManageItem/ProductDetails" asp-route-ItemId="@item.ItemId">
+                                                                <i class="ri-eye-fill align-bottom text-muted" ></i>
                                                             </a>
                                                         </li>
                                                         <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
                                                             title=@sharedResource["Edit"]>
-                                                            <a class="edit-item-btn" href="javascript:void(0)"
-                                                               data-bs-toggle="modal">
-                                                                <i class="ri-pencil-fill align-bottom text-muted" onclick="editButtonClick(@item.ItemId)"></i>
+                                                            <a class="edit-item-btn" asp-page="../ManageItem/EditItem" asp-route-ItemId="@item.ItemId">
+                                                             
+                                                                <i class="ri-pencil-fill align-bottom text-muted"></i>
                                                             </a>
                                                         </li>
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                   @*     <li class="list-inline-item" data-bs-toggle="tooltip"
                                                             data-bs-trigger="hover" data-bs-placement="top"
                                                             title=@sharedResource["Delete"]>
                                                             <a class="remove-item-btn" data-bs-toggle="modal"
                                                                href="javascript:void(0)">
-                                                                <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteCatagory(@item.ItemId)"></i>
+                                                                <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteItem(@item.ItemId)"></i>
                                                             </a>
-                                                        </li>
+                                                        </li>*@
+                                                            @if (item.HasSubProduct)
+                                                            {
+                                                            <li class="list-inline-item">
+
+                                                                <a class="btn btn-success btn-sm" asp-page="../ManageItem/index" asp-route-CatagoryId="@item.ItemId">
+                                                                        @sharedResource["Sub Products"]
+
+                                                                </a>
+                                                            </li>
+                                                            }
+
                                                     </ul>
                                                 </td>
 
@@ -111,7 +127,7 @@
 
                                 </tbody>
                                 }
-                           
+
                         </table>
                     </div>
 
@@ -126,9 +142,10 @@
 </div>
 
 <partial name="_AddPopup" model="@Model.item" view-data="ViewData" />
+
 @*<partial name="_ViewPopup" model="@Model.item" view-data="ViewData" />
-<partial name="_EditPopup" model="@Model.item" view-data="ViewData" />
-<partial name="_DatchDelete" model="@Model.item" view-data="ViewData" />*@
+<partial name="_EditPopup" model="@Model.item" view-data="ViewData" />*@
+<partial name="_DatchDelete" model="@Model.item" view-data="ViewData" />
 
 <!--datatable js-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -141,122 +158,258 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
 @section scripts{
-    <!-- list.js min js -->
+       <!-- list.js min js -->
     <script src="~/assets/libs/list.js/list.min.js"></script>
     <script src="~/assets/libs/list.pagination.js/list.pagination.min.js"></script>
     <!-- crm leads init -->
     <script src="~/assets/js/pages/crm-leads.init.js"></script>
+    <script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            statusbar: false,
+            promotion: false,
+            branding: false,
+
+        });
+
+    </script>
+
 }
 
-
 <script>
-   
-   
 
 
 
-        function validateMyForm() {
 
 
-            if (document.getElementById("file").files.length == 0) {
-                alert("You Must Select Image");
-                return false;
-            }
-            return true;
+    function validateMyForm() {
+
+
+        if (document.getElementById("file").files.length == 0) {
+            alert("You Must Select Image");
+            return false;
         }
+        return true;
+    }
+    //function removePic(e) {
+    //    console.log("remove pic")
+    //    console.log(e);
+    //    console.log(e.target.id);
+    //    var domainUrl = document.getElementById("UrlId").value;
+    //    fetch(domainUrl + `/Api/Lists/RemoveImageById?id=${e.target.id}`, {
+    //        method: 'POST'
+    //    })
+    //        .then(response => response.json())
+    //        .then(data => {
+    //            console.log("remove from dom");
+    //            console.log(data);
+    //            var myobj = document.getElementsByClassName(data)[0];
+    //            myobj.remove();
 
-    //    function editButtonClick(CategoryId) {
-    //        console.log(CategoryId);
-    //        $.ajax({
-    //            type: "GET",
-    //            beforeSend: function (xhr) {
-    //                xhr.setRequestHeader("XSRF-TOKEN",
-    //                    $('input:hidden[name="__RequestVerificationToken"]').val());
-    //            }
-    //            ,
-    //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForEdit",
+    //        }).catch(err => {
+    //            console.log("error")
+    //        })
+    //}
+    //function ShowEditPopUp(ItemId) {
+    //    $.ajax({
+    //        type: "GET",
+    //        beforeSend: function (xhr) {
+    //            xhr.setRequestHeader("XSRF-TOKEN",
+    //                $('input:hidden[name="__RequestVerificationToken"]').val());
+    //        }
+    //        ,
+    //        url: "/CRM/Configurations/ManageItem/Index?handler=SingleItemForEdit",
+    //        data: { "ItemId": ItemId },
+    //        contentType: "application/json",
+    //        dataType: "json",
+    //        success: function (response) {
+    //            console.log(response);
 
-    //            data: { "CategoryId": CategoryId },
-    //            contentType: "application/json",
-    //            dataType: "json",
-    //            success: function (response) {
-    //                document.getElementsByClassName('categoryImgCla')[0].src = "/" + response.CategoryPic
-    //                document.getElementById("CategoryHiddenId").value = response.CategoryId
-    //                document.getElementById("CategoryPicHiddenId").value = response.CategoryPic
-    //                document.getElementById("CategoryTLARId").value = response.CategoryTLAR
-    //                document.getElementById("CategoryTLENId").value = response.CategoryTLEN
-    //                document.getElementById("IsActiveId").checked= response.IsActive
-    //                document.getElementById("SortOrderId").value = response.OrderIndex
-
-
-    //                $('#showEditModal').modal('show');
-
-
-    //            },
-
-    //            failure: function (response) {
-    //                alert(response);
-    //            }
-    //        });
-    //    }
-
-
-    //function ShowViewPopUp(CategoryId) {
-         
-    //        $.ajax({
-    //            type: "GET",
-    //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForView",
-    //            data: { "CategoryId": CategoryId },
-    //            contentType: "application/json",
-    //            dataType: "json",
-    //            success: function (response) {
+    //            document.getElementsByClassName('itemImgCla')[0].src = "/" + response.ItemImage
+    //            document.getElementById("HiddenId").value = response.ItemId
+    //            document.getElementById("PicHiddenId").value = response.ItemImage
+    //            document.getElementById("ItemTLARId").value = response.ItemTitleAr
+    //            document.getElementById("ItemTLENId").value = response.ItemTitleEn
+    //            document.getElementById("editcatId").value = response.MiniSubCategoryId
                 
-    //                    document.getElementById("DCategoryPicId").src = "/" + response.CategoryPic
-    //                document.getElementById("DCategoryTLARId").innerHTML = response.CategoryTLAR
-    //                document.getElementById("DCategoryTLENId").innerHTML = response.CategoryTLEN
-                
-    //                document.getElementById("DSortOrderId").innerHTML = response.OrderIndex
-    //                document.getElementById("DIsActiveId").innerHTML = response.IsActive
-    //                    if (response.IsActive == true) {
-    //                    document.getElementById("DIsActiveId").innerHTML = "Active"
+    //            document.getElementById("ItemDescriptionId").innerHTML = response.ItemDescriptionAr
+    //            document.getElementById("EItemDescriptionId").innerHTML = response.ItemDescriptionEn
+    //            document.getElementById("IsActiveId").checked = response.IsActive
+    //            document.getElementById("OrderIndexId").value = response.OrderIndex
+    //            document.getElementById("ItemPriceId").value = response.ItemPrice
+    //            document.getElementById("VideoUrlId").value = response.VideoUrl
+    //            document.getElementById("HasSubProductId").checked = response.HasSubProduct
+    //            $('#showEditModal').modal('show');
+    //        },
 
-    //                }
-    //                else {
-    //                    document.getElementById("DIsActiveId").innerHTML = "Not Active"
-    //                }
+    //        failure: function (response) {
+    //            alert(response);
+    //        }
+    //    });
+    //    console.log('page is fully loaded');
+    //    console.log(event);
+    //    console.log("id= " + ItemId);
+    //    var domainUrl = document.getElementById("UrlId").value;
+    //    fetch(domainUrl + '/Api/Lists/GetImagesForItem?id=' + ItemId)
+    //        .then(response => response.json())
+    //        .then(data => {
+    //            console.log(data);
+    //            var item_images = document.getElementById("item_images");
+    //            document.getElementsByClassName("loader")[0].remove();
 
-    //                $('#QuickViewPoup').modal('show');
 
-    //            },
-    //            failure: function (response) {
-    //                alert(response);
+    //            for (const property in data) {
+    //                console.log(data[property]);
+    //                var img = document.createElement("img");
+    //                img.src = "/" + data[property].ImageName;
+    //                img.width = 150;
+    //                img.classList.add("m-3");
+    //                var div = document.createElement("div");
+    //                div.classList.add("position-relative");
+    //                div.classList.add(data[property].ItemImageId);
+    //                div.appendChild(img);
+    //                var x = document.createElement("div");
+    //                x.style.right = 0;
+    //                x.style.top = 0;
+    //                x.style.cursor = "pointer";
+    //                x.addEventListener("click", (e) => removePic(e))
+
+    //                x.classList.add("fas");
+    //                x.classList.add("fa-times");
+    //                x.classList.add("position-absolute")
+    //                 x.innerHTML = "x";
+
+    //                x.id = data[property].ItemImageId;
+    //                div.appendChild(x);
+
+    //                item_images.appendChild(div);
+
     //            }
-    //        });
 
-    //    }
-    //function deleteCatagory(CategoryId) {
-
-
-    //        $.ajax({
-    //            type: "GET",
-    //                url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForDelete",
-    //            data: { "CategoryId": CategoryId },
-    //            contentType: "application/json",
-    //            dataType: "json",
-    //            success: function (response) {
-    //                console.log("Enter In Catagory")
-    //                document.getElementById("DeleteCategoryId").value = response.CategoryId
-    //                console.log("After In Catagory")
-    //                $('#deleteRecordModal').modal('show');
-
-
-    //            },
-    //            failure: function (response) {
-    //                alert(response);
+    //            if (data.length <= 0) {
+    //                document.getElementsByClassName("message")[0].classList.remove("d-none");
     //            }
+
     //        });
-    //    }
+    //}
+    function deleteItem(ItemId) {
+        $.ajax({
+            type: "GET",
+            url: "/CRM/Configurations/ManageItem/Index?handler=SingleItemForDelete",
+            data: { "ItemId": ItemId },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                document.getElementById("DeleteItemId").value = response.ItemId
+                $('#deleteRecordModal').modal('show');
+
+
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+
+
+		
+
+
+        //    function editButtonClick(CategoryId) {
+        //        console.log(CategoryId);
+        //        $.ajax({
+        //            type: "GET",
+        //            beforeSend: function (xhr) {
+        //                xhr.setRequestHeader("XSRF-TOKEN",
+        //                    $('input:hidden[name="__RequestVerificationToken"]').val());
+        //            }
+        //            ,
+        //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForEdit",
+
+        //            data: { "CategoryId": CategoryId },
+        //            contentType: "application/json",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                document.getElementsByClassName('categoryImgCla')[0].src = "/" + response.CategoryPic
+        //                document.getElementById("CategoryHiddenId").value = response.CategoryId
+        //                document.getElementById("CategoryPicHiddenId").value = response.CategoryPic
+        //                document.getElementById("CategoryTLARId").value = response.CategoryTLAR
+        //                document.getElementById("CategoryTLENId").value = response.CategoryTLEN
+        //                document.getElementById("IsActiveId").checked= response.IsActive
+        //                document.getElementById("SortOrderId").value = response.OrderIndex
+
+
+        //                $('#showEditModal').modal('show');
+
+
+        //            },
+
+        //            failure: function (response) {
+        //                alert(response);
+        //            }
+        //        });
+        //    }
+
+
+        //function ShowViewPopUp(CategoryId) {
+
+        //        $.ajax({
+        //            type: "GET",
+        //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForView",
+        //            data: { "CategoryId": CategoryId },
+        //            contentType: "application/json",
+        //            dataType: "json",
+        //            success: function (response) {
+
+        //                    document.getElementById("DCategoryPicId").src = "/" + response.CategoryPic
+        //                document.getElementById("DCategoryTLARId").innerHTML = response.CategoryTLAR
+        //                document.getElementById("DCategoryTLENId").innerHTML = response.CategoryTLEN
+
+        //                document.getElementById("DSortOrderId").innerHTML = response.OrderIndex
+        //                document.getElementById("DIsActiveId").innerHTML = response.IsActive
+        //                    if (response.IsActive == true) {
+        //                    document.getElementById("DIsActiveId").innerHTML = "Active"
+
+        //                }
+        //                else {
+        //                    document.getElementById("DIsActiveId").innerHTML = "Not Active"
+        //                }
+
+        //                $('#QuickViewPoup').modal('show');
+
+        //            },
+        //            failure: function (response) {
+        //                alert(response);
+        //            }
+        //        });
+
+        //    }
+        //function deleteCatagory(CategoryId) {
+
+
+        //        $.ajax({
+        //            type: "GET",
+        //                url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForDelete",
+        //            data: { "CategoryId": CategoryId },
+        //            contentType: "application/json",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                console.log("Enter In Catagory")
+        //                document.getElementById("DeleteCategoryId").value = response.CategoryId
+        //                console.log("After In Catagory")
+        //                $('#deleteRecordModal').modal('show');
+
+
+        //            },
+        //            failure: function (response) {
+        //                alert(response);
+        //            }
+        //        });
+        //    }
 
 
 

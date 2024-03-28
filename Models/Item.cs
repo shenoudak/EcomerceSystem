@@ -7,28 +7,29 @@ namespace Jovera.Models
     {
         [Key]
         public int ItemId { get; set; }
-        [Required]
         public string ItemTitleAr { get; set; }
-
-        [Required]
         public string ItemTitleEn { get; set; }
+        public DateTime PublishedDate { get; set; }
         public string ItemImage { get; set; }
         public string BarCode { get; set; }
         public string ItemDescriptionAr { get; set; }
         public string ItemDescriptionEn { get; set; }
         public double ItemPrice { get; set; }
         public bool IsActive { get; set; }
+        public bool HasSubProduct { get; set; }
         public int  OrderIndex { get; set; }
+        public string  VideoUrl { get; set; }
         public int  Quantity { get; set; }
         public bool OutOfStock { get; set; }
-        public int CategoryId { get; set; }
+        public int MiniSubCategoryId { get; set; }
         public int? StoreId { get; set; }
         [JsonIgnore]
-        public virtual Category Category { get; set; }
+        public virtual MiniSubCategory MiniSubCategory { get; set; }
         [JsonIgnore]
         public virtual Store Store { get; set; }
         [JsonIgnore]
         public virtual ICollection<ItemImage> ItemImages { get; set; }
+        public virtual ICollection<SubProduct> SubProducts { get; set; }
 
         
     }

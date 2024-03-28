@@ -1,0 +1,112 @@
+﻿@{
+}
+@model Jovera.Models.MiniSubCategory
+
+<div class="modal fade" id="showEditModal" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">@sharedResource["Edit Mini SubCategory"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" id="close-modal"></button>
+            </div>
+
+            <form asp-area="CRM" asp-page="/Configurations/MiniSubCatagory/Index" asp-page-handler="EditCategory" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    <input type="hidden" id="id-field" />
+
+                    <div class="row g-3">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <div class="position-relative d-inline-block">
+                                    <div class="position-absolute bottom-0 end-0">
+                                        <label for="Editfile" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Select Image">
+                                            <div class="avatar-xs cursor-pointer">
+                                                <div class="avatar-title bg-light border rounded-circle text-muted">
+                                                    <i class="ri-image-fill"></i>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <input class="form-control d-none" name="Editfile" id="Editfile" type="file"
+                                               accept="image/*">
+                                    </div>
+                                    <div class="avatar-lg p-1">
+                                        <div class="avatar-title bg-light rounded-circle">
+                                            
+                                            <img src="~/assets/images/users/user-dummy-img.jpg" id="lead-img" class="avatar-md rounded-circle object-cover categoryImgCla" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="fs-13 mt-3">@sharedResource["Image"]</h5>
+                            </div>
+                            <div>
+                                <label for="@Model.MiniSubCategoryTLAR"
+                                       class="form-label">@sharedResource["Arabic Tilte"]</label>
+                                <input type="text" asp-for="@Model.MiniSubCategoryTLAR" id="CategoryTLARId"
+                                       class="form-control" placeholder="@sharedResource["Enter Mini SubCategory Arabic Title"]"
+                                       required />
+                                <span asp-validation-for="@Model.MiniSubCategoryTLAR" class="text-danger"></span>
+
+                            </div>
+                            <div>
+                                <input asp-for="@Model.MiniSubCategoryId" id="CategoryHiddenId" hidden>
+                                <input asp-for="@Model.MiniSubCategoryPic" id="CategoryPicHiddenId" hidden>
+
+
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="@Model.MiniSubCategoryTLEN"
+                                       class="form-label">@sharedResource["Mini SubCategory English Title"]</label>
+                                <input type="text" asp-for="@Model.MiniSubCategoryTLEN" id="CategoryTLENId"
+                                       class="form-control"
+                                       placeholder="@sharedResource["Enter Mini SubCategory English Title"]" required />
+                                <span asp-validation-for="@Model.MiniSubCategoryTLEN" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="@Model.OrderIndex"
+                                       class="form-label">@sharedResource["Sort Index"]</label>
+                                <input type="number" asp-for="@Model.OrderIndex" id="SortOrderId"
+                                       class="form-control"
+                                       placeholder="@sharedResource["Enter Mini SubCategory Sort Index"]" required />
+                                <span asp-validation-for="@Model.OrderIndex" class="text-danger"></span>
+                            </div>
+                        </div>
+                 
+                        <!--end col-->
+                        <div class="col-lg-6">
+                            <div>
+                                <label for="@Model.IsActive" class="form-label">@sharedResource["Is Active"]</label>
+                                <input asp-for="@Model.IsActive" class="form-check-input code-switcher" type="checkbox" id="IsActiveId">
+                                <span asp-validation-for="@Model.IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <!--end col-->
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            @sharedResource["Close"]
+                        </button>
+                        <button type="submit" class="btn btn-success"
+                                id="add-btn">
+                            @sharedResource["Edit Catagory"]
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

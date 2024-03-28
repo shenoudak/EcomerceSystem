@@ -68,5 +68,26 @@ namespace Jovera.Controllers
 
             return Ok(new { data });
         }
+        [HttpGet]
+        public object GetImagesForItem([FromQuery] int id)
+        {
+            var productimages = _context.ItemImages.Where(p => p.ItemId == id)
+                                .Select(i => new
+                                {
+                                    i.ItemImageId,
+                                    i.ImageName,
+                                    i.ItemId
+                                });
+
+            return productimages;
+        }
+        [HttpPost]
+        public async Task<int> RemoveImageById([FromQuery] int id)
+        {
+            var itemPic = await _context.ItemImages.FirstOrDefaultAsync(p => p.ItemImageId == id);
+            _context.ItemImages.Remove(itemPic);
+            _context.SaveChanges();
+            return id;
+        }
     }
 }

@@ -120,20 +120,53 @@
   <data name="Actions" xml:space="preserve">
     <value>الإجراءات</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
   <data name="Add Catagory" xml:space="preserve">
     <value>إضافة فئة</value>
+  </data>
+  <data name="Add Product" xml:space="preserve">
+    <value>اضافة منتج</value>
+  </data>
+  <data name="Add SubCatagory" xml:space="preserve">
+    <value>إضافة فئة فرعية</value>
+  </data>
+  <data name="Adding Others Images For Item" xml:space="preserve">
+    <value>فة صور اخري للمنتج</value>
   </data>
   <data name="Affiliate Ratio" xml:space="preserve">
     <value>نسبة المسوق بالعمولة من اجمالي الطلب</value>
   </data>
+  <data name="Arabic Description" xml:space="preserve">
+    <value>الوصف باللغة العربية</value>
+  </data>
   <data name="Arabic Title" xml:space="preserve">
     <value>الاسم باللغة العربية</value>
+  </data>
+  <data name="Available Stocks :" xml:space="preserve">
+    <value>الكمية المتاحة في المخزن :</value>
   </data>
   <data name="Back to Login" xml:space="preserve">
     <value>العوده لصفحة تسجيل الدخول</value>
   </data>
+  <data name="BarCode" xml:space="preserve">
+    <value>باركود</value>
+  </data>
   <data name="Catagories" xml:space="preserve">
     <value>الفئات</value>
+  </data>
+  <data name="Catagory Arabic Title" xml:space="preserve">
+    <value>اسم الفئة بالعربية</value>
+  </data>
+  <data name="Catagory English Title" xml:space="preserve">
+    <value>اسم الفئة بالانجليزية</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="Category :" xml:space="preserve">
+    <value>الفئة : </value>
   </data>
   <data name="Category Details" xml:space="preserve">
     <value>تفاصيل الفئة</value>
@@ -174,6 +207,15 @@
   <data name="Deleting it Category will remove all of its information from its database." xml:space="preserve">
     <value>سيؤدي حذفك لهذه الفئة الي حذف جميع بياناتها من قاعده البيانات</value>
   </data>
+  <data name="Deleting it SubCategory will remove all of its information from its database." xml:space="preserve">
+    <value>سيؤدي حذفك لهذه الفئة الفرعية الي حذف جميع بياناتها من قاعده البيانات</value>
+  </data>
+  <data name="Description :" xml:space="preserve">
+    <value>تفاصيل المنتج</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
   <data name="Do you already have an account ?" xml:space="preserve">
     <value>هل لديك حساب بالفعل</value>
   </data>
@@ -189,8 +231,17 @@
   <data name="Edit Category" xml:space="preserve">
     <value>تعديل الفئة</value>
   </data>
+  <data name="Edit Product" xml:space="preserve">
+    <value>تعديل المنتج</value>
+  </data>
+  <data name="Edit SubCategory" xml:space="preserve">
+    <value>تعديل الفئة الفرعية</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>البريد الإلكتروني</value>
+  </data>
+  <data name="English Description" xml:space="preserve">
+    <value>الوصف باللغة الانجليزية</value>
   </data>
   <data name="English Title" xml:space="preserve">
     <value>الاسم باللغه الانجليزية</value>
@@ -198,17 +249,41 @@
   <data name="Enter Affiliate Ration" xml:space="preserve">
     <value> إدخل نسبة المسوق بالعمولة من اجمالي الطلب</value>
   </data>
+  <data name="Enter Arabic Description" xml:space="preserve">
+    <value>أدخل الوصف باللغة العربية</value>
+  </data>
   <data name="Enter Arabic Title" xml:space="preserve">
     <value>إدخل الاسم باللغة العربية</value>
   </data>
   <data name="Enter Category Sort Index" xml:space="preserve">
     <value>إدخل ترتيب الفئة</value>
   </data>
+  <data name="Enter English Description" xml:space="preserve">
+    <value>إدخل الوصف باللغة الانجليزية</value>
+  </data>
   <data name="Enter English Title" xml:space="preserve">
     <value>إدخل الاسم باللغة الإنجليزية</value>
   </data>
+  <data name="Enter Product Price" xml:space="preserve">
+    <value>إدخل سعر المنتج</value>
+  </data>
+  <data name="Enter Sort Index" xml:space="preserve">
+    <value>إدخل الترتيب</value>
+  </data>
+  <data name="Enter SubCatagory Arabic Title" xml:space="preserve">
+    <value>ادخل اسم الفئة الفرعية باللغة العربية</value>
+  </data>
+  <data name="Enter SubCatagory English Title" xml:space="preserve">
+    <value>ادخل اسم الفئة الفرعية باللغة الانجليزية</value>
+  </data>
+  <data name="Enter Video URL" xml:space="preserve">
+    <value>إدخل رابط فيديو المنتج</value>
+  </data>
   <data name="Full Name" xml:space="preserve">
     <value>الاسم بالكامل </value>
+  </data>
+  <data name="Has SubProduct" xml:space="preserve">
+    <value>لديه منتج فرعي</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>الرئيسية</value>
@@ -222,14 +297,23 @@
   <data name="Is Active?" xml:space="preserve">
     <value>نشط</value>
   </data>
+  <data name="Item Images" xml:space="preserve">
+    <value>صور المنتج</value>
+  </data>
   <data name="Jovera" xml:space="preserve">
     <value> جوفيرا</value>
+  </data>
+  <data name="Loading..." xml:space="preserve">
+    <value>تحميل ...</value>
   </data>
   <data name="Log In" xml:space="preserve">
     <value>تسجيل الدخول </value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>تسجيل الدخول</value>
+  </data>
+  <data name="Main Product Image" xml:space="preserve">
+    <value>الصورة الرئيسية للمنتج</value>
   </data>
   <data name="Manage Affiliate Ratio" xml:space="preserve">
     <value>إدارة نسبة المسوق بالعمولة</value>
@@ -248,6 +332,15 @@
   </data>
   <data name="Manage Suppliers" xml:space="preserve">
     <value>ادارة الموردين</value>
+  </data>
+  <data name="Mini SubCatagories" xml:space="preserve">
+    <value>اصغر فئات فرعية</value>
+  </data>
+  <data name="No Images" xml:space="preserve">
+    <value>لا توجد صور</value>
+  </data>
+  <data name="No. of Orders :" xml:space="preserve">
+    <value>عدد الاوردرات :</value>
   </data>
   <data name="Number Of Customer" xml:space="preserve">
     <value>عدد العملاء</value>
@@ -270,8 +363,35 @@
   <data name="Password" xml:space="preserve">
     <value>الرقم السري</value>
   </data>
+  <data name="Please choose a Catagory" xml:space="preserve">
+    <value>من فضلك اختر فئة</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="Price :" xml:space="preserve">
+    <value>السعر :</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>المنتج</value>
+  </data>
+  <data name="Product Description" xml:space="preserve">
+    <value>تفاصيل المنتج</value>
+  </data>
+  <data name="Product Details" xml:space="preserve">
+    <value>تفاصيل المنتج</value>
+  </data>
+  <data name="Product Image" xml:space="preserve">
+    <value>صورة المنتج</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>الملف الشخصي</value>
+  </data>
+  <data name="Published :" xml:space="preserve">
+    <value>تم اضافتة بتاريخ :</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>الكمية</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>انشاء حساب جديد</value>
@@ -282,17 +402,32 @@
   <data name="Reports" xml:space="preserve">
     <value>تقارير</value>
   </data>
+  <data name="Select Category" xml:space="preserve">
+    <value>اختر فئة</value>
+  </data>
   <data name="Sign In" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
   <data name="Sort Index" xml:space="preserve">
     <value>الترتيب</value>
   </data>
+  <data name="Specification" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
   <data name="Statistics Dashboard" xml:space="preserve">
     <value>لوحه التحكم الاحصائية</value>
   </data>
   <data name="Stores" xml:space="preserve">
     <value>المخازن</value>
+  </data>
+  <data name="SubCat Arabic Title" xml:space="preserve">
+    <value>اسم الفئة الفرعية بالعربية</value>
+  </data>
+  <data name="SubCat English Title" xml:space="preserve">
+    <value>اسم الفئة الفرعية بالانجليزية</value>
+  </data>
+  <data name="SubCatagories" xml:space="preserve">
+    <value>الفئات الفرعية</value>
   </data>
   <data name="System Configurations" xml:space="preserve">
     <value>اعدادات النظام</value>
@@ -309,6 +444,12 @@
   <data name="Total Profit Amount" xml:space="preserve">
     <value>إجمالي الربح</value>
   </data>
+  <data name="Total Revenue :" xml:space="preserve">
+    <value>اجمالي الإيردات</value>
+  </data>
+  <data name="Video Url" xml:space="preserve">
+    <value>رابط فيديو المنتج</value>
+  </data>
   <data name="View" xml:space="preserve">
     <value>عرض</value>
   </data>
@@ -323,5 +464,8 @@
   </data>
   <data name="You are about to delete This Category ?" xml:space="preserve">
     <value>هل انت متأكد انك تريد حذف هذه الفئة</value>
+  </data>
+  <data name="You are about to delete This SubCategory ?" xml:space="preserve">
+    <value>هل انت متأكد انك تريد حذف هذه الفئة الفرعية</value>
   </data>
 </root>

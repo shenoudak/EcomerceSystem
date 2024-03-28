@@ -222,7 +222,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.TestList
                     string folder = "Images/Item/";
                     item.ItemImage = UploadImage(folder, file);
                 }
-                item.CategoryId = 2;
+                //item.CategoryId = 2;
                 
 
                 _context.Items.Add(item);

@@ -68,6 +68,27 @@ namespace Jovera.Migrations.CRMDB
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Jovera.Models.Color", b =>
+                {
+                    b.Property<int>("ColorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorId"), 1L, 1);
+
+                    b.Property<string>("ColorTLAR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColorTLEN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ColorId");
+
+                    b.ToTable("Colors");
+                });
+
             modelBuilder.Entity("Jovera.Models.Contact", b =>
                 {
                     b.Property<int>("ContactId")
@@ -161,8 +182,8 @@ namespace Jovera.Migrations.CRMDB
                     b.Property<string>("BarCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<bool>("HasSubProduct")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -180,12 +201,13 @@ namespace Jovera.Migrations.CRMDB
                         .HasColumnType("float");
 
                     b.Property<string>("ItemTitleAr")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemTitleEn")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MiniSubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
@@ -193,15 +215,21 @@ namespace Jovera.Migrations.CRMDB
                     b.Property<bool>("OutOfStock")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("PublishedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int?>("StoreId")
                         .HasColumnType("int");
 
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ItemId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("MiniSubCategoryId");
 
                     b.HasIndex("StoreId");
 
@@ -216,6 +244,9 @@ namespace Jovera.Migrations.CRMDB
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemImageId"), 1L, 1);
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
@@ -224,6 +255,39 @@ namespace Jovera.Migrations.CRMDB
                     b.HasIndex("ItemId");
 
                     b.ToTable("ItemImages");
+                });
+
+            modelBuilder.Entity("Jovera.Models.MiniSubCategory", b =>
+                {
+                    b.Property<int>("MiniSubCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MiniSubCategoryId"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MiniSubCategoryPic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiniSubCategoryTLAR")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiniSubCategoryTLEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MiniSubCategoryId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("MiniSubCategories");
                 });
 
             modelBuilder.Entity("Jovera.Models.PageContent", b =>
@@ -303,6 +367,27 @@ namespace Jovera.Migrations.CRMDB
                     b.ToTable("PaymentMehods");
                 });
 
+            modelBuilder.Entity("Jovera.Models.Size", b =>
+                {
+                    b.Property<int>("SizeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"), 1L, 1);
+
+                    b.Property<string>("SizeTLAR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SizeTLEN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SizeId");
+
+                    b.ToTable("Sizes");
+                });
+
             modelBuilder.Entity("Jovera.Models.SoicialMidiaLink", b =>
                 {
                     b.Property<int>("id")
@@ -365,11 +450,80 @@ namespace Jovera.Migrations.CRMDB
                     b.ToTable("Stores");
                 });
 
+            modelBuilder.Entity("Jovera.Models.SubCategory", b =>
+                {
+                    b.Property<int>("SubCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubCategoryId"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubCategoryTLAR")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubCategoryTLEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubCategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("Jovera.Models.SubProduct", b =>
+                {
+                    b.Property<int>("SubProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubProductId"), 1L, 1);
+
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemQRCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SizeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StoreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubProductId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SizeId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("SubProducts");
+                });
+
             modelBuilder.Entity("Jovera.Models.Item", b =>
                 {
-                    b.HasOne("Jovera.Models.Category", "Category")
+                    b.HasOne("Jovera.Models.MiniSubCategory", "MiniSubCategory")
                         .WithMany("Items")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("MiniSubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -377,7 +531,7 @@ namespace Jovera.Migrations.CRMDB
                         .WithMany("Items")
                         .HasForeignKey("StoreId");
 
-                    b.Navigation("Category");
+                    b.Navigation("MiniSubCategory");
 
                     b.Navigation("Store");
                 });
@@ -393,19 +547,82 @@ namespace Jovera.Migrations.CRMDB
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("Jovera.Models.MiniSubCategory", b =>
+                {
+                    b.HasOne("Jovera.Models.SubCategory", "SubCategory")
+                        .WithMany("MiniSubCategories")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("Jovera.Models.SubCategory", b =>
+                {
+                    b.HasOne("Jovera.Models.Category", "Category")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Jovera.Models.SubProduct", b =>
+                {
+                    b.HasOne("Jovera.Models.Color", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("Jovera.Models.Item", "Item")
+                        .WithMany("SubProducts")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Jovera.Models.Size", "Size")
+                        .WithMany()
+                        .HasForeignKey("SizeId");
+
+                    b.HasOne("Jovera.Models.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Size");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("Jovera.Models.Category", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("Jovera.Models.Item", b =>
                 {
                     b.Navigation("ItemImages");
+
+                    b.Navigation("SubProducts");
+                });
+
+            modelBuilder.Entity("Jovera.Models.MiniSubCategory", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Jovera.Models.Store", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Jovera.Models.SubCategory", b =>
+                {
+                    b.Navigation("MiniSubCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Linq.Dynamic.Core;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Imaging;
-//using System.Drawing.Imaging;
 namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
 {
     public class IndexModel : PageModel
@@ -51,60 +50,60 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
             return new JsonResult(item);
         }
 
-        public async Task<IActionResult> OnPostEditItem(int ItemId, IFormFile Editfile)
-        {
+        //public async Task<IActionResult> OnPostEditItem(int ItemId, IFormFile Editfile)
+        //{
 
-            try
-            {
-                var model = _context.Items.Where(c => c.ItemId == ItemId).FirstOrDefault();
-                if (model == null)
-                {
-                    _toastNotification.AddErrorToastMessage("Item Not Found");
+        //    try
+        //    {
+        //        var model = _context.Items.Where(c => c.ItemId == ItemId).FirstOrDefault();
+        //        if (model == null)
+        //        {
+        //            _toastNotification.AddErrorToastMessage("Item Not Found");
 
-                    return Redirect("/CRM/Configurations/ManageItem/Index");
-                }
-
-
-                if (Editfile != null)
-                {
+        //            return Redirect("/CRM/Configurations/ManageItem/Index");
+        //        }
 
 
-                    string folder = "images/Item/";
-
-                    model.ItemImage = UploadImage(folder, Editfile);
-                }
-                else
-                {
-                    model.ItemImage = item.ItemImage;
-                }
-
-                model.ItemTitleAr = item.ItemTitleAr;
-                model.ItemTitleEn = item.ItemTitleEn;
-                model.IsActive = item.IsActive;
-                model.OrderIndex = item.OrderIndex;
-                model.ItemDescriptionAr = item.ItemDescriptionAr;
-                model.ItemDescriptionEn = item.ItemDescriptionEn;
-             
+        //        if (Editfile != null)
+        //        {
 
 
-                var UpdatedItem = _context.Items.Attach(model);
+        //            string folder = "images/Item/";
 
-                UpdatedItem.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //            model.ItemImage = UploadImage(folder, Editfile);
+        //        }
+        //        else
+        //        {
+        //            model.ItemImage = item.ItemImage;
+        //        }
 
-                _context.SaveChanges();
+        //        model.ItemTitleAr = item.ItemTitleAr;
+        //        model.ItemTitleEn = item.ItemTitleEn;
+        //        model.IsActive = item.IsActive;
+        //        model.OrderIndex = item.OrderIndex;
+        //        model.ItemDescriptionAr = item.ItemDescriptionAr;
+        //        model.ItemDescriptionEn = item.ItemDescriptionEn;
 
-                _toastNotification.AddSuccessToastMessage("Item Edited successfully");
 
-                return Redirect("/CRM/Configurations/ManageItem/Index");
 
-            }
-            catch (Exception)
-            {
-                _toastNotification.AddErrorToastMessage("Something went Error");
+        //        var UpdatedItem = _context.Items.Attach(model);
 
-            }
-            return Redirect("/CRM/Configurations/ManageItem/Index");
-        }
+        //        UpdatedItem.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+        //        _context.SaveChanges();
+
+        //        _toastNotification.AddSuccessToastMessage("Item Edited successfully");
+
+        //        return Redirect("/CRM/Configurations/ManageItem/Index");
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _toastNotification.AddErrorToastMessage("Something went Error");
+
+        //    }
+        //    return Redirect("/CRM/Configurations/ManageItem/Index");
+        //}
 
 
         public IActionResult OnGetSingleItemForView(int ItemId)
@@ -117,6 +116,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
         public IActionResult OnGetSingleItemForDelete(int ItemId)
         {
             item = _context.Items.Where(c => c.ItemId == ItemId).FirstOrDefault();
+
             return new JsonResult(item);
         }
 
@@ -124,29 +124,13 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
         {
             try
             {
-                Item ItemObj = _context.Items.Where(e => e.ItemId == ItemId).FirstOrDefault();
+                var NewItemObj = _context.Items.Where(e => e.ItemId == ItemId).FirstOrDefault();
 
 
-                if (ItemObj != null)
+                if (NewItemObj != null)
                 {
 
-
-                    _context.Items.Remove(itemObj);
-
-                    await _context.SaveChangesAsync();
-
-                    _toastNotification.AddSuccessToastMessage("Item Deleted successfully");
-
-                    var ImagePath = Path.Combine(_hostEnvironment.WebRootPath, "/" + item.ItemImage);
-
-                    if (System.IO.File.Exists(ImagePath))
-                    {
-                        System.IO.File.Delete(ImagePath);
-                    }
-                }
-                else
-                {
-                    _toastNotification.AddErrorToastMessage("Something went wrong Try Again");
+                    DeleteSpecificItem(NewItemObj);
                 }
             }
             catch (Exception)
@@ -157,9 +141,34 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
 
             return Redirect("/CRM/Configurations/ManageItem/Index");
         }
+        public IActionResult DeleteSpecificItem(Item item)
+        {
+            try
+            {
+                var itemsList = _context.ItemImages.Where(e => e.ItemId == item.ItemId).ToList();
+                if (itemsList != null)
+                {
+                    _context.ItemImages.RemoveRange(itemsList);
+                }
+
+                _context.Items.Remove(itemObj);
+
+                _context.SaveChanges();
+
+                _toastNotification.AddSuccessToastMessage("Item Deleted successfully");
+            }
+
+            catch (Exception)
+
+            {
+                _toastNotification.AddErrorToastMessage("Something went wrong");
+            }
+
+            return Redirect("/CRM/Configurations/ManageItem/Index");
+        }
 
 
-        public async Task<IActionResult> OnPostAddItem(IFormFile file)
+        public async Task<IActionResult> OnPostAddItem(IFormFile file, IFormFileCollection MorePhoto)
         {
 
             try
@@ -169,13 +178,33 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
                     string folder = "Images/Item/";
                     item.ItemImage = UploadImage(folder, file);
                 }
-                item.CategoryId = 2;
-                
+                List<ItemImage> itemImagesList = new List<ItemImage>();
+
+
+                if (MorePhoto.Count != 0)
+                {
+                    foreach (var item in MorePhoto)
+                    {
+                        var itemImageObj = new ItemImage();
+                        string folder = "Images/Item/";
+                        itemImageObj.ImageName = UploadImage(folder, item);
+                        itemImagesList.Add(itemImageObj);
+
+
+                    }
+                    item.ItemImages = itemImagesList;
+                }
+                item.PublishedDate = DateTime.Now;
+
 
                 _context.Items.Add(item);
                 _context.SaveChanges();
-                GenerateBarCode(item.ItemId);
-              
+                if (!item.HasSubProduct)
+                {
+                    GenerateBarCode(item.ItemId);
+                }
+
+
 
             }
             catch (Exception)
@@ -185,6 +214,82 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
             }
             return Redirect("/CRM/Configurations/ManageItem/Index");
         }
+        public async Task<IActionResult> OnPostEditItem(int ItemId, IFormFile Newfile, IFormFileCollection Editfilepond)
+        {
+            try
+            {
+
+                var DbItem = _context.Items.Where(c => c.ItemId == ItemId).FirstOrDefault();
+
+                if (DbItem == null)
+                {
+                    _toastNotification.AddErrorToastMessage("Item Not Found");
+
+                    return Redirect("/CRM/Configurations/ManageItem/Index");
+                }
+                if (Newfile != null)
+                {
+
+
+                    string folder = "Images/Item/";
+
+                    DbItem.ItemImage = UploadImage(folder, Newfile);
+                }
+                else
+                {
+                    DbItem.ItemImage = item.ItemImage;
+                }
+
+                List<ItemImage> EditItemImagesList = new List<ItemImage>();
+
+                if (Editfilepond.Count != 0)
+                {
+
+                    var ImagesOfItem = _context.ItemImages.Where(i => i.ItemId == ItemId).ToList();
+                    _context.RemoveRange(ImagesOfItem);
+
+                    foreach (var item in Editfilepond)
+                    {
+
+                        var itemImageObj = new ItemImage();
+                        string folder = "Images/Item/";
+                        itemImageObj.ImageName = UploadImage(folder, item);
+                        itemImageObj.ItemId = ItemId;
+                        EditItemImagesList.Add(itemImageObj);
+
+
+                    }
+                    _context.ItemImages.AddRange(EditItemImagesList);
+                }
+
+                DbItem.ItemTitleAr = item.ItemTitleAr;
+                DbItem.ItemTitleEn = item.ItemTitleEn;
+                DbItem.ItemDescriptionAr = item.ItemDescriptionAr;
+                DbItem.ItemDescriptionEn = item.ItemDescriptionEn;
+                DbItem.IsActive = item.IsActive;
+                DbItem.OrderIndex = item.OrderIndex;
+                DbItem.VideoUrl = item.VideoUrl;
+                DbItem.ItemPrice = item.ItemPrice;
+                DbItem.MiniSubCategoryId = item.MiniSubCategoryId;
+                DbItem.HasSubProduct = item.HasSubProduct;
+                var UpdatedItem = _context.Items.Attach(DbItem);
+                UpdatedItem.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                _context.SaveChanges();
+
+                _toastNotification.AddSuccessToastMessage("Item Edited successfully");
+
+
+            }
+            catch (Exception)
+            {
+                _toastNotification.AddErrorToastMessage("Something went Error");
+
+            }
+            return Redirect("/CRM/Configurations/ManageItem/Index");
+        }
+
+
         public void GenerateBarCode(int ItemId)
         {
             var Event = _context.Items.Where(e => e.ItemId == ItemId).FirstOrDefault();
@@ -193,7 +298,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
                 Event.BarCode = ItemId.ToString();
 
             }
-            QRCodeText = $"{this.Request.Scheme}://{this.Request.Host}/?Id=" + ItemId;
+            QRCodeText = $"{this.Request.Scheme}://{this.Request.Host}/?Id=" + ItemId+ "&HasSubProd=" + false;
             string QRCodeName = QRCodeText;
             QRCodeGenerator QrGenerator = new QRCodeGenerator();
             QRCodeData QrCodeInfo = QrGenerator.CreateQrCode(QRCodeText, QRCodeGenerator.ECCLevel.Q);

@@ -14,9 +14,10 @@ namespace Jovera.Models
         public string CategoryPic { get; set; }
         public bool IsActive { get; set; }
         public int OrderIndex { get; set; }
-      
         [JsonIgnore]
-        public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<SubCategory> SubCategories { get; set; }
+
+       
         
     }
 }

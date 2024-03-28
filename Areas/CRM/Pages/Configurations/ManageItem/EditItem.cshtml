@@ -1,0 +1,301 @@
+﻿@page
+@model Jovera.Areas.CRM.Pages.Configurations.ManageItem.EditItemModel
+@inject CRMDBContext _context
+@{
+    ViewBag.Title = @sharedResource["Edit Product"];
+    ViewBag.pTitle = @sharedResource["Edit Product"];
+    ViewBag.pageTitle = @sharedResource["Product"];
+    var Categories = _context.MiniSubCategories.Select(e => new { e.MiniSubCategoryId, e.MiniSubCategoryTLAR, e.MiniSubCategoryTLEN });
+
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">@sharedResource["Edit Product"]</h4>
+               
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div class="live-preview">
+                    <div class="row gy-4">
+                       @* <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="basiInput" class="form-label">Basic Input</label>
+                                <input type="password" class="form-control" id="basiInput">
+                            </div>
+                        </div>*@
+                        <!--end col-->
+                        <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" id="id-field" />
+                                <div class="row g-3">
+                                    <input asp-for="EditItem.ItemId" id="HiddenId" hidden>
+                                    <input asp-for="EditItem.ItemImage" id="PicHiddenId" hidden>
+                                    <div class="col-lg-12">
+                                        <div class="text-center col-lg-12">
+                                            <div class="position-relative d-inline-block">
+                                                <div class="position-absolute bottom-0 end-0">
+                                                    <label for="file" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title=@sharedResource["Select Image"]>
+                                                        <div class="avatar-xs cursor-pointer">
+                                                            <div class="avatar-title bg-light border rounded-circle text-muted">
+                                                                <i class="ri-image-fill"></i>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                    <input class="form-control d-none" name="file" id="file" type="file"
+                                                           accept="image/*">
+                                                </div>
+                                                <div class="avatar-lg p-1">
+                                                    <div class="avatar-title bg-light rounded-circle">
+                                                        <img src="~/assets/images/users/user-dummy-img.jpg" id="lead-img" class="avatar-md rounded-circle object-cover removeFromHere itemImgCla" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="fs-13 mt-3">@sharedResource["Image"] </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label asp-for="EditItem.ItemTitleAr" class="form-label">@(sharedResource["Arabic Title"])</label>
+
+                                            <input type="text" id="ItemTLARId" asp-for="EditItem.ItemTitleAr" class="form-control" placeholder="@sharedResource["Enter Arabic Title"]" required />
+
+                                            <span asp-validation-for="EditItem.ItemTitleAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.ItemTitleEn" class="form-label">@sharedResource["English Title"]</label>
+                                            <input type="text" id="ItemTLENId" asp-for="EditItem.ItemTitleEn" class="form-control" placeholder="@sharedResource["Enter English Title"]" required />
+                                            <span asp-validation-for="EditItem.ItemTitleEn" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.ItemPrice" class="form-label">@sharedResource["Price"]</label>
+                                            <input id="ItemPriceId" type="number" min="1" asp-for="EditItem.ItemPrice" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Product Price"]" required />
+                                            <span asp-validation-for="EditItem.ItemPrice" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.OrderIndex" class="form-label">@sharedResource["Sort Index"]</label>
+                                            <input id="OrderIndexId" type="number" min="1" asp-for="EditItem.OrderIndex" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Sort Index"]" required />
+                                            <span asp-validation-for="EditItem.OrderIndex" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="EditItem.ItemDescriptionAr" class="form-label">@sharedResource["Arabic Description"]</label>
+                                            <textarea id="ItemDescriptionId" asp-for="EditItem.ItemDescriptionAr" class="form-control" placeholder="@sharedResource["Enter Arabic Description"]"></textarea>
+                                            <span asp-validation-for="EditItem.ItemDescriptionAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="EditItem.ItemDescriptionEn" class="form-label">@sharedResource["English Description"]</label>
+                                            <textarea id="EItemDescriptionId" asp-for="EditItem.ItemDescriptionEn" class="form-control" placeholder="@sharedResource["Enter English Description"]"></textarea>
+                                            <span asp-validation-for="EditItem.ItemDescriptionEn" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label asp-for="EditItem.MiniSubCategoryId" for="car-rental-name">@sharedResource["Category"] <small class="text-danger">*</small></label>
+
+                                        <select data-val="true" data-val-required="@sharedResource["Please choose a Catagory"]" id="editcatId" asp-for="EditItem.MiniSubCategoryId" class="form-select required" aria-label="Default select example" required>
+                                            <option selected value="Select Type">@sharedResource["Select Category"]</option>
+
+                                            @{
+                                                if (@Categories != null)
+                                                {
+                                                    foreach (var item in @Categories)
+
+                                                    {
+                                                        if (Model.BrowserCulture == "en-US")
+                                                        {
+
+                                                            <option value="@item.MiniSubCategoryId">@item.MiniSubCategoryTLEN</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.MiniSubCategoryId">@item.MiniSubCategoryTLAR</option>
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                        </select>
+
+                                        <span asp-validation-for="EditItem.MiniSubCategoryId" class="text-alert"></span>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.VideoUrl" class="form-label">@sharedResource["Video Url"]</label>
+                                            <input id="VideoUrlId" type="url" asp-for="EditItem.VideoUrl" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Video URL"]" />
+                                            <span asp-validation-for="EditItem.VideoUrl" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 form-group">
+                                        <label for="formFile" class="form-label">@sharedResource["Adding Others Images For Item"]</label>
+                                        <input class="form-control" multiple name="Editfilepond" type="file">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-check">
+                                            <input asp-for="EditItem.IsActive" class="form-check-input" id="IsActiveId" type="checkbox">
+                                            <label for="EditItem.IsActive" class="form-check-label">@sharedResource["Active"]</label>
+                                            <span asp-validation-for="EditItem.IsActive" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-check">
+                                            <input asp-for="EditItem.HasSubProduct" class="form-check-input" id="HasSubProductId" type="checkbox">
+                                            <label for="EditItem.HasSubProduct" class="form-check-label">@sharedResource["Has SubProduct"]</label>
+                                            <span asp-validation-for="EditItem.HasSubProduct" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row  mt-2" id="images_container">
+                                    <div class="col-12">
+                                        <h3 class="mx-2"> @sharedResource["Item Images"] </h3>
+                                        <hr />
+                                        <div id="item_images" class="d-flex justify-content-center align-items-center" style="flex-wrap:wrap">
+                                            <div class="loader">@sharedResource["Loading..."]</div>
+                                            <div class="message d-none">@sharedResource["No Images"]  </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--end row-->
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">@sharedResource["Close"]</button>
+                                    <button class="btn btn-success" id="add-btn">@sharedResource["Edit Product"]</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--end row-->
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+<!--datatable js-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section scripts{
+    <!-- list.js min js -->
+    <script src="~/assets/libs/list.js/list.min.js"></script>
+    <script src="~/assets/libs/list.pagination.js/list.pagination.min.js"></script>
+    <!-- crm leads init -->
+    <script src="~/assets/js/pages/crm-leads.init.js"></script>
+    <script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            statusbar: false,
+            promotion: false,
+            branding: false,
+
+        });
+
+    </script>
+
+}
+
+<script>
+    window.addEventListener('load', (event) => {
+        console.log('page is fully loaded');
+        console.log(event);
+        var ProdPic = document.getElementById("PicHiddenId").value;
+        document.getElementsByClassName('itemImgCla')[0].src = "/" +ProdPic
+        var domainUrl = document.getElementById("UrlId").value;
+        var ItemId = document.getElementById("HiddenId").value;
+       
+        console.log("ItemId = "+ItemId);
+        console.log("ItemId = " + domainUrl);
+        fetch(domainUrl + '/Api/Lists/GetImagesForItem?id=' + ItemId)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                var item_images = document.getElementById("item_images");
+                document.getElementsByClassName("loader")[0].remove();
+
+
+                for (const property in data) {
+                    console.log(data[property]);
+                    var img = document.createElement("img");
+                    img.src = "/" + data[property].ImageName;
+                    img.width = 150;
+                    img.classList.add("m-3");
+                    var div = document.createElement("div");
+                    div.classList.add("position-relative");
+                    div.classList.add(data[property].ItemImageId);
+                    div.appendChild(img);
+                    var x = document.createElement("div");
+                    x.style.right = 0;
+                    x.style.top = 0;
+                    x.style.cursor = "pointer";
+                    x.addEventListener("click", (e) => removePic(e))
+
+                    x.classList.add("fas");
+                    x.classList.add("fa-times");
+                    x.classList.add("position-absolute")
+                    x.innerHTML = "x";
+
+                    x.id = data[property].ItemImageId;
+                    div.appendChild(x);
+
+                    item_images.appendChild(div);
+
+                }
+
+                if (data.length <= 0) {
+                    document.getElementsByClassName("message")[0].classList.remove("d-none");
+                }
+
+            });
+
+    });
+
+   
+
+    function removePic(e) {
+        console.log("remove pic")
+        console.log(e);
+        console.log(e.target.id);
+        var domainUrl = document.getElementById("UrlId").value;
+        fetch(domainUrl + `/Api/Lists/RemoveImageById?id=${e.target.id}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("remove from dom");
+                console.log(data);
+                var myobj = document.getElementsByClassName(data)[0];
+                myobj.remove();
+
+            }).catch(err => {
+                console.log("error")
+            })
+    }
+  
+    
+
+
+</script>

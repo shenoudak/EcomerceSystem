@@ -6,6 +6,7 @@ namespace Jovera.Models
     {
         public int ItemImageId { get; set; }
         public int ItemId { get; set; }
+        public string ImageName { get; set; }
         [JsonIgnore]
         public virtual Item Item { get; set; }
 

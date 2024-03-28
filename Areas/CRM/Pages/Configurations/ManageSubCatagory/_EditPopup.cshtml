@@ -1,0 +1,90 @@
+﻿@{
+}
+@model Jovera.Models.SubCategory
+
+<div class="modal fade" id="showEditModal" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">@sharedResource["Edit SubCategory"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" id="close-modal"></button>
+            </div>
+
+            <form asp-area="CRM" asp-page="/Configurations/ManageSubCatagory/Index" asp-page-handler="EditSubCategory" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    <input type="hidden" id="id-field" />
+
+                    <div class="row g-3">
+                        <div class="col-lg-12">
+                          
+                            <div>
+                                <label for="@Model.SubCategoryTLAR"
+                                       class="form-label">@sharedResource["SubCat Arabic Title"]</label>
+                                <input type="text" asp-for="@Model.SubCategoryTLAR" id="CategoryTLARId"
+                                       class="form-control" placeholder="@sharedResource["Enter SubCatagory Arabic Title"]"
+                                       required />
+                                <span asp-validation-for="@Model.SubCategoryTLAR" class="text-danger"></span>
+
+                            </div>
+                            <div>
+                                <input asp-for="@Model.SubCategoryId" id="CategoryHiddenId" hidden>
+
+
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="@Model.SubCategoryTLEN"
+                                       class="form-label">@sharedResource["SubCat English Title"]</label>
+                                <input type="text" asp-for="@Model.SubCategoryTLEN" id="CategoryTLENId"
+                                       class="form-control"
+                                       placeholder="@sharedResource["Enter SubCatagory English Title"]" required />
+                                <span asp-validation-for="@Model.SubCategoryTLEN" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div>
+                                <label for="@Model.OrderIndex"
+                                       class="form-label">@sharedResource["Sort Index"]</label>
+                                <input type="number" asp-for="@Model.OrderIndex" id="SortOrderId"
+                                       class="form-control"
+                                       placeholder="@sharedResource["Enter Category Sort Index"]" required />
+                                <span asp-validation-for="@Model.OrderIndex" class="text-danger"></span>
+                            </div>
+                        </div>
+                 
+                        <!--end col-->
+                        <div class="col-lg-6">
+                            <div>
+                                <label for="@Model.IsActive" class="form-label">@sharedResource["Active"]</label>
+                                <input asp-for="@Model.IsActive" class="form-check-input code-switcher" type="checkbox" id="IsActiveId">
+                                <span asp-validation-for="@Model.IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <!--end col-->
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            @sharedResource["Close"]
+                        </button>
+                        <button type="submit" class="btn btn-success"
+                                id="add-btn">
+                            @sharedResource["Edit SubCategory"]
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

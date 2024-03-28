@@ -1,0 +1,67 @@
+﻿@{
+}
+
+
+@model Jovera.Models.SubCategory
+
+<div class="modal fade" id="QuickViewPoup" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">@sharedResource["SubCategory Details"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" id="close-modal"></button>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    
+                    <br />
+                    <div class="table-card">
+                        <table class="table mb-0">
+                            <tbody>
+                            
+                                <tr>
+                                <td class="fw-medium">@sharedResource["SubCat Arabic Title"]</td>
+                                    <td id="DSubCategoryTLARId"></td>
+                                </tr>
+                                <tr>
+                                <td class="fw-medium">@sharedResource["SubCat English Title"]</td>
+                                    <td id="DSubCategoryTLENId"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">@sharedResource["Catagory Arabic Title"]</td>
+                                    <td id="DCategoryTLARId"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">@sharedResource["Catagory English Title"]</td>
+                                    <td id="DCategoryTLENId"></td>
+                                </tr>
+                               
+                                <tr>
+                                    <td class="fw-medium">@sharedResource["Sort Index"]</td>
+                                    <td id="DSortOrderId"></td>
+                                </tr>
+                                <tr>
+                                <td class="fw-medium">@sharedResource["Is Active?"]</td>
+                                    <td id="DIsActiveId"></td>
+                                </tr>
+
+                            </tbody>
+                        </table><!--end table-->
+                    </div>
+                </div>
+            </div><!--end card-->
+            <div class="modal-footer">
+                <div class="hstack gap-2 justify-content-end">
+                    <button type="button" class="btn btn-light"
+                            data-bs-dismiss="modal">
+                        @sharedResource["Close"]
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
