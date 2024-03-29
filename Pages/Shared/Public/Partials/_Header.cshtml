@@ -9,7 +9,8 @@
     var locale = Context.Request.HttpContext.Features.Get<IRequestCultureFeature>();
     var BrowserCulture = locale.RequestCulture.UICulture.ToString();
     var currentuser = await UserManager.GetUserAsync(User);
-    var CatgoriesLevel = _context.Categories.Include(e => e.SubCategories).ThenInclude(e => e.MiniSubCategories).ToList();
+    var CatgoriesLevel = _context.Categories.Include(e => e.SubCategories).ThenInclude(e => e.MiniSubCategories).OrderBy(e=>e.OrderIndex).ToList();
+    var MiniCatgories = _context.MiniSubCategories.OrderBy(e=>e.OrderIndex).ToList();
 }
 <header id="header"
         data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 135, 'stickySetTop': '-135px', 'stickyChangeLogo': true}">
@@ -200,8 +201,7 @@
                         <div class="header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0">
                             <div class="header-nav-feature ps-lg-5 pe-lg-4">
                                 <form role="search"
-                                      action="https://www.okler.net/previews/porto/9.9.0/page-search-results.html"
-                                      method="get">
+                                      method="get" asp-page="newIndex" >
                                     <div class="search-with-select">
                                         <a href="#" class="mobile-search-toggle-btn me-2"
                                            data-toggle-class="open">
@@ -212,13 +212,27 @@
                                                    type="search" value="" placeholder="Search...">
                                             <div class="search-form-select-wrapper">
                                                 <div class="custom-select-1">
-                                                    <select name="category" class="form-control form-select">
-                                                        <option value="all" selected>All Categories</option>
+                                                    <select name="catagoriyId" class="form-control form-select">
+                                                        <option value="0" selected>All Categories</option>
+                                                        @foreach (var item in MiniCatgories)
+                                                        {
+
+                                                           @if (BrowserCulture == "en-US")
+                                                            {
+                                                                <option value="@item.MiniSubCategoryId">@item.MiniSubCategoryTLEN</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.MiniSubCategoryId">@item.MiniSubCategoryTLAR</option>
+                                                            }
+                                                            
+                                                        }    
+                                                       @* <option value="all" selected>All Categories</option>
                                                         <option value="fashion">Fashion</option>
                                                         <option value="electronics">Electronics</option>
                                                         <option value="homegarden">Home & Garden</option>
                                                         <option value="motors">Motors</option>
-                                                        <option value="features">Features</option>
+                                                        <option value="features">Features</option>*@
                                                     </select>
                                                 </div>
                                                 <button class="btn" type="submit">
@@ -560,7 +574,7 @@
 
                                                             }
                                                             <ul class="dropdown-menu">
-                                                                @foreach (var Subitem in @CatgoriesLevel.Where(e=>e.CategoryId==item.CategoryId).FirstOrDefault().SubCategories)
+                                                                @foreach (var Subitem in @CatgoriesLevel.Where(e=>e.CategoryId==item.CategoryId).OrderBy(e=>e.OrderIndex).FirstOrDefault().SubCategories)
                                                                 {
                                                                     <li class="dropdown-submenu">
                                                                         @if (BrowserCulture == "en-US")
@@ -575,17 +589,17 @@
                                                                         }
                                                                         <ul class="dropdown-menu">
 
-                                                                            @foreach (var Minitem in @CatgoriesLevel.Where(e=>e.CategoryId==item.CategoryId).FirstOrDefault().SubCategories.Where(e=>e.SubCategoryId==Subitem.SubCategoryId).FirstOrDefault().MiniSubCategories)
+                                                                            @foreach (var Minitem in @CatgoriesLevel.Where(e=>e.CategoryId==item.CategoryId).FirstOrDefault().SubCategories.Where(e=>e.SubCategoryId==Subitem.SubCategoryId).OrderBy(e=>e.OrderIndex).FirstOrDefault().MiniSubCategories)
                                                                             {
 
-                                                                                <li>
+                                                                                <li >
                                                                                     @if (BrowserCulture == "en-US")
                                                                                     {
-                                                                                        <a class="dropdown-item" href="feature-headers-classic.html"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLEN</a>
+                                                                                        <a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLEN</a>
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        <a class="dropdown-item" href="feature-headers-classic.html"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLAR</a>
+                                                                                        <a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLAR</a>
 
                                                                                     }
                                                                                 </li>

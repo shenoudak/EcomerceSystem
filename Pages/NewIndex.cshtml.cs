@@ -35,7 +35,7 @@ namespace Jovera.Pages
 
         }
 
-        public IActionResult OnGet(int? AffiliateId = null)
+        public IActionResult OnGet(int? AffiliateId = null, int? catagoriyId=null, string? query=null)
         {
             if (AffiliateId != null)
             {
@@ -43,7 +43,13 @@ namespace Jovera.Pages
             }
             locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             BrowserCulture = locale.RequestCulture.UICulture.ToString();
-            Products = _context.Items.Include(e=>e.MiniSubCategory).Where(e => e.IsActive == true).OrderBy(e=>e.OrderIndex).ToList();
+			Products = _context.Items.Include(e => e.MiniSubCategory).Where(e => e.IsActive == true).OrderBy(e => e.OrderIndex).ToList();
+
+			if (catagoriyId !=null) {
+                Products = Products.Where(e => e.MiniSubCategoryId == catagoriyId).ToList();
+
+			}
+            
             siteCategories = _context.MiniSubCategories.Where(e => e.IsActive == true).ToList();
             var Template = _context.Items.Include(e => e.MiniSubCategory).Where(e => e.IsActive).ToList();
             foreach (var template in Template)
@@ -59,7 +65,33 @@ namespace Jovera.Pages
 
             return Page();
         }
+        //public IActionResult OnPostsearchInCatagory(string? query = null, int? catagoriyId = null)
+        //{
 
+        //    Products = _context.Items.Include(e => e.MiniSubCategory).Where(e => e.IsActive == true).OrderBy(e => e.OrderIndex).ToList();
+
+        //    if (catagoriyId != null)
+        //    {
+        //        Products = Products.Where(e => e.MiniSubCategoryId == catagoriyId).ToList();
+
+        //    }
+
+        //    siteCategories = _context.MiniSubCategories.Where(e => e.IsActive == true).ToList();
+        //    var Template = _context.Items.Include(e => e.MiniSubCategory).Where(e => e.IsActive).ToList();
+        //    foreach (var template in Template)
+        //    {
+        //        if (template != null)
+        //        {
+
+        //            Templates.Add(template);
+
+        //        }
+
+        //    }
+
+        //    return Page();
+        //}
+        
     }
 }
 
