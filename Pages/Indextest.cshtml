@@ -1,0 +1,305 @@
+﻿@page
+@model Jovera.Pages.IndextestModel
+@using Microsoft.AspNetCore.Identity
+@inject CRMDBContext _context
+@inject ApplicationDbContext _db
+@inject SignInManager<Jovera.Models.ApplicationUser> SignInManager
+@inject UserManager<Jovera.Models.ApplicationUser> UserManager
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    ViewData["Title"] = "Home page";
+    //Layout ="_TemplateLayout";
+}
+
+<style>
+    .custom-svg-fill-color-tertiary-darken {
+        fill: #0272be !important;
+
+    }
+    .dx-scrollbar-vertical.dx-scrollbar-hoverable {
+    display: none !important;
+    }
+    .dx-datagrid .dx-column-lines > td 
+    
+    {
+        border: none !important;
+    }
+
+
+</style>
+<div role="main" class="main shop pt-4">
+
+    <div class="container">
+
+        <div class="masonry-loader masonry-loader-showing">
+            <div  class="row products product-thumb-info-list" data-plugin-masonry data-plugin-options="{'layoutMode': 'fitRows'}">
+                <div id="gridContainer" style="height:100% !important;width:100% !important" class="col-12 col-sm-6 col-lg-3">
+                </div>
+
+               
+
+               
+            </div>
+           
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var count = 0;
+    var row = '';
+    var markup = '<tr class=\'main-row\'>';
+    var catId=0;
+    var query = '';
+    if (localStorage.getItem("catagoryId") === null) {
+      catId=0;
+    }
+    else{
+        catId = parseInt(localStorage.getItem("catagoryId"));
+    }
+    if (localStorage.getItem("Query") === null) {
+        query = '';
+    }
+    else {
+        query = localStorage.getItem("Query");
+    }
+   // $('#gridContainer').dxDataGrid('dispose');
+    var dataGrid=$('#gridContainer').dxDataGrid({
+        dataSource: DevExpress.data.AspNet.createStore({
+            key: 'ItemId',
+            loadUrl: '/api/Product/Get?catagoriyId=' + catId + '&&query=' + query,
+            onBeforeSend(method, ajaxOptions) {
+                ajaxOptions.xhrFields = { withCredentials: true };
+            },
+        }),
+       
+        dataRowTemplate(container, item) {
+            count++;
+             console.log(item);
+            const { data } = item;
+            console.log(container);
+            console.log(data);
+            markup +=`
+
+                         <td colspan="3">
+                  
+                            <div class="product mb-0">
+                                <div class="product-thumb-info border-0 mb-3">
+                                    <div class="product-thumb-info-badges-wrapper">
+
+                                        <span class="badge badge-ecommerce badge-success">NEW</span>
+                                    </div>
+
+                                    <a asp-page="ViewProduct" class="quick-view text-uppercase font-weight-semibold text-2">
+                                        QUICK VIEW
+                                    </a>
+                                    <a href="shop-product-sidebar-left.html">
+                                        <div class="product-thumb-info-image">
+                                                    <img alt="Product Main Image" style="height:16rem;width:16rem" class="img-fluid" src="/${data.ItemImage}">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="d-flex justify-content-between">
+
+                                        <div>
+                                                <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLEN}</a>
+                                                <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">${data.ItemTitleEn}</a></h3>
+                                        </div>
+
+
+
+                                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                                </div>
+                                <div title="Rated 5 out of 5">
+                                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                                </div>
+                                <p class="price text-5 mb-3">
+
+                                            <span class="sale text-color-dark font-weight-semi-bold">${data.ItemPrice} AED</span>
+                                        <span class="amount">AED59,00</span>
+
+                                </p>
+                            </div>
+                      
+                </td>
+
+             
+            `
+            
+             
+            if (count%4==0) {
+
+                markup += '</tr>'
+                container.append(markup);
+                markup = '<tr class=\'main-row\'>';
+               
+            }
+            
+         
+        },
+    
+
+        remoteOperations: true,
+
+        filterRow: {
+            visible: false,
+        },
+        headerFilter: {
+            visible: false,
+        },
+        groupPanel: {
+            visible: false,
+        },
+        scrolling: {
+            showScrollbar: 'never'
+        },
+        paging: {
+            pageSize: 12,
+        },
+      
+        pager: {
+            visible: true,
+            allowedPageSizes: [5, 10, 'all'],
+            showPageSizeSelector: true,
+            showInfo: true,
+            showNavigationButtons: true,
+        },
+        showColumnHeaders: false,
+        showSearchPanel: false,
+        height: 1000,
+        width: 1140,
+        showBorders: false,
+    }).dxDataGrid('instance');
+   
+    function assignValuesInLocalStorage(catagoryId,Query) {
+        localStorage.setItem('catagoryId', catagoryId);
+        localStorage.setItem('Query', Query);
+        //dataGrid.refresh(true);
+        window.location.href = "https://localhost:44367/indextest";
+        
+    }
+    function collectFormData()
+    {
+        var categoryId = document.getElementById("catagoriyId").value;
+        var QuerParam = document.getElementById("headerSearch").value;
+        assignValuesInLocalStorage(categoryId, QuerParam)
+    }
+    //function FilterByCatagory(catagoryId){
+    //    console.log("cat")
+    //    //$('#gridContainer').dxDataGrid('dispose');
+    //    var dataGrid = $('#gridContainer').dxDataGrid({
+    //        dataSource: DevExpress.data.AspNet.createStore({
+    //            key: 'ItemId',
+    //            loadUrl: '/api/Product/Get?catagoriyId='+catagoryId,
+    //            onBeforeSend(method, ajaxOptions) {
+    //                ajaxOptions.xhrFields = { withCredentials: true };
+    //            },
+    //        }),
+
+    //        dataRowTemplate(container, item) {
+    //            count++;
+    //            console.log(item);
+    //            const { data } = item;
+    //            console.log(container);
+    //            console.log(data);
+    //            markup += `
+
+    //                         <td colspan="3">
+
+    //                            <div class="product mb-0">
+    //                                <div class="product-thumb-info border-0 mb-3">
+    //                                    <div class="product-thumb-info-badges-wrapper">
+
+    //                                        <span class="badge badge-ecommerce badge-success">NEW</span>
+    //                                    </div>
+
+    //                                    <a asp-page="ViewProduct" class="quick-view text-uppercase font-weight-semibold text-2">
+    //                                        QUICK VIEW
+    //                                    </a>
+    //                                    <a href="shop-product-sidebar-left.html">
+    //                                        <div class="product-thumb-info-image">
+    //                                                    <img alt="Product Main Image" style="height:16rem;width:16rem" class="img-fluid" src="/${data.ItemImage}">
+    //                                        </div>
+    //                                    </a>
+    //                                </div>
+    //                                <div class="d-flex justify-content-between">
+
+    //                                        <div>
+    //                                                <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLEN}</a>
+    //                                                <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">${data.ItemTitleEn}</a></h3>
+    //                                        </div>
+
+
+
+    //                                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+    //                                </div>
+    //                                <div title="Rated 5 out of 5">
+    //                                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+    //                                </div>
+    //                                <p class="price text-5 mb-3">
+
+    //                                            <span class="sale text-color-dark font-weight-semi-bold">${data.ItemPrice} AED</span>
+    //                                        <span class="amount">AED59,00</span>
+
+    //                                </p>
+    //                            </div>
+
+    //                </td>
+
+
+    //            `
+
+
+    //            if (count % 4 == 0) {
+
+    //                markup += '</tr>'
+    //                container.append(markup);
+    //                markup = '<tr class=\'main-row\'>';
+
+    //            }
+
+
+    //        },
+
+
+    //        remoteOperations: true,
+
+    //        filterRow: {
+    //            visible: false,
+    //        },
+    //        headerFilter: {
+    //            visible: false,
+    //        },
+    //        groupPanel: {
+    //            visible: false,
+    //        },
+    //        scrolling: {
+    //            showScrollbar: 'never'
+    //        },
+    //        paging: {
+    //            pageSize: 12,
+    //        },
+
+    //        pager: {
+    //            visible: true,
+    //            allowedPageSizes: [5, 10, 'all'],
+    //            showPageSizeSelector: true,
+    //            showInfo: true,
+    //            showNavigationButtons: true,
+    //        },
+    //        showColumnHeaders: false,
+    //        showSearchPanel: false,
+    //        height: 1000,
+    //        width: 1000,
+    //        showBorders: false,
+    //    }).dxDataGrid('instance'); // Get the data grid instance
+
+    //    // Refresh the data grid
+    //    dataGrid.refresh();
+    //}
+   
+</script>
+ 

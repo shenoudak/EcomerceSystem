@@ -27,7 +27,6 @@ namespace Jovera.Data
             OnModelCreatingPartial(modelBuilder);
 
         }
- 
         public virtual DbSet<PaymentMehod> PaymentMehods { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<PageContent> PageContents { get; set; }
@@ -44,12 +43,16 @@ namespace Jovera.Data
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<Size> Sizes { get; set; }
         public virtual DbSet<SubProduct> SubProducts { get; set; }
-     
+        public virtual DbSet<StoreProfileImage> StoreProfileImages { get; set; }
+        public virtual DbSet<StoreProfileStatus> StoreProfileStatuses { get; set; }
+        public virtual DbSet<ItemStatus> ItemStatuses { get; set; }
 
-   
-        
 
-        
+
+
+
+
+
 
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)

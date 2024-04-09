@@ -129,6 +129,12 @@
   <data name="Add Product" xml:space="preserve">
     <value>اضافة منتج</value>
   </data>
+  <data name="Add Step One" xml:space="preserve">
+    <value>اضافة الخطوة الاولي</value>
+  </data>
+  <data name="Add Step Two" xml:space="preserve">
+    <value>اضافة الخطوة الثانية</value>
+  </data>
   <data name="Add SubCatagory" xml:space="preserve">
     <value>إضافة فئة فرعية</value>
   </data>
@@ -234,6 +240,12 @@
   <data name="Edit Product" xml:space="preserve">
     <value>تعديل المنتج</value>
   </data>
+  <data name="Edit Step One" xml:space="preserve">
+    <value>تعديل الخطوة الاولي</value>
+  </data>
+  <data name="Edit Step Two" xml:space="preserve">
+    <value>تعديل الخطوة الثانية</value>
+  </data>
   <data name="Edit SubCategory" xml:space="preserve">
     <value>تعديل الفئة الفرعية</value>
   </data>
@@ -327,8 +339,17 @@
   <data name="Manage Items" xml:space="preserve">
     <value>إدارة المنتجات</value>
   </data>
+  <data name="Manage Step One" xml:space="preserve">
+    <value>إداره الخطوه الاولي</value>
+  </data>
+  <data name="Manage Step Two" xml:space="preserve">
+    <value>إداره الخطوه الثانيه</value>
+  </data>
   <data name="Manage Stores" xml:space="preserve">
     <value>إدارة المخازن</value>
+  </data>
+  <data name="Manage Sub Product" xml:space="preserve">
+    <value>ادارة المنتج الفرعي</value>
   </data>
   <data name="Manage Suppliers" xml:space="preserve">
     <value>ادارة الموردين</value>
@@ -402,6 +423,9 @@
   <data name="Reports" xml:space="preserve">
     <value>تقارير</value>
   </data>
+  <data name="Search for..." xml:space="preserve">
+    <value>بحث ...</value>
+  </data>
   <data name="Select Category" xml:space="preserve">
     <value>اختر فئة</value>
   </data>
@@ -416,6 +440,12 @@
   </data>
   <data name="Statistics Dashboard" xml:space="preserve">
     <value>لوحه التحكم الاحصائية</value>
+  </data>
+  <data name="Step One Details" xml:space="preserve">
+    <value>تفاصيل الخطوه الاولي</value>
+  </data>
+  <data name="Step Two Details" xml:space="preserve">
+    <value>تفاصيل الخطوه الثانية</value>
   </data>
   <data name="Stores" xml:space="preserve">
     <value>المخازن</value>

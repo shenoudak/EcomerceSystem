@@ -624,7 +624,7 @@
 		</div>*@
 
 
-
+<link href="~/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 	<!-- Vendor -->
 <div role="main" class="main shop pt-4">
 
@@ -642,7 +642,7 @@
 		<div class="row">
 			<div class="col-md-5 mb-5 mb-md-0">
 
-				<div class="thumb-gallery-wrapper">
+			@*	<div class="thumb-gallery-wrapper">
 					<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
 						<div>
 							<img alt="" class="img-fluid" src="~/public/img/products/product-grey-7.jpg" data-zoom-image="~/public/img/products/product-grey-7.jpg">
@@ -677,8 +677,63 @@
 							<img alt="" class="img-fluid" src="~/public/img/products/product-grey-7-5.jpg">
 						</div>
 					</div>
+				</div>*@
+				<div class="col-xl-12 col-md-12 mx-auto">
+					<div class="product-img-slider sticky-side-div">
+						<div class="swiper product-thumbnail-slider p-2 rounded bg-light">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<img src="~/assets/images/products/img-8.png" alt=""
+										 class="img-fluid d-block" />
+								</div>
+								<div class="swiper-slide">
+									<img src="~/assets/images/products/img-6.png" alt=""
+										 class="img-fluid d-block" />
+								</div>
+								<div class="swiper-slide">
+									<img src="~/assets/images/products/img-1.png" alt=""
+										 class="img-fluid d-block" />
+								</div>
+								<div class="swiper-slide">
+									<img src="~/assets/images/products/img-8.png" alt=""
+										 class="img-fluid d-block" />
+								</div>
+							</div>
+							<div class="swiper-button-next"></div>
+							<div class="swiper-button-prev"></div>
+						</div>
+						<!-- end swiper thumbnail slide -->
+						<div class="swiper product-nav-slider mt-2">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<div class="nav-slide-item ">
+										<img src="~/assets/images/products/img-8.png" alt=""
+											 class="img-fluid d-block" />
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="nav-slide-item">
+										<img src="~/assets/images/products/img-6.png" alt=""
+											 class="img-fluid d-block" />
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="nav-slide-item">
+										<img src="~/assets/images/products/img-1.png" alt=""
+											 class="img-fluid d-block" />
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="nav-slide-item">
+										<img src="~/assets/images/products/img-8.png" alt=""
+											 class="img-fluid d-block" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end swiper nav slide -->
+					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-7">
@@ -721,7 +776,116 @@
 						<li class="mb-0">AVAILABILITY: <strong class="text-color-dark">AVAILABLE</strong></li>
 						<li class="mb-0">SKU: <strong class="text-color-dark">1234567890</strong></li>
 					</ul>
+					@*<div class="row">
+						<div class="col-xl-6">
+							<div class=" mt-4">
+								<h5 class="fs-14">Sizes :</h5>
+								<div class="d-flex flex-wrap gap-2">
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="Out of Stock">
+										<input type="radio" class="btn-check"
+											   name="productsize-radio" id="productsize-radio1"
+											   disabled>
+										<label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+											   for="productsize-radio1">S</label>
+									</div>
 
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="04 Items Available">
+										<input type="radio" class="btn-check"
+											   name="productsize-radio"
+											   id="productsize-radio2">
+										<label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+											   for="productsize-radio2">M</label>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="06 Items Available">
+										<input type="radio" class="btn-check"
+											   name="productsize-radio"
+											   id="productsize-radio3">
+										<label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+											   for="productsize-radio3">L</label>
+									</div>
+
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="Out of Stock">
+										<input type="radio" class="btn-check"
+											   name="productsize-radio" id="productsize-radio4"
+											   disabled>
+										<label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+											   for="productsize-radio4">XL</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end col -->
+
+						<div class="col-xl-6">
+							<div class=" mt-4">
+								<h5 class="fs-14">Colors :</h5>
+								<div class="d-flex flex-wrap gap-2">
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="Out of Stock">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-primary"
+												disabled>
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="03 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-secondary">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="03 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-success">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="02 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-info">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="01 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-warning">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="04 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-danger">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="03 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-light">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+									<div data-bs-toggle="tooltip" data-bs-trigger="hover"
+										 data-bs-placement="top" title="04 Items Available">
+										<button type="button"
+												class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-dark">
+											<i class="ri-checkbox-blank-circle-fill"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end col -->
+					</div>*@
 
 					<form enctype="multipart/form-data" method="post" class="cart" action="https://www.okler.net/previews/porto/9.9.0/shop-cart.html">
 						<table class="table table-borderless" style="max-width: 300px;">
@@ -1531,3 +1695,11 @@
 	</div>
 
 </div>
+<script src="~/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+<!-- ecommerce product details init -->
+<script src="~/assets/js/pages/ecommerce-product-details.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
+}

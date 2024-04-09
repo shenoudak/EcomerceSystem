@@ -200,19 +200,19 @@
                         </div>
                         <div class="header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0">
                             <div class="header-nav-feature ps-lg-5 pe-lg-4">
-                                <form role="search"
-                                      method="get" asp-page="newIndex" >
+                               @* <form role="search"
+                                      method="get" asp-page="newIndex" >*@
                                     <div class="search-with-select">
                                         <a href="#" class="mobile-search-toggle-btn me-2"
                                            data-toggle-class="open">
                                             <i class="icons icon-magnifier text-color-dark text-color-hover-primary"></i>
                                         </a>
                                         <div class="search-form-wrapper input-group">
-                                            <input class="form-control text-1" id="headerSearch" name="q"
-                                                   type="search" value="" placeholder="Search...">
+                                            <input class="form-control text-1" id="headerSearch" 
+                                                   type="search"  placeholder="Search...">
                                             <div class="search-form-select-wrapper">
                                                 <div class="custom-select-1">
-                                                    <select name="catagoriyId" class="form-control form-select">
+                                                    <select id="catagoriyId" class="form-control form-select">
                                                         <option value="0" selected>All Categories</option>
                                                         @foreach (var item in MiniCatgories)
                                                         {
@@ -235,13 +235,16 @@
                                                         <option value="features">Features</option>*@
                                                     </select>
                                                 </div>
-                                                <button class="btn" type="submit">
+                                               @* <button class="btn" type="submit">
+                                                    <i class="icons icon-magnifier header-nav-top-icon text-color-dark"></i>
+                                                </button>*@
+                                            <button class="btn" onclick="collectFormData()">
                                                     <i class="icons icon-magnifier header-nav-top-icon text-color-dark"></i>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                            @*    </form>*@
                             </div>
                         </div>
 
@@ -558,6 +561,7 @@
                                             <li class="dropdown">
                                                 <a class="dropdown-item dropdown-toggle"
                                                    href="#"> Catagories </a>
+                                                    
                                                 <ul class="dropdown-menu">
                                                     @*getFeat*@
 
@@ -592,14 +596,16 @@
                                                                             @foreach (var Minitem in @CatgoriesLevel.Where(e=>e.CategoryId==item.CategoryId).FirstOrDefault().SubCategories.Where(e=>e.SubCategoryId==Subitem.SubCategoryId).OrderBy(e=>e.OrderIndex).FirstOrDefault().MiniSubCategories)
                                                                             {
 
-                                                                                <li >
+                                                                                <li  >
                                                                                     @if (BrowserCulture == "en-US")
                                                                                     {
-                                                                                        <a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLEN</a>
+                                                                                        <a class="dropdown-item" onclick="assignValuesInLocalStorage(@Minitem.MiniSubCategoryId)" href="#"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLEN</a>
+                                                                                        @*<a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLEN</a>*@
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        <a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLAR</a>
+                                                                                        @*<a class="dropdown-item" asp-page="NewIndex" asp-route-catagoriyId="@Minitem.MiniSubCategoryId"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLAR</a>*@
+                                                                                        <a class="dropdown-item" href="#" onclick="assignValuesInLocalStorage(@Minitem.MiniSubCategoryId)"><img src="@Minitem.MiniSubCategoryPic" width="25px" height="25px" />@Minitem.MiniSubCategoryTLAR</a>
 
                                                                                     }
                                                                                 </li>

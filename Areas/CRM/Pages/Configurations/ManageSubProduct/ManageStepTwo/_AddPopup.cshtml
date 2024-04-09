@@ -1,0 +1,51 @@
+﻿@{
+}
+@model Jovera.Models.Size
+
+<div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="AddModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel">@sharedResource["Add Step Two"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+            </div>
+
+            <form asp-area="CRM" asp-page="/Configurations/ManageSubProduct/ManageStepTwo/Index" asp-page-handler="AddStepTwo" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" id="id-field" />
+                    <div class="row g-3">
+                       
+                        <div class="col-lg-6">
+                            <div>
+                                <label asp-for="@Model.SizeTLAR" class="form-label">@sharedResource["Arabic Title"]</label>
+
+                                <input type="text" asp-for="@Model.SizeTLAR" class="form-control" placeholder="@sharedResource["Enter Arabic Title"]" required />
+
+                                <span asp-validation-for="@Model.SizeTLAR" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div>
+                                <label for="@Model.SizeTLEN" class="form-label">@sharedResource["English Title"]</label>
+                                <input type="text" asp-for="@Model.SizeTLEN" class="form-control" placeholder="@sharedResource["Enter English Title"]" required />
+                                <span asp-validation-for="@Model.SizeTLEN" class="text-danger"></span>
+                            </div>
+                        </div>
+                       
+                      
+                    </div>
+                    <!--end row-->
+                </div>
+         
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@sharedResource["Close"]</button>
+                        <button class="btn btn-success" id="add-btn">@sharedResource["Add"]</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
