@@ -4,6 +4,8 @@ using Jovera.Data;
 using Jovera.Models;
 using NToastNotify;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 namespace Jovera.Areas.CRM.Pages.Configurations.ManageStore
 {
@@ -22,9 +24,12 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageStore
 
 
         public List<Jovera.Models.Store> StoreList = new List<Jovera.Models.Store>();
+        public List<Jovera.Models.StoreProfileStatus> profileStatusList = new List<Jovera.Models.StoreProfileStatus>();
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         public Jovera.Models.Store storeObj { get; set; }
+        public IRequestCultureFeature locale;
+        public string BrowserCulture;
 
         public IndexModel(CRMDBContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager,
                                             IToastNotification toastNotification, RoleManager<IdentityRole> roleManager)
@@ -40,7 +45,10 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageStore
         }
         public void OnGet()
         {
-            StoreList = _context.Stores.ToList();
+            locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+            BrowserCulture = locale.RequestCulture.UICulture.ToString();
+            StoreList = _context.Stores.Include(e=>e.StoreProfileStatus).ToList();
+            profileStatusList = _context.StoreProfileStatuses.ToList();
             url = $"{this.Request.Scheme}://{this.Request.Host}";
         }
 

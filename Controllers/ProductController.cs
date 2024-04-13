@@ -21,15 +21,30 @@ namespace Jovera.Controllers
     {
         private CRMDBContext _context;
 
-        public ProductController(CRMDBContext context) {
+        public ProductController(CRMDBContext context)
+        {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, int? catagoriyId = null, string? query = null) {
-            
+        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, int? catagoriyId = null, string? query = null,int?customerId=null)
+        {
 
-            var items = _context.Items.Include(e=>e.MiniSubCategory).Where(e=>e.MiniSubCategoryId==catagoriyId).Select(i => new {
+            //var items = _context.Items.Include(e => e.MiniSubCategory).ToList();
+            //if (catagoriyId!=null)
+            //{
+            //    items = items.Where(e => e.MiniSubCategoryId == catagoriyId.Value).ToList();
+            //}
+            //if (query != null)
+            //{
+            //    items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query)||e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query)).ToList();
+            //}
+            //items = items.Select(e => new
+            //{
+            //    ItemTitleAr= e.ItemTitleAr
+            //}).ToList();
+            var items = _context.Items.Include(e => e.MiniSubCategory).Select(i => new
+            {
                 i.MiniSubCategory.MiniSubCategoryTLAR,
                 i.MiniSubCategory.MiniSubCategoryTLEN,
                 i.MiniSubCategory,
@@ -42,19 +57,31 @@ namespace Jovera.Controllers
                 i.SellingPriceForCustomer,
                 i.OurSellingPrice,
                 i.ItemPrice,
-              
+                isFav=_context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId)
+
             });
+
+            if (catagoriyId != 0)
+            {
+                items = items.Where(e => e.MiniSubCategoryId == catagoriyId.Value);
+            }
+
+            if (query != null)
+            {
+                items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query) || e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query));
+            }
+            //items = items.AsQueryable();
             //if (catagoriyId != null)
             //{
             //    items = items.Where(e => e.MiniSubCategoryId == catagoriyId).ToList();
 
             //}
 
-           
+
 
             return Json(await DataSourceLoader.LoadAsync(items, loadOptions));
         }
 
-      
+
     }
 }

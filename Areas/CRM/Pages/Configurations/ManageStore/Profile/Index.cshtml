@@ -1,0 +1,677 @@
+﻿@page
+@model Jovera.Areas.CRM.Pages.Configurations.ManageStore.Profile.IndexModel
+@{
+    ViewBag.Title = "Profile Settings";
+    var locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+    var BrowserCulture = locale.RequestCulture.UICulture.ToString();
+}
+
+@section styles{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<style>
+    .main-content {
+        margin-right: 120px !important;
+    }
+</style>
+
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <div class="position-relative mx-n4 mt-n4">
+                <div class="profile-wid-bg profile-setting-img">
+                    <img src="~/assets/images/profile-bg.jpg" class="profile-wid-img" alt="">
+
+                </div>
+            </div>
+            <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
+            <form method="post" enctype="multipart/form-data" onsubmit="return validateMyForm();">
+                <input asp-for="storeProfileVM.StoreId" value="@Model.storeProfileVM.StoreId" hidden id="HiddenId" />
+                
+                <div class="row">
+                    <div class="col-xxl-3">
+                        <div class="card mt-n5">
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                                        @if (Model.storeProfileVM.StoreImage == null)
+                                        {
+                                            <img src="~/assets/images/users/avatar-1.jpg"
+                                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                                 alt="user-profile-image">
+                                        }
+                                        else
+                                        {
+                                            <img src="/@Model.storeProfileVM.StoreImage"
+                                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                                 alt="user-profile-image">
+                                        }
+
+                                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                            <input id="profile-img-file-input" type="file"
+                                                   class="profile-img-file-input" name="storeImage">
+                                            <label for="profile-img-file-input"
+                                                   class="profile-photo-edit avatar-xs">
+                                                <span class="avatar-title rounded-circle bg-light text-body">
+                                                    <i class="ri-camera-fill"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h5 class="fs-16 mb-1">@Model.storeProfileVM.StoreName</h5>
+                                    <p class="text-muted mb-0">@sharedResource["Vendor"]</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end col-->
+                    <div class="col-xxl-9">
+                        <div class="card mt-xxl-n5">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0"
+                                    role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails"
+                                           role="tab">
+                                            <i class="fas fa-home"></i>
+                                            @sharedResource["Vendor Info"]
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="personalDetails" role="tabpanel">
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="storeProfileVM.TradeName" class="form-label">
+                                                        @sharedResource["Trade Name"]
+
+                                                    </label>
+                                                    <input type="text" class="form-control" asp-for="storeProfileVM.TradeName"
+                                                           placeholder="@sharedResource["Enter Trade Name"]">
+                                                    <span asp-validation-for="storeProfileVM.TradeName" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="storeProfileVM.ResponsibleForSupply" class="form-label">
+                                                        @sharedResource["Responsible Name For Supply"]
+                                                    </label>
+                                                    <input type="text" class="form-control" asp-for="storeProfileVM.ResponsibleForSupply"
+                                                           placeholder="@sharedResource["Enter Responsible Name For Supply"]">
+                                                    <span asp-validation-for="storeProfileVM.ResponsibleForSupply" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="formFile" class="form-label">
+                                                        @sharedResource["Licience Photo"]
+                                                    </label>
+                                                    <input class="form-control" name="LicPhoto" type="file">
+                                                </div>
+                                            </div>
+                                           
+
+                                            <!--end col-->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="formFile" class="form-label">
+                                                        @sharedResource["ID Photo"]
+                                                    </label>
+                                                    <input class="form-control" name="IdPhoto" type="file">
+                                                </div>
+                                            </div>
+                                            @if (Model.storeProfileVM.IdPhoto != null)
+                                            {
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <img src="~/@Model.storeProfileVM.IdPhoto" width="100px" />
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if (Model.storeProfileVM.LicensePhoto != null)
+                                            {
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <img src="~/@Model.storeProfileVM.LicensePhoto" width="100px" />
+                                                    </div>
+                                                </div>
+                                            }
+                                            <!--end col-->
+                                            <!--end col-->
+                                            <div class="col-lg-4">
+                                                <div class="mb-3">
+                                                    <label asp-for="storeProfileVM.Address" class="form-label">
+                                                        @sharedResource["Address"]
+                                                    </label>
+                                                    <input type="text" placeholder="@sharedResource["Enter Address"]" asp-for="storeProfileVM.Address" class="form-control">
+                                                    <span asp-validation-for="storeProfileVM.Address" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-3">
+                                                    <label asp-for="storeProfileVM.Phone1" class="form-label">
+                                                        @sharedResource["Phone 1"]
+                                                    </label>
+                                                    <input type="tel" placeholder="@sharedResource["Enter Phone 1"]" class="form-control" asp-for="storeProfileVM.Phone1">
+                                                    <span asp-validation-for="storeProfileVM.Phone1" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-3">
+                                                    <label asp-for="storeProfileVM.Phone2" class="form-label">
+                                                        @sharedResource["Phone 2"]
+                                                    </label>
+                                                    <input type="tel" placeholder="@sharedResource["Enter Phone 2"]" class="form-control" asp-for="storeProfileVM.Phone2">
+                                                    <span asp-validation-for="storeProfileVM.Phone2" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+
+
+
+                                        </div>
+                                        <fieldset style="padding:15px; border:2px solid #4238ca; background:#f6f8ff;">
+                                            <legend style="color:#4238ca"> @sharedResource["Payment information"]</legend>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="mb-3">
+                                                        <label asp-for="storeProfileVM.AccountName" class="form-label">
+                                                            @sharedResource["Account Name"]
+                                                        </label>
+                                                        <input type="text" class="form-control" asp-for="storeProfileVM.AccountName"
+                                                               placeholder="@sharedResource["Enter Account Name"]">
+                                                        <span asp-validation-for="storeProfileVM.AccountName" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="mb-3">
+                                                        <label asp-for="storeProfileVM.BankName" class="form-label">
+                                                            @sharedResource["Bank Name"]
+                                                        </label>
+                                                        <input type="text" class="form-control" asp-for="storeProfileVM.BankName"
+                                                               placeholder="@sharedResource["Enter Bank Name"]">
+                                                        <span asp-validation-for="storeProfileVM.BankName" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="mb-3">
+                                                        <label asp-for="storeProfileVM.IPan" class="form-label">
+                                                            @sharedResource["Iban"]
+                                                        </label>
+                                                        <input type="text" class="form-control" asp-for="storeProfileVM.IPan"
+                                                               placeholder=" @sharedResource["Enter Iban"]">
+                                                        <span asp-validation-for="storeProfileVM.IPan" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div class="row mt-2">
+                                            <div class="col-lg-8">
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        @sharedResource["Select Your Products Catagories"]
+                                                    </label>
+
+
+                                                  
+
+                                                    <select name="states[]" multiple="multiple" class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem>
+                                                        @if (@Model.selectedStoreCatagories!=null)
+                                                        {
+                                                            @foreach (var item in @Model.selectedStoreCatagories)
+                                                            {
+                                                                <option value="@item" selected>@item</option>
+                                                            }
+                                                        }
+                                                        
+
+                                                        @foreach (var item in @Model.catagories)
+                                                        {
+                                                            if (Model.selectedStoreCatagories!=null)
+                                                            {
+                                                                if ((Model.selectedStoreCatagories.Contains(item.SubCategoryTLEN)) || (Model.selectedStoreCatagories.Contains(item.SubCategoryTLAR)))
+                                                                {
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (@BrowserCulture == "en-US")
+                                                                    {
+                                                                        <option value="@item.SubCategoryTLEN">@item.SubCategoryTLEN</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@item.SubCategoryTLAR">@item.SubCategoryTLAR</option>
+
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (@BrowserCulture == "en-US")
+                                                                {
+                                                                    <option value="@item.SubCategoryTLEN">@item.SubCategoryTLEN</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.SubCategoryTLAR">@item.SubCategoryTLAR</option>
+
+                                                                }
+                                                            }
+
+                                                        }
+
+
+
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            @if (Model.storeProfileVM.HasOtherCatgory)
+                                            {
+                                                <div class="col-lg-4" style="padding-top:2.5rem">
+
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" checked>
+                                                        <label class="form-check-label" for="SwitchCheck1">@sharedResource["Add Other Catagories"]</label>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-4" style="padding-top:2.5rem">
+
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1">
+                                                        <label class="form-check-label" for="SwitchCheck1"> @sharedResource["Add Other Catagories"]</label>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <!--end col-->
+                                        <!--end col-->
+                                        <div class="row">
+                                            @if (Model.storeProfileVM.HasOtherCatgory)
+                                            {
+                                                   <div class="col-lg-12" id="txtCustom">
+                                                <div class="mb-3">
+
+                                                    <label asp-for="storeProfileVM.OtherCatagory" class="form-label text-muted">
+                                                        @sharedResource["Other Catagories"]
+                                                    </label>
+
+                                                    <input class="form-control" id="choices-text-remove-button" asp-for="storeProfileVM.OtherCatagory" data-choices data-choices-limit="5" data-choices-removeItem type="text" />
+
+
+                                                </div>
+                                            </div>                                                
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-12" style="display:none" id="txtCustom">
+                                                    <div class="mb-3">
+
+                                                        <label asp-for="storeProfileVM.OtherCatagory" class="form-label text-muted">
+                                                            @sharedResource["Other Catagories"]
+                                                        </label>
+
+                                                        <input class="form-control" id="choices-text-remove-button" asp-for="storeProfileVM.OtherCatagory" data-choices data-choices-limit="5" data-choices-removeItem type="text" />
+
+
+                                                    </div>
+                                                </div>
+                                                
+                                            }
+                                         
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="formFile" class="form-label">
+                                                        @sharedResource["Sample Photos Of Your Products"]
+                                                    </label>
+                                                    <input class="form-control" multiple name="ProductPhotos" type="file">
+
+                                                </div>
+                                            </div>
+                                            @if (Model.vendor.StoreProfileImages != null)
+                                            {
+                                                if (Model.vendor.StoreProfileImages.Count != 0)
+                                                {
+                                                    <div class="row mt-2" id="images_container">
+                                                        <div class="col-12">
+
+                                                          
+                                                            <div id="item_images" class="d-flex justify-content-center align-items-center" style="flex-wrap:wrap">
+                                                                <div class="loader">@sharedResource["Loading..."]</div>
+                                                                <div class="message d-none">@sharedResource["No Images"]  </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                }
+                                            }
+                                           
+                                            <div class="col-lg-6">
+                                                <div class="mb-3 form-check">
+
+                                                    <input id="checkboxId" asp-for="storeProfileVM.AddingTax" class="form-check-input" type="checkbox">
+                                                    <label for="AddItem.AddingTax" class="form-check-label">@sharedResource["Adding Tax"]</label>
+                                                    <span asp-validation-for="storeProfileVM.AddingTax" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            @if (Model.storeProfileVM.AddingTax)
+                                            {
+                                                <div class="col-lg-12" id="taxNumberId" >
+                                                    <div class="mb-3">
+                                                        <label asp-for="storeProfileVM.TaxingNumber" class="form-label">
+                                                            @sharedResource["Taxing Number"]
+                                                        </label>
+                                                        <input type="text" class="form-control" asp-for="storeProfileVM.TaxingNumber"
+                                                               placeholder="Enter Taxing Number">
+                                                        <span asp-validation-for="storeProfileVM.TaxingNumber" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-12" id="taxNumberId" style="display:none">
+                                                    <div class="mb-3">
+                                                        <label asp-for="storeProfileVM.TaxingNumber" class="form-label">
+                                                            @sharedResource["Taxing Number"]
+                                                        </label>
+                                                        <input type="text" class="form-control" asp-for="storeProfileVM.TaxingNumber"
+                                                               placeholder="Enter Taxing Number">
+                                                        <span asp-validation-for="storeProfileVM.TaxingNumber" class="text-danger"></span>
+
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+
+                                                    <div class="card p-3 bg-light">
+                                                        <div class="car-body">
+                                                            <h4 class="mb-2">@sharedResource["Location"]</h4>
+                                                            <div class="form-group row">
+                                                                <div id="map" style="height:500px;width:1000px;margin:auto"></div>
+                                                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfsM19EfsfREOaCkPjRAVMYdTIXToo0FE&callback=initMap&v=weekly" defer></script>
+
+                                                            </div>
+
+                                                            <input type="text" asp-for="storeProfileVM.Lat" hidden id="LatId" />
+                                                            <input type="text" asp-for="storeProfileVM.Lng" hidden id="LngId" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--end col-->
+                                            <div class="col-lg-12">
+                                                <div class="hstack gap-2 justify-content-end">
+                                                    <button type="submit"
+                                                            class="btn btn-primary">
+                                                        @sharedResource["Submit To Complete"]
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+            </form>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <!--jquery cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--select2 cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="~/assets/js/pages/select2.init.js"></script>
+
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
+}
+
+<script>
+
+    const checkbox = document.getElementById('checkboxId');
+    const SwitchCheck1 = document.getElementById('SwitchCheck1');
+    const txtCustom = document.getElementById('txtCustom');
+
+    const box = document.getElementById('taxNumberId');
+
+    checkbox.addEventListener('click', function handleClick() {
+        if (checkbox.checked) {
+            box.style.display = 'block';
+        } else {
+            box.style.display = 'none';
+        }
+    });
+    SwitchCheck1.addEventListener('click', function handleMyClick() {
+        if (SwitchCheck1.checked) {
+            console.log("enter in check")
+            txtCustom.style.display = 'block';
+        } else {
+            console.log("enter also in check")
+            txtCustom.style.display = 'none';
+        }
+    });
+
+
+    let selectEl = document.getElementById('choices-multiple-remove-button');
+
+    selectEl.addEventListener('change', (e) => {
+        console.log("Enter Event")
+        console.log(e.target.value)
+        if (e.target.value == '0') {
+            console.log("Enter in other")
+            document.getElementById('txt-custom').style.display = 'block';
+        }
+
+    });
+
+    function initMap() {
+        var markers = [];
+        var uniqueId = 1;
+        var latOb = document.getElementById("LatId").value;
+        if(latOb==""){
+           latOb=25.380112;
+        }
+        var NlatOb = Number(latOb)
+        var lngOb = document.getElementById("LngId").value;
+        if (lngOb == "") {
+            lngOb=55.458249;
+            
+        }
+       
+        var NlngOb = Number(lngOb)
+        console.log("lngOb = " + lngOb);
+        var myLatlng = { lat: NlatOb, lng: NlngOb };
+
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatlng,
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+            content: "Select Location",
+            position: myLatlng,
+        });
+
+        infoWindow.open(map);
+
+        var MarkerObj = { lat: NlatOb, lng: NlngOb };
+        var marker = new google.maps.Marker({
+            position: MarkerObj,
+            map: map
+        });
+        marker.id = uniqueId;
+        uniqueId++;
+        markers.push(marker);
+        for (var i = 0; i < markers.length; i++) {
+            if (markers[i].id == marker.id - 1) {
+                markers[i].setMap(null);
+                markers.splice(i, 1);
+                return;
+            }
+        }
+        infoWindow.open(map, marker);
+        infoWindow.close();
+        infoWindow = new google.maps.InfoWindow({
+            position: myLatlng,
+        });
+
+        map.addListener("click", function (mapsMouseEvent) {
+            ///////////////////////////
+
+            var jsonobj = JSON.stringify(mapsMouseEvent.latLng.toJSON());
+            var myObj = JSON.parse(jsonobj);
+            sendReq(myObj);
+            var MarkerObj = { lat: myObj.lat, lng: myObj.lng };
+            var marker = new google.maps.Marker({
+                position: MarkerObj,
+                map: map
+            });
+            marker.id = uniqueId;
+            uniqueId++;
+            markers.push(marker);
+            for (var i = 0; i < markers.length; i++) {
+                if (markers[i].id == marker.id - 1) {
+                    markers[i].setMap(null);
+                    markers.splice(i, 1);
+                    return;
+                }
+            }
+            infoWindow.open(map, marker);
+            infoWindow.close();
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+
+        });
+
+    }
+
+    window.initMap = initMap;
+    function sendReq(obj) {
+        flag = true;
+        console.log(obj);
+        document.getElementById("LatId").value = obj.lat;
+        document.getElementById("LngId").value = obj.lng;
+    }
+
+    window.addEventListener('load', (event) => {
+        console.log('page is fully loaded');
+        console.log(event);
+        
+        var domainUrl = document.getElementById("UrlId").value;
+        var ItemId = document.getElementById("HiddenId").value;
+
+        console.log("ItemId = " + ItemId);
+        console.log("ItemId = " + domainUrl);
+        fetch(domainUrl + '/Api/Lists/GetImagesForStoreSampleItem?id=' + ItemId)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                var item_images = document.getElementById("item_images");
+                document.getElementsByClassName("loader")[0].remove();
+
+
+                for (const property in data) {
+                    console.log(data[property]);
+                    var img = document.createElement("img");
+                    img.src = "/" + data[property].ImageName;
+                    img.width = 150;
+                    img.classList.add("m-3");
+                    var div = document.createElement("div");
+                    div.classList.add("position-relative");
+                    div.classList.add(data[property].StoreProfileImageId);
+                    div.appendChild(img);
+                    var x = document.createElement("div");
+                    x.style.right = 0;
+                    x.style.top = 0;
+                    x.style.cursor = "pointer";
+                    x.addEventListener("click", (e) => removePic(e))
+
+                    x.classList.add("fas");
+                    x.classList.add("fa-times");
+                    x.classList.add("position-absolute")
+                    x.innerHTML = "x";
+
+                    x.id = data[property].StoreProfileImageId;
+                    div.appendChild(x);
+
+                    item_images.appendChild(div);
+
+                }
+
+                if (data.length <= 0) {
+                    document.getElementsByClassName("message")[0].classList.remove("d-none");
+                }
+
+            });
+
+    });
+
+
+
+    function removePic(e) {
+        console.log("remove pic")
+        console.log(e);
+        console.log(e.target.id);
+        var domainUrl = document.getElementById("UrlId").value;
+        fetch(domainUrl + `/Api/Lists/RemoveStoreSampleImageById?id=${e.target.id}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("remove from dom");
+                console.log(data);
+                var myobj = document.getElementsByClassName(data)[0];
+                myobj.remove();
+
+            }).catch(err => {
+                console.log("error")
+            })
+    }
+</script>

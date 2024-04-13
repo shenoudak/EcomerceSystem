@@ -28,6 +28,8 @@
 
 
 </style>
+<input hidden type="text"  value="@Model.BrowserCulture" id="checkLang" />
+<input hidden type="text" value="@Model.CustomerId" id="HiddenCustomerId" />
 <div role="main" class="main shop pt-4">
 
     <div class="container">
@@ -52,6 +54,8 @@
     var count = 0;
     var row = '';
     var markup = '<tr class=\'main-row\'>';
+    var newMarkup = '';
+    var appendNewMarkup = '';
     var catId=0;
     var query = '';
     if (localStorage.getItem("catagoryId") === null) {
@@ -60,17 +64,20 @@
     else{
         catId = parseInt(localStorage.getItem("catagoryId"));
     }
-    if (localStorage.getItem("Query") === null) {
+
+    if (localStorage.getItem("Query") === undefined || localStorage.getItem("Query") === null || localStorage.getItem("Query") === "undefined") {
+      
         query = '';
     }
     else {
         query = localStorage.getItem("Query");
     }
+    var CustomerId = document.getElementById("HiddenCustomerId").value;
    // $('#gridContainer').dxDataGrid('dispose');
     var dataGrid=$('#gridContainer').dxDataGrid({
         dataSource: DevExpress.data.AspNet.createStore({
             key: 'ItemId',
-            loadUrl: '/api/Product/Get?catagoriyId=' + catId + '&&query=' + query,
+            loadUrl: '/api/Product/Get?catagoriyId=' + catId + '&&query=' + query + '&&customerId=' + CustomerId,
             onBeforeSend(method, ajaxOptions) {
                 ajaxOptions.xhrFields = { withCredentials: true };
             },
@@ -82,6 +89,8 @@
             const { data } = item;
             console.log(container);
             console.log(data);
+            checkLang = document.getElementById("checkLang").value;
+            
             markup +=`
 
                          <td colspan="3">
@@ -96,38 +105,68 @@
                                     <a asp-page="ViewProduct" class="quick-view text-uppercase font-weight-semibold text-2">
                                         QUICK VIEW
                                     </a>
-                                    <a href="shop-product-sidebar-left.html">
+                                        <a href="/ViewProductTest?ProductId=${data.ItemId}">
                                         <div class="product-thumb-info-image">
                                                     <img alt="Product Main Image" style="height:16rem;width:16rem" class="img-fluid" src="/${data.ItemImage}">
                                         </div>
                                     </a>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                `
+            if (checkLang == "en-US") {
+                 newMarkup = `<div class="d-flex justify-content-between">
 
-                                        <div>
-                                                <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLEN}</a>
-                                                <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">${data.ItemTitleEn}</a></h3>
+                                            <div>
+                                                        <a href="/ViewProductTest?ProductId=${data.ItemId}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLEN}</a>
+                                                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="/ViewProductTest?ProductId=${data.ItemId}" class="text-color-dark text-color-hover-primary">${data.ItemTitleEn}</a></h3>
+                                            </div>
+
+
+
+                                                    <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4"><i id="item${data.ItemId}" class="far fa-heart"></i></a>
+                                    </div>
+                                    <div title="Rated 5 out of 5">
+                                        <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                                    </div>
+                                    <p class="price text-5 mb-3">
+
+                                                    <span class="sale text-color-dark font-weight-semi-bold">${data.OldPrice} AED</span>
+                                                <span class="amount">${data.ItemPrice} AED</span>
+
+                                    </p>`
+    
+                            }
+            //Arabic
+            else {
+                 newMarkup = `<div class="d-flex justify-content-between">
+
+                                                <div>
+                                                                <a href="/ViewProductTest?ProductId=${data.ItemId}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLAR}</a>
+                                                                <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="/ViewProductTest?ProductId=${data.ItemId}" class="text-color-dark text-color-hover-primary">${data.ItemTitleAr}</a></h3>
+                                                </div>
+
+
+
+                                                        <a onclick="AddItemToFavourite(${data.ItemId})" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i  id="item${data.ItemId}" class="far fa-heart"></i></a>
                                         </div>
+                                        <div title="Rated 5 out of 5">
+                                            <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                                        </div>
+                                        <p class="price text-5 mb-3">
+
+                                                        <span class="sale text-color-dark font-weight-semi-bold">${data.OldPrice} درهم</span>
+                                                    <span class="amount">${data.ItemPrice} درهم</span>
+
+                                        </p>`
+    
+                            }
+             appendNewMarkup = ` </div>
+
+                    </td>`
 
 
-
-                                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-                                </div>
-                                <div title="Rated 5 out of 5">
-                                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-                                </div>
-                                <p class="price text-5 mb-3">
-
-                                            <span class="sale text-color-dark font-weight-semi-bold">${data.ItemPrice} AED</span>
-                                        <span class="amount">AED59,00</span>
-
-                                </p>
-                            </div>
-                      
-                </td>
-
+            markup +=newMarkup+appendNewMarkup;
              
-            `
+           
             
              
             if (count%4==0) {
@@ -186,6 +225,48 @@
         var categoryId = document.getElementById("catagoriyId").value;
         var QuerParam = document.getElementById("headerSearch").value;
         assignValuesInLocalStorage(categoryId, QuerParam)
+    }
+    function AddItemToFavourite(ItemId)
+    {
+        var ConcatId = "item" + ItemId;
+        console.log("Item=" + ItemId)
+        console.log("ItemId=" + ConcatId)
+        $.ajax({
+            type: "GET",
+            url: "/Indextest?handler=SingleAddItemToFavourite",
+            data: { "ItemId": ItemId },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                
+                if (!response.IsLogin)
+                {
+                    window.location.href = "https://localhost:44367/Login";
+                }
+                if (!response.ItemExist) {
+                   console.log("ItemNotFound")
+                }
+                if (response.IsSuccess) {
+                    if (response.InFav) {
+                        console.log("gray")
+                        document.getElementById(ConcatId).style.color = "gray";
+                   }
+                   else{
+                        console.log("Red")
+                        document.getElementById(ConcatId).style.color = "red";
+                   }
+                   
+                }
+
+                //document.getElementById("DSortOrderId").innerHTML = response.OrderIndex
+
+
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        });
+
     }
     //function FilterByCatagory(catagoryId){
     //    console.log("cat")

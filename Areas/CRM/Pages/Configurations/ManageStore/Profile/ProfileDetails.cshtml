@@ -1,0 +1,586 @@
+﻿@page
+@model Jovera.Areas.CRM.Pages.Configurations.ManageStore.Profile.ProfileDetailsModel
+@{
+}
+@section styles{
+    <!--Swiper slider css-->
+    <link href="~/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+}
+<style>
+    .main-content {
+    margin-right: 120px !important;
+}
+</style>
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="profile-foreground position-relative mx-n4 mt-n4">
+                <div class="profile-wid-bg">
+                    <img src="~/assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+                </div>
+            </div>
+            <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
+                <div class="row g-4">
+                    <div class="col-auto">
+                        <div class="avatar-lg">
+                            @if (Model.storDetails.StoreImage != null)
+                            {
+                                <img src="/@Model.storDetails.StoreImage" alt="user-img"
+                                     class="img-thumbnail rounded-circle" />
+                            }
+                            else
+                            {
+                                <img src="~/assets/images/users/avatar-1.jpg" alt="user-img"
+                                     class="img-thumbnail rounded-circle" />
+                            }
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col">
+                        <div class="p-2">
+                            <h3 class="text-white mb-1">@Model.storDetails.StoreName</h3>
+                            <p class="text-white-75">@sharedResource["Vendor"]</p>
+                            <div class="hstack text-white-50 gap-1">
+                                <div class="me-2">
+                                    <i class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"></i>
+                                    @Model.storDetails.Address
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!--end row-->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="d-flex">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1"
+                                role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link fs-14 active" data-bs-toggle="tab" href="#overview-tab"
+                                       role="tab">
+                                        <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">@sharedResource["Profile Overview"]</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fs-14" data-bs-toggle="tab" href="#documents" role="tab">
+                                        <i class="ri-folder-4-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">@sharedResource["Documents"]</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link fs-14" data-bs-toggle="tab" href="#activities"
+                                       role="tab">
+                                        <i class="ri-list-unordered d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block"> @sharedResource["Sample Photos Of Your Products"]</span>
+                                    </a>
+                                </li>
+                               @* <li class="nav-item">
+                                    <a class="nav-link fs-14" data-bs-toggle="tab" href="#changePassword"
+                                       role="tab">
+                                        <i class="ri-list-unordered d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block"> @sharedResource["Change Password"]</span>
+                                    </a>
+                                </li>
+*@
+
+                            </ul>
+
+                        </div>
+                        <!-- Tab panes -->
+                        <div class="tab-content pt-4 text-muted">
+                            <div class="tab-pane active" id="overview-tab" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-xxl-3">
+
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-3">  @sharedResource["Vendor Info"]</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row"> @sharedResource["Trade Name :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.TradeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Responsible Name For Supply :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.ResponsibleForSupply</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Address :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.Address</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Phone 1 :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.Phone1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Phone 2 :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.Phone2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Account Name :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.AccountName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row"> @sharedResource["Bank Name :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.BankName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Iban :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.IPan</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="ps-0" scope="row">@sharedResource["Adding Tax :"]</th>
+                                                                <td class="text-muted">@Model.storDetails.AddingTax</td>
+                                                            </tr>
+                                                            @if (@Model.storDetails.AddingTax)
+                                                            {
+                                                                <tr>
+                                                                    <th class="ps-0" scope="row">@sharedResource["Taxing Number :"]</th>
+                                                                    <td class="text-muted">@Model.storDetails.TaxingNumber</td>
+                                                                </tr>
+                                                            }
+
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+
+
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-4">@sharedResource["Products Catagories"]</h5>
+                                                <div class="d-flex flex-wrap gap-2 fs-15">
+                                                    @if (@Model.storeCatagories != null)
+                                                    {
+                                                        @foreach (var item in @Model.storeCatagories)
+                                                        {
+                                                            <a href="javascript:void(0);"
+                                                               class="badge badge-soft-primary">@item</a>
+                                                        }
+                                                    }
+
+
+
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-4">@sharedResource["Other Products Catagories"]</h5>
+                                                <div class="d-flex flex-wrap gap-2 fs-15">
+                                                    @if (@Model.otherCatagories != null)
+                                                    {
+                                                        @foreach (var item in @Model.otherCatagories)
+                                                        {
+                                                            <a href="javascript:void(0);"
+                                                               class="badge badge-soft-primary">@item</a>
+                                                        }
+                                                    }
+
+
+
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="card p-3 bg-light">
+                                                    <div class="car-body">
+                                                        <h4 class="mb-2">@sharedResource["Location"]</h4>
+                                                        <div class="form-group row">
+                                                            <div id="map" style="height:500px;width:900px;margin:auto"></div>
+                                                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfsM19EfsfREOaCkPjRAVMYdTIXToo0FE&callback=initMap&v=weekly" defer></script>
+
+                                                        </div>
+
+                                                        <input type="text" value="@Model.storDetails.Lat" hidden id="LatId" />
+                                                        <input type="text" value="@Model.storDetails.Lng" hidden id="LngId" />
+
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                        <!--end card-->
+                                        <!--end card-->
+                                        @if(@Model.storDetails.StoreProfileStatusId != 3)
+                                        {
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title mb-4">@sharedResource["Update Vendor Profile Status"]</h5>
+                                                    <div class="d-flex flex-wrap gap-2 fs-15">
+                                                        @if (@Model.storDetails.StoreProfileStatusId == 2 || @Model.storDetails.StoreProfileStatusId == 4)
+                                                        {
+                                                            <div class="col-lg-4">
+                                                                <div class="hstack gap-2 justify-content-end">
+                                                                    <form method="post">
+                                                                        <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                            @sharedResource["Accept Profile"]
+                                                                        </button>
+                                                                    </form>
+
+                                                                </div>
+                                                            </div>
+
+                                                        }
+                                                        @if (@Model.storDetails.StoreProfileStatusId == 2)
+                                                        {
+                                                            <div class="col-lg-4">
+                                                                <div class="hstack gap-2 justify-content-end">
+                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                            data-bs-target="#AddModal">
+                                                                        @sharedResource["Reject Profile"]
+                                                                    </button>
+
+                                                                </div>
+                                                            </div>
+                                                        }
+
+
+
+
+                                                    </div>
+                                                </div><!-- end card body -->
+                                            </div>
+
+                                            <!-- end card -->
+                                        }
+
+                                    </div>
+
+                                </div>
+                                <!--end row-->
+                            </div>
+                            @if (@Model.storDetails.StoreProfileImages != null)
+                            {
+                                <div class="tab-pane fade" id="activities" role="tabpanel">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">@sharedResource["Sample Photos Of Your Products"]</h5>
+                                            <div class="row gx-lg-5">
+                                                <div class="col-xl-4 col-md-8 mx-auto">
+                                                    <div class="product-img-slider sticky-side-div">
+                                                        <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
+                                                            <div class="swiper-wrapper">
+                                                                <div class="swiper-slide">
+                                                                    @if (@Model.storDetails.StoreProfileImages.FirstOrDefault() != null)
+                                                                    {
+                                                                        <img src="/@Model.storDetails.StoreProfileImages.FirstOrDefault().ImageName" alt="@sharedResource["Main Product Image"]"
+                                                                             class="img-fluid d-block" />
+                                                                    }
+
+                                                                </div>
+                                                                @foreach (var item in @Model.storDetails.StoreProfileImages)
+                                                                {
+                                                                    <div class="swiper-slide">
+                                                                        <img src="/@item.ImageName" alt="@sharedResource["Product Image"]"
+                                                                             class="img-fluid d-block" />
+                                                                    </div>
+                                                                }
+
+
+                                                            </div>
+                                                            <div class="swiper-button-next"></div>
+                                                            <div class="swiper-button-prev"></div>
+                                                        </div>
+                                                        <!-- end swiper thumbnail slide -->
+                                                        <div class="swiper product-nav-slider mt-2">
+                                                            <div class="swiper-wrapper">
+                                                                @foreach (var item in @Model.storDetails.StoreProfileImages)
+                                                                {
+                                                                    <div class="swiper-slide">
+                                                                        <div class="nav-slide-item ">
+                                                                            <img src="/@item.ImageName" alt="@sharedResource["Product Image"]"
+                                                                                 class="img-fluid d-block" />
+                                                                        </div>
+                                                                    </div>
+                                                                }
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- end swiper nav slide -->
+                                                    </div>
+                                                </div>
+                                                <!-- end col -->
+                                                <!-- end col -->
+                                            </div>
+                                        </div>
+                                        <!--end card-body-->
+                                    </div>
+                                    <!--end card-->
+                                </div>
+                                <!--end tab-pane-->
+                            }
+
+
+                          @*  <div class="tab-pane" id="changePassword" role="tabpanel">
+                                <div class="col-xxl-3">
+
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">@sharedResource["Change Password"]</h5>
+                                            <form method="post">
+                                                <div asp-validation-summary="ModelOnly" style="color:red;"></div>
+                                                <div class="row g-2">
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label for="oldpasswordInput" class="form-label">
+                                                                @sharedResource["Old Password *"]
+                                                                
+                                                            </label>
+                                                            <input asp-for="@Model.changePasswordVM.CurrentPassword" type="password" class="form-control"
+                                                                   id="oldpasswordInput"
+                                                                   placeholder="@sharedResource["Enter current password"]">
+                                                        </div>
+                                                        <span asp-validation-for="@Model.changePasswordVM.CurrentPassword" style="color:red;"></span>
+
+                                                    </div>
+                                                    <!--end col-->
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label for="newpasswordInput" class="form-label">
+                                                                @sharedResource["New Password *"]
+                                                                
+                                                            </label>
+                                                            <input type="password" class="form-control" asp-for="@Model.changePasswordVM.NewPassword" type="password"
+                                                                   id="newpasswordInput" placeholder="@sharedResource["Enter new password"]">
+                                                        </div>
+                                                        <span asp-validation-for="@Model.changePasswordVM.NewPassword" style="color:red;"></span>
+                                                    </div>
+                                                    <!--end col-->
+                                                    <div class="col-lg-4">
+                                                        <div>
+                                                            <label for="confirmpasswordInput" class="form-label">
+                                                                @sharedResource["Confirm Password *"]
+                                                                
+                                                            </label>
+                                                            <input type="password" class="form-control" asp-for="@Model.changePasswordVM.ConfirmPassword" type="password"
+                                                                   id="confirmpasswordInput"
+                                                                   placeholder="@sharedResource["Confirm Password"]">
+                                                        </div>
+                                                        <span asp-validation-for="@Model.changePasswordVM.ConfirmPassword" style="color:red;"></span>
+                                                    </div>
+                                                   
+                                                    <!--end col-->
+                                                    <div class="col-lg-12">
+                                                        <div class="text-end">
+                                                            <button type="submit" class="btn btn-success">
+                                                                @sharedResource["Change Password"]
+                                                                
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!--end col-->
+                                                </div>
+                                                <!--end row-->
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="tab-pane fade" id="documents" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <h5 class="card-title flex-grow-1 mb-0">@sharedResource["Documents"]</h5>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless align-middle mb-0">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th scope="col">@sharedResource["File Name"]</th>
+                                                                <th scope="col">@sharedResource["Type"]</th>
+
+                                                                <th scope="col">@sharedResource["Priview"]</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @if (Model.storDetails.IdPhoto != null)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center">
+                                                                            <input type="text" value="@Model.storDetails.IdPhoto" hidden id="IdPhotoId" />
+                                                                            <input type="text" value="@Model.storDetails.LicensePhoto" hidden id="LicensePhotoId" />
+
+                                                                            <div class="flex-shrink-0">
+                                                                                <img src="~/@Model.storDetails.IdPhoto" alt=""
+                                                                                     class="avatar-xxs rounded-circle image_src object-cover">
+                                                                            </div>
+
+                                                                            <div class="ms-3 flex-grow-1">
+                                                                                <h6 class="fs-15 mb-0">
+                                                                                    <a href="javascript:void(0);"> @sharedResource["ID Photo"]</a>
+                                                                                </h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td> @sharedResource["Image File"]</td>
+
+                                                                    <td>
+                                                                        <ul class="list-inline hstack gap-2 mb-0">
+
+                                                                            <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                                                data-bs-trigger="hover" data-bs-placement="top"
+                                                                                title=@sharedResource["View"]>
+                                                                                <a href="javascript:void(0)" data-bs-toggle="modal">
+                                                                                    <i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp(1)"></i>
+                                                                                </a>
+                                                                            </li>
+
+
+
+
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            @if (Model.storDetails.LicensePhoto != null)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img src="~/@Model.storDetails.LicensePhoto" alt=""
+                                                                                     class="avatar-xxs rounded-circle image_src object-cover">
+                                                                            </div>
+                                                                            <div class="ms-3 flex-grow-1">
+                                                                                <h6 class="fs-15 mb-0">
+                                                                                    <a href="javascript:void(0);"> @sharedResource["Licience Photo"]</a>
+                                                                                </h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>@sharedResource["Image File"]</td>
+
+                                                                    <td>
+                                                                        <ul class="list-inline hstack gap-2 mb-0">
+
+                                                                            <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                                                data-bs-trigger="hover" data-bs-placement="top"
+                                                                                title=@sharedResource["View"]>
+                                                                                <a href="javascript:void(0)" data-bs-toggle="modal">
+                                                                                    <i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp(2)"></i>
+                                                                                </a>
+                                                                            </li>
+
+
+
+
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end tab-pane-->
+                        </div>
+                        <!--end tab-content-->
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+
+        </div>
+        <!-- container-fluid -->
+    </div><!-- End Page-content -->
+
+</div>
+
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <!--Swiper slider js-->
+    <script src="~/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- ecommerce product details init -->
+    <script src="~/assets/js/pages/ecommerce-product-details.init.js"></script>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<partial name="_ViewPopup" view-data="ViewData" />
+<partial name="_AddPopup" view-data="ViewData" />
+<script>
+    function ShowViewPopUp(Id) {
+
+        console.log("Id =" + Id);
+        var IdPhotoPath = document.getElementById("IdPhotoId").value;
+        console.log("IdPhotoPath =" + IdPhotoPath);
+        var LiciencePhotoPath = document.getElementById("LicensePhotoId").value;
+        console.log("LiciencePhotoPath =" + LiciencePhotoPath);
+        if (Id == 1) {
+            document.getElementById("privewImageId").src = "/" + IdPhotoPath
+        }
+        else {
+            document.getElementById("privewImageId").src = "/" + LiciencePhotoPath
+        }
+
+        $('#QuickViewPoup').modal('show');
+    }
+    var flag = false;
+    function initMap() {
+        var latOb = document.getElementById("LatId").value;
+        if (latOb == "") {
+            latOb = 25.380112;
+        }
+        var NlatOb = Number(latOb)
+        console.log("latOb = " + typeof (NlatOb));
+        var lngOb = document.getElementById("LngId").value;
+        if (lngOb == "") {
+            lngOb = 55.458249;
+
+        }
+        var NlngOb = Number(lngOb)
+        console.log("lngOb = " + lngOb);
+
+
+
+        var myLatlng = { lat: NlatOb, lng: NlngOb };
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatlng,
+        });
+
+        var infoWindow = new google.maps.InfoWindow();
+        var MarkerObj = { lat: myLatlng.lat, lng: myLatlng.lng };
+        var marker = new google.maps.Marker({
+            position: MarkerObj,
+            map: map
+        });
+
+        infoWindow.open(map, marker);
+        infoWindow.close();
+
+    }
+    window.initMap = initMap;
+
+
+
+
+</script>

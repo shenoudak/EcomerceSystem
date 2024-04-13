@@ -46,6 +46,8 @@ namespace Jovera.Data
         public virtual DbSet<StoreProfileImage> StoreProfileImages { get; set; }
         public virtual DbSet<StoreProfileStatus> StoreProfileStatuses { get; set; }
         public virtual DbSet<ItemStatus> ItemStatuses { get; set; }
+        public virtual DbSet<ProductFavourite> ProductFavourites { get; set; }
+        public virtual DbSet<ProductReview> ProductReviews { get; set; }
 
 
 

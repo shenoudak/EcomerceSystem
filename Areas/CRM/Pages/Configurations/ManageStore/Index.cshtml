@@ -14,112 +14,191 @@
     .dataTables_filter {
         display: none;
     }
+
 </style>
-
-
 <div class="row">
     <div class="col-lg-12">
-        <div class="card" id="List">
-            <div class="card-header border-0">
-                <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
+        <div class="card" id="orderList">
+            
 
-                <div class="row g-4 align-items-center">
+            <div class="card-body pt-0">
+                <div>
+                    @*  <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
+                    <li class="nav-item">
+                    <a class="nav-link active All py-3" data-bs-toggle="tab" id="All"
+                    href="#home1" role="tab" aria-selected="true">
+                    <i class="ri-store-2-fill me-1 align-bottom"></i> All Orders
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Delivered"
+                    href="#delivered" role="tab" aria-selected="false">
+                    <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Initiated
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Pickups"
+                    href="#pickups" role="tab" aria-selected="false">
+                    <i class="ri-truck-line me-1 align-bottom"></i> Processing
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returns"
+                    href="#returns" role="tab" aria-selected="false">
+                    <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Accepted
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Cancelled"
+                    href="#cancelled" role="tab" aria-selected="false">
+                    <i class="ri-close-circle-line me-1 align-bottom"></i> Rejected
+                    </a>
+                    </li>
+                    </ul>*@
 
-                    <div class="col-sm-auto ms-auto">
-                        <div class="hstack gap-2">
+                    <div class="table-responsive table-card mb-1">
+                        <table class="table table-nowrap align-middle" id="orderTable">
+                            <thead class="text-muted table-light">
+                                <tr class="text-uppercase">
 
-                            <button type="button" class="btn btn-success add-btn"
-                                    data-bs-toggle="modal" id="create-btn"
-                                    data-bs-target="#AddModal">
-                                <i class="ri-add-line align-bottom me-1"></i> @sharedResource["Add Store"]
-                            </button>
+                                   
+                                    <th class="sort" data-sort="product_name"> @sharedResource["Trade Name"]</th>
+                                    <th class="sort" data-sort="date"> @sharedResource["Responsible Name For Supply"]</th>
+                                    <th class="sort" data-sort="amount"> @sharedResource["Address"]</th>
+                                    <th class="sort" data-sort="payment"> @sharedResource["Phone 1"]</th>
+                                    <th class="sort" data-sort="status">@sharedResource["Profile Status"]</th>
+                                    <th class="sort" data-sort="city">@sharedResource["Actions"]</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                @foreach (var item in @Model.StoreList)
+                                {
+                                    <tr>
 
+
+                                       
+                                        <td class="product_name">@item.TradeName</td>
+                                        <td class="date">
+                                            @item.ResponsibleForSupply
+
+
+                                        </td>
+                                        <td class="amount">@item.Address</td>
+                                        <td class="payment">@item.Phone1</td>
+                                        <td class="status">
+                                            @if (@item.StoreProfileStatusId == 1)
+                                            {
+                                                if (Model.BrowserCulture == "en-US")
+                                                {
+                                                    <span class="badge badge-soft-danger text-uppercase">@item.StoreProfileStatus.StatusEnglishTitle</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-soft-danger text-uppercase">@item.StoreProfileStatus.StatusArabicTitle</span>
+
+                                                }
+
+                                            }
+                                            else if (@item.StoreProfileStatusId == 2)
+                                            {
+                                                 if (Model.BrowserCulture == "en-US")
+                                                {
+                                                    <span class="badge badge-soft-primary text-uppercase">@item.StoreProfileStatus.StatusEnglishTitle</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-soft-primary text-uppercase">@item.StoreProfileStatus.StatusArabicTitle</span>
+
+                                                }
+
+                                            }
+                                            else if (@item.StoreProfileStatusId == 3)
+                                            {
+                                                if (Model.BrowserCulture == "en-US")
+                                                {
+                                                    <span class="badge badge-soft-success text-uppercase">@item.StoreProfileStatus.StatusEnglishTitle</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-soft-success text-uppercase">@item.StoreProfileStatus.StatusArabicTitle</span>
+
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                if (Model.BrowserCulture == "en-US")
+                                                {
+                                                    <span class="badge badge-soft-warning text-uppercase">@item.StoreProfileStatus.StatusEnglishTitle</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-soft-warning text-uppercase">@item.StoreProfileStatus.StatusArabicTitle</span>
+
+                                                }
+
+                                            }
+                                        </td>
+                                        <td>
+                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                    data-bs-trigger="hover" data-bs-placement="top"
+                                                    title="View">
+                                                    <a asp-area="CRM" asp-page="../ManageStore/Profile/ProfileDetails" asp-route-vendorId="@item.StoreId" class="text-primary d-inline-block">
+                                                        <i class="ri-eye-fill fs-16"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item edit"
+                                                    data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <a asp-area="CRM" asp-page="../ManageStore/Profile/index" asp-route-vendorId="@item.StoreId"
+                                                       class="text-primary d-inline-block edit-item-btn">
+                                                        <i class="ri-pencil-fill fs-16"></i>
+                                                    </a>
+                                                </li>
+                                           @*     <li class="list-inline-item" data-bs-toggle="tooltip"
+                                                    data-bs-trigger="hover" data-bs-placement="top"
+                                                    title="Remove">
+                                                    <a class="text-danger d-inline-block remove-item-btn"
+                                                       data-bs-toggle="modal" href="#deleteOrder">
+                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                    </a>
+                                                </li>*@
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <a class="page-item pagination-prev disabled" href="#">
+                                Previous
+                            </a>
+                            <ul class="pagination listjs-pagination mb-0"></ul>
+                            <a class="page-item pagination-next" href="#">
+                                Next
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div>
-                    <div class="table-responsive table-card">
-                        <table id="myTable" class="table  dt-responsive nowrap  align-middle" style="width:100%">
-                            <thead class="table-light">
-                                <tr>
-                             
-                                    <th data-ordering="false">@sharedResource["Store Name"]</th>
-                                    <th data-ordering="false">@sharedResource["Address"]</th>
-                                    <th data-ordering="false">@sharedResource["Email"]</th>
-                                    <th data-ordering="false">@sharedResource["Actions"]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                <tbody class="list form-check-all">
-                                        @{
-                                            foreach (var item in Model.StoreList)
-                                            {
-                                            <tr>
 
-                                             
-                                                <td class="company_name">@item.StoreName</td>
-                                                <td class="leads_score">@item.Address</td>
-                                                <td class="phone">@item.Email</td>
-                                            
-
-
-                                                <td>
-                                                    <ul class="list-inline hstack gap-2 mb-0">
-
-
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["View"]>
-                                                            <a href="javascript:void(0)" data-bs-toggle="modal">
-                                                                <i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp(@item.StoreId)"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["Edit"]>
-                                                            <a class="edit-item-btn" href="javascript:void(0)"
-                                                               data-bs-toggle="modal">
-                                                                <i class="ri-pencil-fill align-bottom text-muted" onclick="editButtonClick(@item.StoreId)"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["Delete"]>
-                                                            <a class="remove-item-btn" data-bs-toggle="modal"
-                                                               href="javascript:void(0)">
-                                                                <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteCatagory(@item.StoreId)"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-
-
-                                            </tr>
-                                            }
-                                        }
-
-                                </tbody>
-                                }
-
-                        </table>
-                    </div>
-
-                </div>
 
             </div>
-
-            <!--end modal-->
         </div>
+
     </div>
     <!--end col-->
 </div>
 
-<partial name="_AddPopup" model="@Model.store" view-data="ViewData" />
-@*<partial name="_ViewPopup" model="@Model.store" view-data="ViewData" />
-<partial name="_EditPopup" model="@Model.store" view-data="ViewData" />*@
+
 <partial name="_DatchDelete" model="@Model.store" view-data="ViewData" />
 
 <!--datatable js-->
@@ -140,167 +219,9 @@
     <!-- crm leads init -->
     <script src="~/assets/js/pages/crm-leads.init.js"></script>
 }
-<script>
-
-    var flag = false;
-    function initMap() {
-        var markers = [];
-        var uniqueId = 1;
-        var myLatlng = { lat: 24.466667, lng: 54.366669 };
-        var map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 4,
-            center: myLatlng,
-        });
-
-        var infoWindow = new google.maps.InfoWindow({
-            content: "Select Location",
-            position: myLatlng,
-        });
-
-        infoWindow.open(map);
-        map.addListener("click", function (mapsMouseEvent) {
-
-
-            var jsonobj = JSON.stringify(mapsMouseEvent.latLng.toJSON());
-            var myObj = JSON.parse(jsonobj);
-            sendReq(myObj);
-            var MarkerObj = { lat: myObj.lat, lng: myObj.lng };
-            var marker = new google.maps.Marker({
-                position: MarkerObj,
-                map: map
-            });
-            marker.id = uniqueId;
-            uniqueId++;
-            markers.push(marker);
-            for (var i = 0; i < markers.length; i++) {
-                if (markers[i].id == marker.id - 1) {
-                    markers[i].setMap(null);
-                    markers.splice(i, 1);
-                    return;
-                }
-            }
-            infoWindow.open(map, marker);
-            infoWindow.close();
-            infoWindow = new google.maps.InfoWindow({
-                position: mapsMouseEvent.latLng,
-            });
-
-        });
-
-    }
-    window.initMap = initMap;
-    function sendReq(obj) {
-        flag = true;
-        console.log(obj);
-        document.getElementById("LatId").value = obj.lat;
-        document.getElementById("LngId").value = obj.lng;
-    }
-   
-
-
- 
-
-</script>
-
-<script>
 
 
 
 
 
 
-    //function editButtonClick(CategoryId) {
-    //    console.log(CategoryId);
-    //    $.ajax({
-    //        type: "GET",
-    //        beforeSend: function (xhr) {
-    //            xhr.setRequestHeader("XSRF-TOKEN",
-    //                $('input:hidden[name="__RequestVerificationToken"]').val());
-    //        }
-    //        ,
-    //        url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForEdit",
-
-    //        data: { "CategoryId": CategoryId },
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (response) {
-    //            document.getElementsByClassName('categoryImgCla')[0].src = "/" + response.CategoryPic
-    //            document.getElementById("CategoryHiddenId").value = response.CategoryId
-    //            document.getElementById("CategoryPicHiddenId").value = response.CategoryPic
-    //            document.getElementById("CategoryTLARId").value = response.CategoryTLAR
-    //            document.getElementById("CategoryTLENId").value = response.CategoryTLEN
-    //            document.getElementById("IsActiveId").checked = response.IsActive
-    //            document.getElementById("SortOrderId").value = response.OrderIndex
-
-
-    //            $('#showEditModal').modal('show');
-
-
-    //        },
-
-    //        failure: function (response) {
-    //            alert(response);
-    //        }
-    //    });
-    //}
-
-
-    //function ShowViewPopUp(CategoryId) {
-
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForView",
-    //        data: { "CategoryId": CategoryId },
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (response) {
-
-    //            document.getElementById("DCategoryPicId").src = "/" + response.CategoryPic
-    //            document.getElementById("DCategoryTLARId").innerHTML = response.CategoryTLAR
-    //            document.getElementById("DCategoryTLENId").innerHTML = response.CategoryTLEN
-
-    //            document.getElementById("DSortOrderId").innerHTML = response.OrderIndex
-    //            document.getElementById("DIsActiveId").innerHTML = response.IsActive
-    //            if (response.IsActive == true) {
-    //                document.getElementById("DIsActiveId").innerHTML = "Active"
-
-    //            }
-    //            else {
-    //                document.getElementById("DIsActiveId").innerHTML = "Not Active"
-    //            }
-
-    //            $('#QuickViewPoup').modal('show');
-
-    //        },
-    //        failure: function (response) {
-    //            alert(response);
-    //        }
-    //    });
-
-    //}
-    function deleteCatagory(StoreId) {
-
-
-        $.ajax({
-            type: "GET",
-            url: "/CRM/Configurations/ManageStore/Index?handler=SingleStoreForDelete",
-            data: { "StoreId": StoreId },
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-               
-                document.getElementById("DeleteStoreId").value = response.StoreId
-               
-                $('#deleteRecordModal').modal('show');
-
-
-            },
-            failure: function (response) {
-                alert(response);
-            }
-        });
-    }
-
-
-
-</script>  

@@ -46,9 +46,9 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
         {
 
 
-            var recordsTotal = _context.Sizes.Count();
+            var recordsTotal = _context.Sizes.Where(e => e.IsDeleted == false).Count();
 
-            var customersQuery = _context.Sizes.Select(i => new
+            var customersQuery = _context.Sizes.Where(e => e.IsDeleted == false).Select(i => new
             {
                 SizeId = i.SizeId,
                 SizeTLAR = i.SizeTLAR,
@@ -148,6 +148,43 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
         {
             var Result = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
             return new JsonResult(Result);
+        }
+        public IActionResult OnGetSingleStepTwoForDelete(int SizeId)
+        {
+            var Result = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+            return new JsonResult(Result);
+        }
+        public async Task<IActionResult> OnPostDeleteStepTwo(int SizeId)
+        {
+            try
+            {
+                var model = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+                if (model == null)
+                {
+                    _toastNotification.AddErrorToastMessage("Object Not Found");
+
+                    return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+                }
+                model.IsDeleted = true;
+                var UpdatedStepTwo = _context.Sizes.Attach(model);
+
+                UpdatedStepTwo.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                _context.SaveChanges();
+
+                _toastNotification.AddSuccessToastMessage("Step Deleted Successfully");
+
+
+
+            }
+            catch (Exception)
+            {
+                _toastNotification.AddErrorToastMessage("Something went Error");
+
+            }
+
+            return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+
         }
 
         private string UploadImage(string folderPath, IFormFile file)

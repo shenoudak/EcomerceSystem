@@ -47,9 +47,9 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
         {
 
 
-            var recordsTotal = _context.Colors.Count();
+            var recordsTotal = _context.Colors.Where(e=>e.IsDeleted==false).Count();
 
-            var customersQuery = _context.Colors.Select(i => new
+            var customersQuery = _context.Colors.Where(e => e.IsDeleted == false).Select(i => new
             {
                 ColorId = i.ColorId,
                 ColorTLAR = i.ColorTLAR,
@@ -149,6 +149,43 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
         {
             var Result = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
             return new JsonResult(Result);
+        }
+        public IActionResult OnGetSingleStepOneForDelete(int ColorId)
+        {
+            var Result = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+            return new JsonResult(Result);
+        }
+        public async Task<IActionResult> OnPostDeleteStepOne(int ColorId)
+        {
+            try
+            {
+                var model = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+                if (model == null)
+                {
+                    _toastNotification.AddErrorToastMessage("Object Not Found");
+
+                    return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
+                }
+                model.IsDeleted = true;
+                var UpdatedStepOne = _context.Colors.Attach(model);
+
+                UpdatedStepOne.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                _context.SaveChanges();
+
+                _toastNotification.AddSuccessToastMessage("Step Deleted Successfully");
+
+
+
+            }
+            catch (Exception)
+            {
+                _toastNotification.AddErrorToastMessage("Something went Error");
+
+            }
+
+            return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
+
         }
 
         private string UploadImage(string folderPath, IFormFile file)

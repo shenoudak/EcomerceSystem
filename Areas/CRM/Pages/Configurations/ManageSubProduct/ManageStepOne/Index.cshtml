@@ -76,7 +76,7 @@
 <partial name="_AddPopup" model="@Model.addStepOne" view-data="ViewData" />
 <partial name="_ViewPopup" model="@Model.addStepOne" view-data="ViewData" />
 <partial name="_EditPopup" model="@Model.addStepOne" view-data="ViewData" />
-@*<partial name="_DatchDelete" model="@Model.category" view-data="ViewData" />*@
+<partial name="_DatchDelete" model="@Model.addStepOne" view-data="ViewData" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -130,7 +130,7 @@
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return `
-                                <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.ColorId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepOne('${row.ColorId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteCategory('${row.ColorId}')"></i> </a></li></ul>
+                                <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.ColorId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepOne('${row.ColorId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteStepOne('${row.ColorId}')"></i> </a></li></ul>
 
 
           `;
@@ -242,19 +242,19 @@
         });
 
     }
-    function deleteCatagory(CategoryId) {
+    function deleteStepOne(ColorId) {
 
 
         $.ajax({
             type: "GET",
-            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForDelete",
-            data: { "CategoryId": CategoryId },
+            url: "/CRM/Configurations/ManageSubProduct/ManageStepOne/Index?handler=SingleStepOneForDelete",
+            data: { "ColorId": ColorId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                console.log("Enter In Catagory")
-                document.getElementById("DeleteCategoryId").value = response.CategoryId
-                console.log("After In Catagory")
+                
+                document.getElementById("DeleteColorId").value = response.ColorId
+           
                 $('#deleteRecordModal').modal('show');
 
 

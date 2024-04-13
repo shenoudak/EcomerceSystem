@@ -10,5 +10,6 @@ namespace Jovera.Models
         public string SizeTLAR { get; set; }
         [Required]
         public string SizeTLEN { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

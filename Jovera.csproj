@@ -84,6 +84,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\CRM\Pages\Configurations\ManageStore\Profile\Index.cshtml" />
+    <None Include="Areas\CRM\Pages\Configurations\ManageStore\Profile\ProfileDetails.cshtml" />
     <None Include="Areas\CRM\Pages\SystemConfiguration\ManagePageContent\Edit.cshtml" />
     <None Include="Areas\CRM\Pages\SystemConfiguration\ManagePageContent\Index.cshtml" />
     <None Include="Areas\CRM\Pages\SystemConfiguration\SocialLinks\Index.cshtml" />

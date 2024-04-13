@@ -10,5 +10,6 @@ namespace Jovera.Models
         public string ColorTLAR { get; set; }
         [Required]
         public string ColorTLEN { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
