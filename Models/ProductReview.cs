@@ -11,7 +11,10 @@ namespace Jovera.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Review { get; set; }
-        [JsonIgnore]
+		public int ItemId { get; set; }
+		[JsonIgnore]
+		public virtual Item Item { get; set; }
+		[JsonIgnore]
         public virtual Customer Customer { get; set; }
     }
 }

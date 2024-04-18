@@ -1,6 +1,6 @@
 ﻿@{
 }
-@model Jovera.Models.Size
+@model Jovera.Models.StepTwo
 
 <div class="modal fade" id="showEditModal" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -14,23 +14,23 @@
         
             <form asp-area="CRM" asp-page="/Configurations/ManageSubProduct/ManageStepTwo/Index" asp-page-handler="EditStepTwo" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <input type="hidden" id="SizeHiddenId" asp-for="@Model.SizeId" />
+                    <input type="hidden" id="SizeHiddenId" asp-for="@Model.StepTwoId" />
                     <div class="row g-3">
 
                         <div class="col-lg-6">
                             <div>
-                                <label asp-for="@Model.SizeTLAR" class="form-label">@sharedResource["Arabic Title"]</label>
+                                <label asp-for="@Model.StepTwoTLAR" class="form-label">@sharedResource["Arabic Title"]</label>
 
-                                <input type="text" asp-for="@Model.SizeTLAR" class="form-control" id="SizeTLARId" placeholder="@sharedResource["Enter Arabic Title"]" required />
+                                <input type="text" asp-for="@Model.StepTwoTLAR" class="form-control" id="SizeTLARId" placeholder="@sharedResource["Enter Arabic Title"]" required />
 
-                                <span asp-validation-for="@Model.SizeTLAR" class="text-danger"></span>
+                                <span asp-validation-for="@Model.StepTwoTLAR" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div>
-                                <label for="@Model.SizeTLEN" class="form-label">@sharedResource["English Title"]</label>
-                                <input type="text" asp-for="@Model.SizeTLEN" class="form-control" id="SizeTLENId" placeholder="@sharedResource["Enter English Title"]" required />
-                                <span asp-validation-for="@Model.SizeTLEN" class="text-danger"></span>
+                                <label for="@Model.StepTwoTLEN" class="form-label">@sharedResource["English Title"]</label>
+                                <input type="text" asp-for="@Model.StepTwoTLEN" class="form-control" id="SizeTLENId" placeholder="@sharedResource["Enter English Title"]" required />
+                                <span asp-validation-for="@Model.StepTwoTLEN" class="text-danger"></span>
                             </div>
                         </div>
 

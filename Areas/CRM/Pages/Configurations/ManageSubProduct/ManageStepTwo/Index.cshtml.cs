@@ -19,8 +19,9 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
         public string url { get; set; }
 
         [BindProperty]
-        public Jovera.Models.Size addStepTwo { get; set; }
-        public Jovera.Models.Size addStepTwoObj { get; set; }
+        public Jovera.Models.StepTwo addStepTwo { get; set; }
+        public Jovera.Models.StepTwo addStepTwoObj { get; set; }
+        public static int staticStepOneId { get; set; }
 
         [BindProperty]
         public DataTablesRequest DataTablesRequest { get; set; }
@@ -31,13 +32,19 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
             _hostEnvironment = hostEnvironment;
             _toastNotification = toastNotification;
             _userManager = userManager;
-            addStepTwo = new Jovera.Models.Size();
-            addStepTwoObj = new Jovera.Models.Size();
+            addStepTwo = new Jovera.Models.StepTwo();
+            addStepTwoObj = new Jovera.Models.StepTwo();
         }
-        public void OnGet()
+        public IActionResult OnGet(int StepOneId)
         {
-
+            var StepOneObj = _context.StepOnes.Where(e => e.StepOneId == StepOneId).FirstOrDefault();
+            if (StepOneObj == null)
+            {
+                return Redirect("/CRM/PageNotFound");
+            }
+            staticStepOneId = StepOneId;
             url = $"{this.Request.Scheme}://{this.Request.Host}";
+            return Page();
         }
 
 
@@ -46,13 +53,13 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
         {
 
 
-            var recordsTotal = _context.Sizes.Where(e => e.IsDeleted == false).Count();
+            var recordsTotal = _context.StepTwos.Where(e => e.IsDeleted == false).Count();
 
-            var customersQuery = _context.Sizes.Where(e => e.IsDeleted == false).Select(i => new
+            var customersQuery = _context.StepTwos.Where(e => e.IsDeleted == false).Select(i => new
             {
-                SizeId = i.SizeId,
-                SizeTLAR = i.SizeTLAR,
-                SizeTLEN = i.SizeTLEN,
+                StepTwoId = i.StepTwoId,
+                StepTwoTLAR = i.StepTwoTLAR,
+                StepTwoTLEN = i.StepTwoTLEN,
 
             }).AsQueryable();
 
@@ -61,8 +68,8 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
             if (!string.IsNullOrWhiteSpace(searchText))
             {
                 customersQuery = customersQuery.Where(s =>
-                    s.SizeTLAR.ToUpper().Contains(searchText) ||
-                    s.SizeTLEN.ToUpper().Contains(searchText)
+                    s.StepTwoTLAR.ToUpper().Contains(searchText) ||
+                    s.StepTwoTLEN.ToUpper().Contains(searchText)
                 );
             }
 
@@ -95,7 +102,8 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
 
             try
             {
-                _context.Sizes.Add(addStepTwo);
+                addStepTwo.StepOneId = staticStepOneId;
+                _context.StepTwos.Add(addStepTwo);
                 _context.SaveChanges();
                 _toastNotification.AddSuccessToastMessage("Added Successfully");
             }
@@ -104,29 +112,30 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
 
                 _toastNotification.AddErrorToastMessage("Something went wrong");
             }
-            return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+            return Redirect($"/crm/configurations/Managesubproduct/managestepTwo/index?StepOneId={staticStepOneId}");
         }
-        public IActionResult OnGetSingleStepTwoForEdit(int SizeId)
+        public IActionResult OnGetSingleStepTwoForEdit(int StepTwoId)
         {
-            addStepTwo = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+            addStepTwo = _context.StepTwos.Where(c => c.StepTwoId == StepTwoId).FirstOrDefault();
 
             return new JsonResult(addStepTwo);
         }
-        public async Task<IActionResult> OnPostEditStepTwo(int SizeId)
+        public async Task<IActionResult> OnPostEditStepTwo(int StepTwoId)
         {
 
             try
             {
-                var model = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+                var model = _context.StepTwos.Where(c => c.StepTwoId == StepTwoId).FirstOrDefault();
                 if (model == null)
                 {
                     _toastNotification.AddErrorToastMessage("Object Not Found");
 
-                    return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+                    return Redirect($"/crm/configurations/Managesubproduct/managestepTwo/index?StepOneId={staticStepOneId}");
                 }
-                model.SizeTLAR = addStepTwo.SizeTLAR;
-                model.SizeTLEN = addStepTwo.SizeTLEN;
-                var UpdatedStepTwo = _context.Sizes.Attach(model);
+                model.StepOneId = staticStepOneId;
+                model.StepTwoTLAR = addStepTwo.StepTwoTLAR;
+                model.StepTwoTLEN = addStepTwo.StepTwoTLEN;
+                var UpdatedStepTwo = _context.StepTwos.Attach(model);
 
                 UpdatedStepTwo.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
@@ -142,31 +151,31 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
                 _toastNotification.AddErrorToastMessage("Something went Error");
 
             }
-            return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+            return Redirect($"/crm/configurations/Managesubproduct/managestepTwo/index?StepOneId={staticStepOneId}");
         }
-        public IActionResult OnGetSingleStepTwoForView(int SizeId)
+        public IActionResult OnGetSingleStepTwoForView(int StepTwoId)
         {
-            var Result = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+            var Result = _context.StepTwos.Where(c => c.StepTwoId == StepTwoId).FirstOrDefault();
             return new JsonResult(Result);
         }
-        public IActionResult OnGetSingleStepTwoForDelete(int SizeId)
+        public IActionResult OnGetSingleStepTwoForDelete(int StepTwoId)
         {
-            var Result = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+            var Result = _context.StepTwos.Where(c => c.StepTwoId == StepTwoId).FirstOrDefault();
             return new JsonResult(Result);
         }
-        public async Task<IActionResult> OnPostDeleteStepTwo(int SizeId)
+        public async Task<IActionResult> OnPostDeleteStepTwo(int StepTwoId)
         {
             try
             {
-                var model = _context.Sizes.Where(c => c.SizeId == SizeId).FirstOrDefault();
+                var model = _context.StepTwos.Where(c => c.StepTwoId == StepTwoId).FirstOrDefault();
                 if (model == null)
                 {
                     _toastNotification.AddErrorToastMessage("Object Not Found");
 
-                    return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+                    return Redirect($"/crm/configurations/Managesubproduct/managestepTwo/index?StepOneId={staticStepOneId}");
                 }
                 model.IsDeleted = true;
-                var UpdatedStepTwo = _context.Sizes.Attach(model);
+                var UpdatedStepTwo = _context.StepTwos.Attach(model);
 
                 UpdatedStepTwo.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
@@ -183,7 +192,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepTwo
 
             }
 
-            return Redirect("/crm/configurations/Managesubproduct/managestepTwo/index");
+            return Redirect($"/crm/configurations/Managesubproduct/managestepTwo/index?StepOneId={staticStepOneId}");
 
         }
 

@@ -47,6 +47,8 @@ namespace Jovera.Pages
             locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
             BrowserCulture = locale.RequestCulture.UICulture.ToString();
             Products = _context.Items.Include(e => e.MiniSubCategory).Where(e => e.IsActive == true).OrderBy(e => e.OrderIndex).ToList();
+            //var customer = await _context.Customers.FirstOrDefaultAsync();
+            //CustomerId = customer.CustomerId;
 
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
@@ -57,7 +59,7 @@ namespace Jovera.Pages
                     CustomerId = customer.CustomerId;
                 }
             }
-            
+
 
             return Page();
         }
@@ -65,21 +67,21 @@ namespace Jovera.Pages
         {
             try
             {
-                //var user = await _userManager.GetUserAsync(User);
-                //if (user == null)
-                //{
-                //    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false });
-                //}
-                //var customer = await _context.Customers.Where(e => e.CustomerEmail == user.Email).FirstOrDefaultAsync();
-                //if (customer == null)
-                //{
-                //    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false });
-                //}
-                var customer = await _context.Customers.FirstOrDefaultAsync();
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false });
+                }
+                var customer = await _context.Customers.Where(e => e.CustomerEmail == user.Email).FirstOrDefaultAsync();
                 if (customer == null)
                 {
-                    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false, InFav = false });
+                    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false,InFav = false });
                 }
+                //var customer = await _context.Customers.FirstOrDefaultAsync();
+                //if (customer == null)
+                //{
+                //    return new JsonResult(new { IsLogin = false, IsSuccess = false, ItemExist = false, InFav = false });
+                //}
                 var product = _context.Items.Where(c => c.ItemId == ItemId).FirstOrDefault();
                 if (product == null)
                 {

@@ -7,16 +7,16 @@ namespace Jovera.Models
         public int SubProductId { get; set; }
         public int ItemId { get; set; }
        
-        public int? SizeId { get; set; }
-        public int? ColorId { get; set; }
+        public int? StepOneId { get; set; }
+        public int? StepTwoId { get; set; }
         public int? Quantity { get; set; }
         public string ItemQRCode { get; set; }
         [JsonIgnore]
         public virtual Item Item { get; set; }
         [JsonIgnore]
-        public virtual Color Color { get; set; }
+        public virtual StepOne StepOne { get; set; }
         [JsonIgnore]
-        public virtual Size Size { get; set; }
+        public virtual StepTwo StepTwo { get; set; }
         public int? StoreId { get; set; }
         
         [JsonIgnore]

@@ -644,6 +644,7 @@
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\Images\Category\" />
     <Folder Include="wwwroot\Images\Item\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

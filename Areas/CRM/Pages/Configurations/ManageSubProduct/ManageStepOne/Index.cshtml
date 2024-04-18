@@ -130,7 +130,7 @@
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return `
-                                <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.ColorId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepOne('${row.ColorId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteStepOne('${row.ColorId}')"></i> </a></li></ul>
+                                                                    <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.StepOneId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepOne('${row.StepOneId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteStepOne('${row.StepOneId}')"></i> </a></li> <li class="list-inline-item" > <a class="btn btn-success btn-sm" href="../ManageSubProduct/ManageStepTwo/index?StepOneId=${row.StepOneId}" >@sharedResource["Step Two"] </a></li></ul>
 
 
           `;
@@ -140,8 +140,8 @@
 
 
 
-                { "name": "ColorTLEN", "data": "ColorTLEN", "targets": 0, "visible": true, },
-                { "name": "ColorTLAR", "data": "ColorTLAR", "targets": 1 },
+                { "name": "StepOneTLEN", "data": "StepOneTLEN", "targets": 0, "visible": true, },
+                { "name": "StepOneTLAR", "data": "StepOneTLAR", "targets": 1 },
 
 
 
@@ -185,8 +185,8 @@
         //    return true;
         //}
 
-    function editStepOne(ColorId) {
-        console.log(ColorId);
+    function editStepOne(StepOneId) {
+        console.log(StepOneId);
         $.ajax({
             type: "GET",
             beforeSend: function (xhr) {
@@ -196,14 +196,14 @@
             ,
             url: "/CRM/Configurations/ManageSubProduct/ManageStepOne/Index?handler=SingleStepOneForEdit",
 
-            data: { "ColorId": ColorId },
+            data: { "StepOneId": StepOneId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-               
-                document.getElementById("ColorHiddenId").value = response.ColorId
-                document.getElementById("ColorTLARId").value = response.ColorTLAR
-                document.getElementById("ColorTLENId").value = response.ColorTLEN
+                
+                document.getElementById("ColorHiddenId").value = response.StepOneId
+                    document.getElementById("ColorTLARId").value = response.StepOneTLAR
+                    document.getElementById("ColorTLENId").value = response.StepOneTLEN
                
 
                 $('#showEditModal').modal('show');
@@ -218,17 +218,17 @@
     }
 
 
-    function ShowViewPopUp(ColorId) {
+    function ShowViewPopUp(StepOneId) {
 
         $.ajax({
             type: "GET",
             url: "/CRM/Configurations/ManageSubProduct/ManageStepOne/Index?handler=SingleStepOneForView",
-            data: { "ColorId": ColorId },
+            data: { "StepOneId": StepOneId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                document.getElementById("DColorTLARId").innerHTML = response.ColorTLAR
-                document.getElementById("DColorTLENId").innerHTML = response.ColorTLEN
+                document.getElementById("DColorTLARId").innerHTML = response.StepOneTLAR
+                document.getElementById("DColorTLENId").innerHTML = response.StepOneTLEN
 
               
               
@@ -242,18 +242,18 @@
         });
 
     }
-    function deleteStepOne(ColorId) {
+    function deleteStepOne(StepOneId) {
 
 
         $.ajax({
             type: "GET",
             url: "/CRM/Configurations/ManageSubProduct/ManageStepOne/Index?handler=SingleStepOneForDelete",
-            data: { "ColorId": ColorId },
+            data: { "StepOneId": StepOneId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
                 
-                document.getElementById("DeleteColorId").value = response.ColorId
+                document.getElementById("DeleteColorId").value = response.StepOneId
            
                 $('#deleteRecordModal').modal('show');
 

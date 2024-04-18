@@ -12,6 +12,8 @@ namespace Jovera.Models
         public DateTime PublishedDate { get; set; }
         public string ItemImage { get; set; }
         public string BarCode { get; set; }
+        public string ItemMiniDetailsAr { get; set; }
+        public string ItemMiniDetailsEn { get; set; }
         public string ItemDescriptionAr { get; set; }
         public string ItemDescriptionEn { get; set; }
         public double ItemPrice { get; set; }

@@ -1,6 +1,6 @@
 ﻿@{
 }
-@model Jovera.Models.Size
+@model Jovera.Models.StepTwo
 
 <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1"
      aria-labelledby="deleteRecordLabel" aria-hidden="true">
@@ -28,7 +28,7 @@
                         </button>
                         <form asp-area="CRM" asp-page="/Configurations/ManageSubProduct/ManageStepTwo/Index" asp-page-handler="DeleteStepTwo" enctype="multipart/form-data">
 
-                            <input asp-for="@Model.SizeId" id="DeleteSizeId" hidden>
+                            <input asp-for="@Model.StepTwoId" id="DeleteSizeId" hidden>
                             
                             <button class="btn btn-danger" type="submit" id="delete-record">
                                 @sharedResource["Yes,"]

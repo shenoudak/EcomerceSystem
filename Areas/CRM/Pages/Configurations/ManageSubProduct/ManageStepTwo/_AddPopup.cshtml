@@ -1,6 +1,6 @@
 ﻿@{
 }
-@model Jovera.Models.Size
+@model Jovera.Models.StepTwo
 
 <div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="AddModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -18,18 +18,18 @@
                        
                         <div class="col-lg-6">
                             <div>
-                                <label asp-for="@Model.SizeTLAR" class="form-label">@sharedResource["Arabic Title"]</label>
+                                <label asp-for="@Model.StepTwoTLAR" class="form-label">@sharedResource["Arabic Title"]</label>
 
-                                <input type="text" asp-for="@Model.SizeTLAR" class="form-control" placeholder="@sharedResource["Enter Arabic Title"]" required />
+                                <input type="text" asp-for="@Model.StepTwoTLAR" class="form-control" placeholder="@sharedResource["Enter Arabic Title"]" required />
 
-                                <span asp-validation-for="@Model.SizeTLAR" class="text-danger"></span>
+                                <span asp-validation-for="@Model.StepTwoTLAR" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div>
-                                <label for="@Model.SizeTLEN" class="form-label">@sharedResource["English Title"]</label>
-                                <input type="text" asp-for="@Model.SizeTLEN" class="form-control" placeholder="@sharedResource["Enter English Title"]" required />
-                                <span asp-validation-for="@Model.SizeTLEN" class="text-danger"></span>
+                                <label for="@Model.StepTwoTLEN" class="form-label">@sharedResource["English Title"]</label>
+                                <input type="text" asp-for="@Model.StepTwoTLEN" class="form-control" placeholder="@sharedResource["Enter English Title"]" required />
+                                <span asp-validation-for="@Model.StepTwoTLEN" class="text-danger"></span>
                             </div>
                         </div>
                        

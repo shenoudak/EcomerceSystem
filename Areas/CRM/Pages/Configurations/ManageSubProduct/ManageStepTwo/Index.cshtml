@@ -130,7 +130,7 @@
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return `
-                                        <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.SizeId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepTwo('${row.SizeId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteStepTwo('${row.SizeId}')"></i> </a></li></ul>
+                                                    <ul class="list-inline hstack gap-2 mb-0"> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="View"><a href="javascript:void(0)" data-bs-toggle="modal"><i class="ri-eye-fill align-bottom text-muted" onclick="ShowViewPopUp('${row.StepTwoId}')" ></i></a></li> <li class="list-inline-item" data-bs-toggle="tooltip"data-bs-trigger="hover" data-bs-placement="top"title="Edit" ><a class="edit-item-btn" href="javascript:void(0)"data-bs-toggle="modal" > <i class="ri-pencil-fill align-bottom text-muted" onclick="editStepTwo('${row.StepTwoId}')"></i> </a> </li>    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"title="Delete"> <a class="remove-item-btn" data-bs-toggle="modal"href="javascript:void(0)" > <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteStepTwo('${row.StepTwoId}')"></i> </a></li></ul>
 
 
           `;
@@ -140,8 +140,8 @@
 
                
 
-                { "name": "SizeTLEN", "data": "SizeTLEN", "targets": 0, "visible": true, },
-                { "name": "SizeTLAR", "data": "SizeTLAR", "targets": 1 },
+                { "name": "StepTwoTLEN", "data": "StepTwoTLEN", "targets": 0, "visible": true, },
+                { "name": "StepTwoTLAR", "data": "StepTwoTLAR", "targets": 1 },
 
 
 
@@ -185,8 +185,8 @@
         //    return true;
         //}
         
-    function editStepTwo(SizeId) {
-        console.log(SizeId);
+    function editStepTwo(StepTwoId) {
+        console.log(StepTwoId);
         $.ajax({
             type: "GET",
             beforeSend: function (xhr) {
@@ -196,14 +196,14 @@
             ,
             url: "/CRM/Configurations/ManageSubProduct/ManageStepTwo/Index?handler=SingleStepTwoForEdit",
 
-            data: { "SizeId": SizeId },
+            data: { "StepTwoId": StepTwoId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
                
-                document.getElementById("SizeHiddenId").value = response.SizeId
-                document.getElementById("SizeTLARId").value = response.SizeTLAR
-                document.getElementById("SizeTLENId").value = response.SizeTLEN
+                document.getElementById("SizeHiddenId").value = response.StepTwoId
+                document.getElementById("SizeTLARId").value = response.StepTwoTLAR
+                document.getElementById("SizeTLENId").value = response.StepTwoTLEN
                
 
                 $('#showEditModal').modal('show');
@@ -218,18 +218,18 @@
     }
 
 
-    function ShowViewPopUp(SizeId) {
+    function ShowViewPopUp(StepTwoId) {
 
         $.ajax({
             type: "GET",
             url: "/CRM/Configurations/ManageSubProduct/ManageStepTwo/Index?handler=SingleStepTwoForView",
-            data: { "SizeId": SizeId },
+            data: { "StepTwoId": StepTwoId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
                
-                document.getElementById("DSizeTLARId").innerHTML = response.SizeTLAR
-                document.getElementById("DSizeTLENId").innerHTML = response.SizeTLEN
+                document.getElementById("DSizeTLARId").innerHTML = response.StepTwoTLAR
+                document.getElementById("DSizeTLENId").innerHTML = response.StepTwoTLEN
 
               
               
@@ -243,18 +243,18 @@
         });
 
     }
-    function deleteStepTwo(SizeId) {
+    function deleteStepTwo(StepTwoId) {
 
 
         $.ajax({
             type: "GET",
             url: "/CRM/Configurations/ManageSubProduct/ManageStepTwo/Index?handler=SingleStepTwoForDelete",
-            data: { "SizeId": SizeId },
+            data: { "StepTwoId": StepTwoId },
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
 
-                document.getElementById("DeleteSizeId").value = response.SizeId
+                document.getElementById("DeleteSizeId").value = response.StepTwoId
 
                 $('#deleteRecordModal').modal('show');
 

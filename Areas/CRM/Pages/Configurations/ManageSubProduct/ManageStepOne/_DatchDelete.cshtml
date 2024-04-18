@@ -1,6 +1,6 @@
 ﻿@{
 }
-@model Jovera.Models.Color
+@model Jovera.Models.StepOne
 
 <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1"
      aria-labelledby="deleteRecordLabel" aria-hidden="true">
@@ -28,7 +28,7 @@
                         </button>
                         <form asp-area="CRM" asp-page="/Configurations/ManageSubProduct/ManageStepOne/Index" asp-page-handler="DeleteStepOne" enctype="multipart/form-data">
 
-                            <input asp-for="@Model.ColorId" id="DeleteColorId" hidden>
+                            <input asp-for="@Model.StepOneId" id="DeleteColorId" hidden>
                             
                             <button class="btn btn-danger" type="submit" id="delete-record">
                                 @sharedResource["Yes,"]

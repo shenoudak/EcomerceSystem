@@ -58,6 +58,7 @@
     var appendNewMarkup = '';
     var catId=0;
     var query = '';
+    var HtmlFav = '';
     if (localStorage.getItem("catagoryId") === null) {
       catId=0;
     }
@@ -73,6 +74,7 @@
         query = localStorage.getItem("Query");
     }
     var CustomerId = document.getElementById("HiddenCustomerId").value;
+    console.log("CustomerId=" + CustomerId)
    // $('#gridContainer').dxDataGrid('dispose');
     var dataGrid=$('#gridContainer').dxDataGrid({
         dataSource: DevExpress.data.AspNet.createStore({
@@ -89,6 +91,7 @@
             const { data } = item;
             console.log(container);
             console.log(data);
+            console.log(data.isFav);
             checkLang = document.getElementById("checkLang").value;
             
             markup +=`
@@ -119,10 +122,18 @@
                                                         <a href="/ViewProductTest?ProductId=${data.ItemId}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLEN}</a>
                                                         <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="/ViewProductTest?ProductId=${data.ItemId}" class="text-color-dark text-color-hover-primary">${data.ItemTitleEn}</a></h3>
                                             </div>
+                                            `
+                                            if(data.isFav){
+                    HtmlFav = ` <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4" > <i id="item${data.ItemId}" class="far fa-heart" style="color:red" > </i></a >`
 
+                                            }
+                                            else{
+                                            HtmlFav = ` <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4" > <i id="item${data.ItemId}" class="far fa-heart"  > </i></a >`
 
+                                            }
 
-                                                    <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4"><i id="item${data.ItemId}" class="far fa-heart"></i></a>
+                newMarkup += HtmlFav+`
+                                            
                                     </div>
                                     <div title="Rated 5 out of 5">
                                         <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
@@ -143,10 +154,18 @@
                                                                 <a href="/ViewProductTest?ProductId=${data.ItemId}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">${data.MiniSubCategory.MiniSubCategoryTLAR}</a>
                                                                 <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="/ViewProductTest?ProductId=${data.ItemId}" class="text-color-dark text-color-hover-primary">${data.ItemTitleAr}</a></h3>
                                                 </div>
+                                                `
+                                                if(data.isFav){
+                                            HtmlFav=` <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4" > <i id="item${data.ItemId}" class="far fa-heart" style="color:red" > </i></a >`
 
+                                            }
+                                            else{
+                                            HtmlFav = ` <a onclick="AddItemToFavourite(${data.ItemId})"  class="text-decoration-none text-color-default text-color-hover-dark text-4" > <i id="item${data.ItemId}" class="far fa-heart"  > </i></a >`
 
+                                            }
 
-                                                        <a onclick="AddItemToFavourite(${data.ItemId})" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i  id="item${data.ItemId}" class="far fa-heart"></i></a>
+                newMarkup += HtmlFav+`
+
                                         </div>
                                         <div title="Rated 5 out of 5">
                                             <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">

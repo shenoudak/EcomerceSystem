@@ -20,8 +20,8 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
         public string url { get; set; }
 
         [BindProperty]
-        public Jovera.Models.Color addStepOne { get; set; }
-        public Jovera.Models.Color addStepOneObj { get; set; }
+        public Jovera.Models.StepOne addStepOne { get; set; }
+        public Jovera.Models.StepOne addStepOneObj { get; set; }
 
         [BindProperty]
         public DataTablesRequest DataTablesRequest { get; set; }
@@ -32,8 +32,8 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
             _hostEnvironment = hostEnvironment;
             _toastNotification = toastNotification;
             _userManager = userManager;
-            addStepOne = new Jovera.Models.Color();
-            addStepOneObj = new Jovera.Models.Color();
+            addStepOne = new Jovera.Models.StepOne();
+            addStepOneObj = new Jovera.Models.StepOne();
         }
         public void OnGet()
         {
@@ -47,13 +47,13 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
         {
 
 
-            var recordsTotal = _context.Colors.Where(e=>e.IsDeleted==false).Count();
+            var recordsTotal = _context.StepOnes.Where(e=>e.IsDeleted==false).Count();
 
-            var customersQuery = _context.Colors.Where(e => e.IsDeleted == false).Select(i => new
+            var customersQuery = _context.StepOnes.Where(e => e.IsDeleted == false).Select(i => new
             {
-                ColorId = i.ColorId,
-                ColorTLAR = i.ColorTLAR,
-                ColorTLEN = i.ColorTLEN,
+                StepOneId = i.StepOneId,
+                StepOneTLAR = i.StepOneTLAR,
+                StepOneTLEN = i.StepOneTLEN,
                
             }).AsQueryable();
 
@@ -62,8 +62,8 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
             if (!string.IsNullOrWhiteSpace(searchText))
             {
                 customersQuery = customersQuery.Where(s =>
-                    s.ColorTLAR.ToUpper().Contains(searchText) ||
-                    s.ColorTLEN.ToUpper().Contains(searchText)
+                    s.StepOneTLAR.ToUpper().Contains(searchText) ||
+                    s.StepOneTLEN.ToUpper().Contains(searchText)
                 );
             }
 
@@ -96,7 +96,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
 
             try
             {
-                _context.Colors.Add(addStepOne);
+                _context.StepOnes.Add(addStepOne);
                 _context.SaveChanges();
                 _toastNotification.AddSuccessToastMessage("Added Successfully");
             }
@@ -107,27 +107,27 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
             }
             return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
         }
-        public IActionResult OnGetSingleStepOneForEdit(int ColorId)
+        public IActionResult OnGetSingleStepOneForEdit(int StepOneId)
         {
-            addStepOne = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+            addStepOne = _context.StepOnes.Where(c => c.StepOneId == StepOneId).FirstOrDefault();
 
             return new JsonResult(addStepOne);
         }
-        public async Task<IActionResult> OnPostEditStepOne(int ColorId)
+        public async Task<IActionResult> OnPostEditStepOne(int StepOneId)
         {
 
             try
             {
-                var model = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+                var model = _context.StepOnes.Where(c => c.StepOneId == StepOneId).FirstOrDefault();
                 if (model == null)
                 {
                     _toastNotification.AddErrorToastMessage("Object Not Found");
 
                     return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
                 }
-                model.ColorTLAR = addStepOne.ColorTLAR;
-                model.ColorTLEN = addStepOne.ColorTLEN;
-                var UpdatedStepOne = _context.Colors.Attach(model);
+                model.StepOneTLAR = addStepOne.StepOneTLAR;
+                model.StepOneTLEN = addStepOne.StepOneTLEN;
+                var UpdatedStepOne = _context.StepOnes.Attach(model);
 
                 UpdatedStepOne.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
@@ -145,21 +145,21 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
             }
             return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
         }
-        public IActionResult OnGetSingleStepOneForView(int ColorId)
+        public IActionResult OnGetSingleStepOneForView(int StepOneId)
         {
-            var Result = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+            var Result = _context.StepOnes.Where(c => c.StepOneId == StepOneId).FirstOrDefault();
             return new JsonResult(Result);
         }
-        public IActionResult OnGetSingleStepOneForDelete(int ColorId)
+        public IActionResult OnGetSingleStepOneForDelete(int StepOneId)
         {
-            var Result = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+            var Result = _context.StepOnes.Where(c => c.StepOneId == StepOneId).FirstOrDefault();
             return new JsonResult(Result);
         }
-        public async Task<IActionResult> OnPostDeleteStepOne(int ColorId)
+        public async Task<IActionResult> OnPostDeleteStepOne(int StepOneId)
         {
             try
             {
-                var model = _context.Colors.Where(c => c.ColorId == ColorId).FirstOrDefault();
+                var model = _context.StepOnes.Where(c => c.StepOneId == StepOneId).FirstOrDefault();
                 if (model == null)
                 {
                     _toastNotification.AddErrorToastMessage("Object Not Found");
@@ -167,7 +167,7 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageSubProduct.ManageStepOne
                     return Redirect("/crm/configurations/Managesubproduct/managestepone/index");
                 }
                 model.IsDeleted = true;
-                var UpdatedStepOne = _context.Colors.Attach(model);
+                var UpdatedStepOne = _context.StepOnes.Attach(model);
 
                 UpdatedStepOne.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 

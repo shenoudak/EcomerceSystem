@@ -4,6 +4,7 @@ using Jovera.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jovera.Migrations.CRMDB
 {
     [DbContext(typeof(CRMDBContext))]
-    partial class CRMDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240415131726_updateInSubPeoductStepOneAndItemModelsMig")]
+    partial class updateInSubPeoductStepOneAndItemModelsMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,7 +336,7 @@ namespace Jovera.Migrations.CRMDB
                     b.Property<int>("StepTwoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubProductStepOneId")
+                    b.Property<int?>("SubProductStepOneId")
                         .HasColumnType("int");
 
                     b.HasKey("MiniSubProductId");
@@ -421,64 +423,6 @@ namespace Jovera.Migrations.CRMDB
                     b.HasKey("PaymentMethodId");
 
                     b.ToTable("PaymentMehods");
-                });
-
-            modelBuilder.Entity("Jovera.Models.ProductFavourite", b =>
-                {
-                    b.Property<int>("ProductFavouriteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductFavouriteId"), 1L, 1);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductFavouriteId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("ProductFavourites");
-                });
-
-            modelBuilder.Entity("Jovera.Models.ProductReview", b =>
-                {
-                    b.Property<int>("ProductReviewId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductReviewId"), 1L, 1);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Review")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductReviewId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("ProductReviews");
                 });
 
             modelBuilder.Entity("Jovera.Models.SoicialMidiaLink", b =>
@@ -856,51 +800,11 @@ namespace Jovera.Migrations.CRMDB
 
                     b.HasOne("Jovera.Models.SubProductStepOne", "SubProductStepOne")
                         .WithMany("MiniSubProducts")
-                        .HasForeignKey("SubProductStepOneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubProductStepOneId");
 
                     b.Navigation("StepTwo");
 
                     b.Navigation("SubProductStepOne");
-                });
-
-            modelBuilder.Entity("Jovera.Models.ProductFavourite", b =>
-                {
-                    b.HasOne("Jovera.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jovera.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("Jovera.Models.ProductReview", b =>
-                {
-                    b.HasOne("Jovera.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jovera.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Jovera.Models.StepTwo", b =>
