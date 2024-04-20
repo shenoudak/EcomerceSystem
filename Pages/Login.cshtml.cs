@@ -15,7 +15,7 @@ namespace Jovera.Pages
         private readonly ILogger<LoginModel> _logger;
 
 
-
+        //public int MyProperty { get; set; }
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
