@@ -30,36 +30,24 @@ namespace Jovera.Controllers
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, int? catagoriyId = null, string? query = null,int?customerId=null)
         {
 
-            //var items = _context.Items.Include(e => e.MiniSubCategory).ToList();
-            //if (catagoriyId!=null)
-            //{
-            //    items = items.Where(e => e.MiniSubCategoryId == catagoriyId.Value).ToList();
-            //}
-            //if (query != null)
-            //{
-            //    items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query)||e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query)).ToList();
-            //}
-            //items = items.Select(e => new
-            //{
-            //    ItemTitleAr= e.ItemTitleAr
-            //}).ToList();
             var items = _context.Items.Include(e => e.MiniSubCategory).Select(i => new
             {
-                i.MiniSubCategory.MiniSubCategoryTLAR,
-                i.MiniSubCategory.MiniSubCategoryTLEN,
-                i.MiniSubCategory,
-                i.MiniSubCategoryId,
-                i.ItemId,
-                i.ItemImage,
-                i.ItemTitleAr,
-                i.ItemTitleEn,
-                i.OldPrice,
-                i.SellingPriceForCustomer,
-                i.OurSellingPrice,
-                i.ItemPrice,
-                isFav=_context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId)
+                MiniSubCategoryTLAR = i.MiniSubCategory.MiniSubCategoryTLAR,
+                MiniSubCategoryTLEN = i.MiniSubCategory.MiniSubCategoryTLEN,
+                MiniSubCategory = i.MiniSubCategory,
+                MiniSubCategoryId = i.MiniSubCategoryId,
+                ItemId = i.ItemId,
+                ItemImage = i.ItemImage,
+                ItemTitleAr = i.ItemTitleAr,
+                ItemTitleEn = i.ItemTitleEn,
+                OldPrice = i.OldPrice,
+                OurSellingPrice = i.OurSellingPrice,
+                ItemPrice = i.ItemPrice,
+                isFav = _context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId),
+                count = 0
 
             });
+
 
             if (catagoriyId != 0)
             {
@@ -68,18 +56,83 @@ namespace Jovera.Controllers
 
             if (query != null)
             {
-                items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query) || e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query));
+                // items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query) || e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query) || e.ItemTitleAr.Contains(query) || e.ItemTitleEn.Contains(query));
+                items = items.Where(e => e.ItemTitleEn.ToUpper().Contains(query.ToUpper()) || e.ItemTitleAr.ToUpper().Contains(query.ToUpper()));
             }
-            //items = items.AsQueryable();
-            //if (catagoriyId != null)
-            //{
-            //    items = items.Where(e => e.MiniSubCategoryId == catagoriyId).ToList();
+            int itemsCount = items.Count();
+            items = items.Select(i => new
+            {
+                MiniSubCategoryTLAR = i.MiniSubCategory.MiniSubCategoryTLAR,
+                MiniSubCategoryTLEN = i.MiniSubCategory.MiniSubCategoryTLEN,
+                MiniSubCategory = i.MiniSubCategory,
+                MiniSubCategoryId = i.MiniSubCategoryId,
+                ItemId = i.ItemId,
+                ItemImage = i.ItemImage,
+                ItemTitleAr = i.ItemTitleAr,
+                ItemTitleEn = i.ItemTitleEn,
+                OldPrice = i.OldPrice,
+                OurSellingPrice = i.OurSellingPrice,
+                ItemPrice = i.ItemPrice,
+                isFav = _context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId),
+                count = itemsCount
 
-            //}
+            });
+
+
+            ////var items = _context.Items.Include(e => e.MiniSubCategory).Select(i => new DataGridProductReturn
+            ////{
+            ////    MiniSubCategoryTLAR=i.MiniSubCategory.MiniSubCategoryTLAR,
+            ////    MiniSubCategoryTLEN=i.MiniSubCategory.MiniSubCategoryTLEN,
+            ////    MiniSubCategory=i.MiniSubCategory,
+            ////    MiniSubCategoryId=i.MiniSubCategoryId,
+            ////    ItemId=i.ItemId,
+            ////    ItemImage=i.ItemImage,
+            ////    ItemTitleAr=i.ItemTitleAr,
+            ////    ItemTitleEn=i.ItemTitleEn,
+            ////    OldPrice=i.OldPrice,
+            ////    OurSellingPrice = i.OurSellingPrice,
+            ////    ItemPrice=i.ItemPrice,
+            ////    isFav = _context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId),
+            ////    count = 0
+
+            ////}) ;
+
+
+            ////if (catagoriyId != 0)
+            ////{
+            ////    items = items.Where(e => e.MiniSubCategoryId == catagoriyId.Value);
+            ////}
+
+            ////if (query != null)
+            ////{
+            ////   // items = items.Where(e => e.MiniSubCategory.MiniSubCategoryTLEN.Contains(query) || e.MiniSubCategory.MiniSubCategoryTLAR.Contains(query) || e.ItemTitleAr.Contains(query) || e.ItemTitleEn.Contains(query));
+            ////    items = items.Where(e => e.ItemTitleEn.ToUpper().Contains(query.ToUpper())||e.ItemTitleAr.ToUpper().Contains(query.ToUpper()));
+            ////}
+            ////int itemsCount = items.Count();
+            ////items =items.Select(i => new DataGridProductReturn
+            ////{
+            ////    MiniSubCategoryTLAR = i.MiniSubCategory.MiniSubCategoryTLAR,
+            ////    MiniSubCategoryTLEN = i.MiniSubCategory.MiniSubCategoryTLEN,
+            ////    MiniSubCategory = i.MiniSubCategory,
+            ////    MiniSubCategoryId = i.MiniSubCategoryId,
+            ////    ItemId = i.ItemId,
+            ////    ItemImage = i.ItemImage,
+            ////    ItemTitleAr = i.ItemTitleAr,
+            ////    ItemTitleEn = i.ItemTitleEn,
+            ////    OldPrice = i.OldPrice,
+            ////    OurSellingPrice = i.OurSellingPrice,
+            ////    ItemPrice = i.ItemPrice,
+            ////    isFav = _context.ProductFavourites.Any(o => o.ItemId == i.ItemId && o.CustomerId == customerId),
+            ////    count = itemsCount
+
+            ////});
 
 
 
-            return Json(await DataSourceLoader.LoadAsync(items, loadOptions));
+
+
+
+            return Json(await DataSourceLoader.LoadAsync(items,loadOptions));
         }
 
 

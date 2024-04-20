@@ -25,6 +25,7 @@ namespace Jovera.Models
         public bool HasSubProduct { get; set; }
         public int  OrderIndex { get; set; }
         public string  VideoUrl { get; set; }
+        public string  RejectReason { get; set; }
         public int  Quantity { get; set; }
         public bool OutOfStock { get; set; }
         public bool IsDeleted { get; set; }

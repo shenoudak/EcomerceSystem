@@ -23,38 +23,7 @@
 
             <div class="card-body pt-0">
                 <div>
-                    @*  <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
-                    <li class="nav-item">
-                    <a class="nav-link active All py-3" data-bs-toggle="tab" id="All"
-                    href="#home1" role="tab" aria-selected="true">
-                    <i class="ri-store-2-fill me-1 align-bottom"></i> All Orders
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Delivered"
-                    href="#delivered" role="tab" aria-selected="false">
-                    <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Initiated
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Pickups"
-                    href="#pickups" role="tab" aria-selected="false">
-                    <i class="ri-truck-line me-1 align-bottom"></i> Processing
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returns"
-                    href="#returns" role="tab" aria-selected="false">
-                    <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Accepted
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Cancelled"
-                    href="#cancelled" role="tab" aria-selected="false">
-                    <i class="ri-close-circle-line me-1 align-bottom"></i> Rejected
-                    </a>
-                    </li>
-                    </ul>*@
+                 
 
                     <div class="table-responsive table-card mb-1">
                         <table class="table table-nowrap align-middle" id="orderTable">
@@ -160,14 +129,14 @@
                                                         <i class="ri-pencil-fill fs-16"></i>
                                                     </a>
                                                 </li>
-                                           @*     <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                    data-bs-trigger="hover" data-bs-placement="top"
-                                                    title="Remove">
-                                                    <a class="text-danger d-inline-block remove-item-btn"
-                                                       data-bs-toggle="modal" href="#deleteOrder">
-                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
+                                                <li class="list-inline-item">
+
+                                                    <a class="btn btn-success btn-sm" asp-page="../ManageItem/index" asp-route-vendorId="@item.StoreId">
+                                                        @sharedResource["Added Products"]
+
                                                     </a>
-                                                </li>*@
+                                                </li>
+                                          
                                             </ul>
                                         </td>
                                     </tr>

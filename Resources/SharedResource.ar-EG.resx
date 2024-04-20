@@ -135,6 +135,9 @@
   <data name="Actions1" xml:space="preserve">
     <value>الإجراءات</value>
   </data>
+  <data name="Activate Product" xml:space="preserve">
+    <value>تنشيط المنتج</value>
+  </data>
   <data name="Active" xml:space="preserve">
     <value>نشط</value>
   </data>
@@ -393,6 +396,9 @@
   <data name="Didn't have any account?" xml:space="preserve">
     <value>ليس لدي حساب ؟</value>
   </data>
+  <data name="Discount Ratio" xml:space="preserve">
+    <value>نسبة التخفيض</value>
+  </data>
   <data name="Do you already have an account ?" xml:space="preserve">
     <value>هل لديك حساب بالفعل</value>
   </data>
@@ -501,6 +507,9 @@
   <data name="Enter current password" xml:space="preserve">
     <value>إدخل الرقم السري الحالي</value>
   </data>
+  <data name="Enter Discount Ratio" xml:space="preserve">
+    <value>إدخل نسبة التخفيض</value>
+  </data>
   <data name="Enter English Description" xml:space="preserve">
     <value>إدخل الوصف باللغة الانجليزية</value>
   </data>
@@ -531,11 +540,17 @@
   <data name="Enter Product Price" xml:space="preserve">
     <value>إدخل سعر المنتج</value>
   </data>
+  <data name="Enter Product Price On Public Site" xml:space="preserve">
+    <value>إدخل سعر المنتج علي الموقع الخارجي</value>
+  </data>
   <data name="Enter Product Price1" xml:space="preserve">
     <value>إدخل سعر المنتج</value>
   </data>
   <data name="Enter Quantity" xml:space="preserve">
     <value>إدخل الكمية</value>
+  </data>
+  <data name="Enter Reject Product Reason" xml:space="preserve">
+    <value>إدخل سبب رفض المنتج</value>
   </data>
   <data name="Enter Reject Profile Reason" xml:space="preserve">
     <value>إدخل سبب رفض الملف الشخصي للبائع</value>
@@ -879,6 +894,9 @@
   <data name="Price :1" xml:space="preserve">
     <value>السعر :</value>
   </data>
+  <data name="Price After Discount" xml:space="preserve">
+    <value>السعر بعد الخصم</value>
+  </data>
   <data name="Price1" xml:space="preserve">
     <value>السعر</value>
   </data>
@@ -908,6 +926,12 @@
   </data>
   <data name="Product Image1" xml:space="preserve">
     <value>صورة المنتج</value>
+  </data>
+  <data name="Product Price On Public Site" xml:space="preserve">
+    <value>سعر المنتج علي الموقع الخارجي</value>
+  </data>
+  <data name="Product Status" xml:space="preserve">
+    <value>حالة المنتج</value>
   </data>
   <data name="Product1" xml:space="preserve">
     <value>المنتج</value>
@@ -953,6 +977,12 @@
   </data>
   <data name="Register1" xml:space="preserve">
     <value>انشاء حساب جديد</value>
+  </data>
+  <data name="Reject Product" xml:space="preserve">
+    <value>رفض المنتج </value>
+  </data>
+  <data name="Reject Product Reason" xml:space="preserve">
+    <value>سبب رفض المنتج</value>
   </data>
   <data name="Reject Profile" xml:space="preserve">
     <value>رفض الملف الشخصي للبائع</value>
@@ -1160,6 +1190,9 @@
   </data>
   <data name="Update Product Quantity" xml:space="preserve">
     <value>تعديل كمية المنتج</value>
+  </data>
+  <data name="Update Product Status" xml:space="preserve">
+    <value>تعديل حالة المنتج</value>
   </data>
   <data name="Update Status" xml:space="preserve">
     <value>تعديل حالة الملف الشخصي</value>

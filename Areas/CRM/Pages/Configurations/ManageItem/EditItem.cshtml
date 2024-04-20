@@ -73,24 +73,41 @@
                                             <span asp-validation-for="EditItem.ItemTitleEn" class="text-danger"></span>
                                         </div>
                                     </div>
+                                   
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="EditItem.ItemPrice" class="form-label">@sharedResource["Price"]</label>
-                                            <input id="ItemPriceId" type="number" min="1" asp-for="EditItem.ItemPrice" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Product Price"]" required />
-                                            <span asp-validation-for="EditItem.ItemPrice" class="text-danger"></span>
+                                            <label for="EditItem.OurSellingPrice" class="form-label">@sharedResource["Our Selling Price"]</label>
+                                            <input type="number" min="1" asp-for="EditItem.OurSellingPrice" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Our Selling Price"]" required />
+                                            <span asp-validation-for="EditItem.OurSellingPrice" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="EditItem.OrderIndex" class="form-label">@sharedResource["Sort Index"]</label>
-                                            <input id="OrderIndexId" type="number" min="1" asp-for="EditItem.OrderIndex" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Sort Index"]" required />
-                                            <span asp-validation-for="EditItem.OrderIndex" class="text-danger"></span>
+                                            <label for="EditItem.SellingPriceForCustomer" class="form-label">@sharedResource["Selling Price To Customer"]</label>
+                                            <input type="number" min="1" asp-for="EditItem.SellingPriceForCustomer" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Selling Price To Customer"]" required />
+                                            <span asp-validation-for="EditItem.SellingPriceForCustomer" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.ItemMiniDetailsAr" class="form-label">@sharedResource["Mini Details In Arabic"]</label>
+
+                                            <textarea type="text" asp-for="EditItem.ItemMiniDetailsAr" class="form-control" placeholder="@sharedResource["Enter Mini Details In Arabic"]" required></textarea>
+                                            <span asp-validation-for="EditItem.ItemMiniDetailsAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="EditItem.ItemMiniDetailsEn" class="form-label">@sharedResource["Mini Details In English"]</label>
+                                            <textarea type="text" asp-for="EditItem.ItemMiniDetailsEn" class="form-control" placeholder="@sharedResource["Enter Mini Details In English"]"></textarea>
+                                            <span asp-validation-for="EditItem.ItemMiniDetailsEn" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="EditItem.ItemDescriptionAr" class="form-label">@sharedResource["Arabic Description"]</label>
-                                            <textarea id="ItemDescriptionId" asp-for="EditItem.ItemDescriptionAr" class="form-control" placeholder="@sharedResource["Enter Arabic Description"]"></textarea>
+                                            <textarea id="ItemDescriptionId" asp-for="EditItem.ItemDescriptionAr" class="form-control textAreaCl" placeholder="@sharedResource["Enter Arabic Description"]"></textarea>
                                             <span asp-validation-for="EditItem.ItemDescriptionAr" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -99,7 +116,7 @@
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="EditItem.ItemDescriptionEn" class="form-label">@sharedResource["English Description"]</label>
-                                            <textarea id="EItemDescriptionId" asp-for="EditItem.ItemDescriptionEn" class="form-control" placeholder="@sharedResource["Enter English Description"]"></textarea>
+                                            <textarea id="EItemDescriptionId" asp-for="EditItem.ItemDescriptionEn" class="form-control textAreaCl" placeholder="@sharedResource["Enter English Description"]"></textarea>
                                             <span asp-validation-for="EditItem.ItemDescriptionEn" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -136,31 +153,53 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
+                                            <label for="EditItem.OrderIndex" class="form-label">@sharedResource["Sort Index"]</label>
+                                            <input id="OrderIndexId" type="number" min="1" asp-for="EditItem.OrderIndex" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Sort Index"]" required />
+                                            <span asp-validation-for="EditItem.OrderIndex" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="formFile" class="form-label">@sharedResource["Adding Others Images For Item"]</label>
+                                        <input class="form-control" multiple name="Editfilepond" type="file">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
                                             <label for="EditItem.VideoUrl" class="form-label">@sharedResource["Video Url"]</label>
                                             <input id="VideoUrlId" type="url" asp-for="EditItem.VideoUrl" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Video URL"]" />
                                             <span asp-validation-for="EditItem.VideoUrl" class="text-danger"></span>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-12 form-group">
-                                        <label for="formFile" class="form-label">@sharedResource["Adding Others Images For Item"]</label>
-                                        <input class="form-control" multiple name="Editfilepond" type="file">
-                                    </div>
-                                    <div class="col-lg-6">
+                                   
+                                    
+                                   @* <div class="col-lg-6">
                                         <div class="form-check">
                                             <input asp-for="EditItem.IsActive" class="form-check-input" id="IsActiveId" type="checkbox">
                                             <label for="EditItem.IsActive" class="form-check-label">@sharedResource["Active"]</label>
                                             <span asp-validation-for="EditItem.IsActive" class="text-danger"></span>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-check">
-                                            <input asp-for="EditItem.HasSubProduct" class="form-check-input" id="HasSubProductId" type="checkbox">
-                                            <label for="EditItem.HasSubProduct" class="form-check-label">@sharedResource["Has SubProduct"]</label>
-                                            <span asp-validation-for="EditItem.HasSubProduct" class="text-danger"></span>
+                                    </div>*@
+                                    @*@if (!Model.EditItem.HasSubProduct)
+                                    {
+                                        <div class="col-lg-6">
+                                            <div class="form-check">
+                                                <input asp-for="EditItem.HasSubProduct" class="form-check-input" id="checkboxId" type="checkbox">
+                                                <label for="EditItem.HasSubProduct" class="form-check-label">@sharedResource["Has SubProduct"]</label>
+                                                <span asp-validation-for="EditItem.HasSubProduct" class="text-danger"></span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }*@
+                                   
+                                    @*@if (!(@Model.EditItem.HasSubProduct))
+                                    {*@
+                                        <div class="col-lg-6" id="itemQuaintityId">
+                                            <div>
+                                                <label for="EditItem.Quantity" class="form-label">@sharedResource["Quantity"]</label>
+                                                <input type="number" min="0" asp-for="EditItem.Quantity" id="company_name-field" class="form-control" placeholder="@sharedResource["Enter Quantity"]" />
+                                                <span asp-validation-for="EditItem.Quantity" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                   @* }*@
+                                 
                                 </div>
                                 <div class="row  mt-2" id="images_container">
                                     <div class="col-12">
@@ -173,10 +212,12 @@
                                     </div>
 
                                 </div>
+
+                            
                                 <!--end row-->
                             </div>
 
-                            <div class="modal-footer">
+                            <div class="modal-footer pt-2">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">@sharedResource["Close"]</button>
                                     <button class="btn btn-success" id="add-btn">@sharedResource["Edit Product"]</button>
@@ -207,7 +248,7 @@
 
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: '.textAreaCl',
             statusbar: false,
             promotion: false,
             branding: false,
@@ -226,6 +267,14 @@
         document.getElementsByClassName('itemImgCla')[0].src = "/" +ProdPic
         var domainUrl = document.getElementById("UrlId").value;
         var ItemId = document.getElementById("HiddenId").value;
+        //const checkbox = document.getElementById('checkboxId');
+        //const box = document.getElementById('itemQuaintityId');
+        //if (checkbox.checked) {
+
+        //    box.style.display = 'none';
+        //} else {
+        //    box.style.display = 'block';
+        //}
        
         console.log("ItemId = "+ItemId);
         console.log("ItemId = " + domainUrl);
@@ -294,7 +343,17 @@
                 console.log("error")
             })
     }
-  
+    const checkbox = document.getElementById('checkboxId');
+    const box = document.getElementById('itemQuaintityId');
+
+    checkbox.addEventListener('click', function handleClick() {
+        if (checkbox.checked) {
+
+            box.style.display = 'none';
+        } else {
+            box.style.display = 'block';
+        }
+    });
     
 
 

@@ -83,15 +83,23 @@
             onBeforeSend(method, ajaxOptions) {
                 ajaxOptions.xhrFields = { withCredentials: true };
             },
+            //onLoading: function (loadOptions: any) {
+            //    console.log(loadOptions);
+            //},
         }),
        
         dataRowTemplate(container, item) {
             count++;
-             console.log(item);
+            console.log("Item");
+            console.log(item);
             const { data } = item;
-            console.log(container);
-            console.log(data);
-            console.log(data.isFav);
+            //console.log("DataGrid");
+            //console.log(dataGrid);
+            console.log("remainig");
+            var remainig = data.count % 4;
+            console.log(remainig);
+            console.log("Count");
+            console.log(data.count);
             checkLang = document.getElementById("checkLang").value;
             
             markup +=`
@@ -186,14 +194,29 @@
             markup +=newMarkup+appendNewMarkup;
              
            
-            
+            if(data.count<4){
+                if (count == data.count){
+                    markup += '</tr>'
+                    container.append(markup);
+                    markup = '<tr class=\'main-row\'>';
+                }
+               
+               
+            }
              
             if (count%4==0) {
 
                 markup += '</tr>'
                 container.append(markup);
                 markup = '<tr class=\'main-row\'>';
-               
+                
+            }
+            if (count == data.count) {
+
+                markup += '</tr>'
+                container.append(markup);
+                markup = '<tr class=\'main-row\'>';
+                count=0;
             }
             
          
@@ -231,7 +254,9 @@
         width: 1140,
         showBorders: false,
     }).dxDataGrid('instance');
-   
+   //var num=dataGrid.Items.Count;
+   // console.log("Grid Count=")
+   //  console.log(num)
     function assignValuesInLocalStorage(catagoryId,Query) {
         localStorage.setItem('catagoryId', catagoryId);
         localStorage.setItem('Query', Query);
@@ -287,6 +312,10 @@
         });
 
     }
+    //dataGrid.load().done((items) => {
+    //    console.log("items");
+    //    console.log(items);
+    //})
     //function FilterByCatagory(catagoryId){
     //    console.log("cat")
     //    //$('#gridContainer').dxDataGrid('dispose');

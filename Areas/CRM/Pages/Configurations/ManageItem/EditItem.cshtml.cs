@@ -35,6 +35,10 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
             BrowserCulture = locale.RequestCulture.UICulture.ToString();
             url = $"{this.Request.Scheme}://{this.Request.Host}";
             EditItem = _context.Items.Include(e=>e.ItemImages).FirstOrDefault(a => a.ItemId == ItemId);
+            //if (EditItem.ItemStatusId==3)
+            //{
+            //    return Redirect($"/Store/ManageItem/ProductDetails?ItemId={EditItem.ItemId}");
+            //}
             return Page();
         }
         public async Task<IActionResult> OnPost(int ItemId, IFormFile file, IFormFileCollection Editfilepond)
@@ -86,12 +90,15 @@ namespace Jovera.Areas.CRM.Pages.Configurations.ManageItem
 
                 DbItem.ItemTitleAr = EditItem.ItemTitleAr;
                 DbItem.ItemTitleEn = EditItem.ItemTitleEn;
+                DbItem.ItemMiniDetailsAr = EditItem.ItemMiniDetailsAr;
+                DbItem.ItemMiniDetailsEn = EditItem.ItemMiniDetailsEn;
                 DbItem.ItemDescriptionAr = EditItem.ItemDescriptionAr;
                 DbItem.ItemDescriptionEn = EditItem.ItemDescriptionEn;
-                DbItem.IsActive = EditItem.IsActive;
+                //DbItem.IsActive = EditItem.IsActive;
                 DbItem.OrderIndex = EditItem.OrderIndex;
                 DbItem.VideoUrl = EditItem.VideoUrl;
-                DbItem.ItemPrice = EditItem.ItemPrice;
+                DbItem.OurSellingPrice = EditItem.OurSellingPrice;
+                DbItem.SellingPriceForCustomer = EditItem.SellingPriceForCustomer;
                 DbItem.MiniSubCategoryId = EditItem.MiniSubCategoryId;
                 DbItem.HasSubProduct = EditItem.HasSubProduct;
                 var UpdatedItem = _context.Items.Attach(DbItem);

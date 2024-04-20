@@ -1,16 +1,37 @@
 ﻿@page
 @model Jovera.Areas.CRM.Pages.Configurations.ManageStore.Profile.ProfileDetailsModel
 @{
+    ViewBag.Title = "Profile Details";
+    var locale = Request.HttpContext.Features.Get<IRequestCultureFeature>();
+    var BrowserCulture = locale.RequestCulture.UICulture.ToString();
 }
 @section styles{
     <!--Swiper slider css-->
     <link href="~/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 }
-<style>
-    .main-content {
-    margin-right: 120px !important;
+@if (BrowserCulture == "en-US")
+{
+
+    <style>
+        .main-content {
+            margin-left: 120px !important;
+        }
+    </style>
+
+
+
 }
-</style>
+//Arabic
+else
+{
+    <style>
+        .main-content {
+            margin-right: 120px !important;
+        }
+    </style>
+
+
+}
 <div class="main-content">
 
     <div class="page-content">

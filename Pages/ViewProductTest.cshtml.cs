@@ -91,17 +91,17 @@ namespace Jovera.Pages
                 {
                     Redirect("/error");
                 }
-				//var user = await _userManager.GetUserAsync(User);
-				//if (user == null)
-				//{
-				//    Redirect("/Login");
-				//}
-				//var customer = await _context.Customers.Where(e => e.CustomerEmail == user.Email).FirstOrDefaultAsync();
-				//if (customer == null)
-				//{
-				//    Redirect("/Login");
-				//}
-				var customer =  _context.Customers.FirstOrDefault();
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    Redirect("/Login");
+                }
+                var customer = await _context.Customers.Where(e => e.CustomerEmail == user.Email).FirstOrDefaultAsync();
+                if (customer == null)
+                {
+                    Redirect("/Login");
+                }
+              
 				addProductReview.ItemId =ProId;
 				addProductReview.CustomerId =customer.CustomerId;
 				_context.ProductReviews.Add(addProductReview);
@@ -114,7 +114,7 @@ namespace Jovera.Pages
             }
             
           
-            return Redirect($"/ViewProductTestModel?ProductId={ProId}");
+            return Redirect($"/ViewProductTest?ProductId={ProId}");
         }
 
 

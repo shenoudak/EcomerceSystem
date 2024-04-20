@@ -3,6 +3,9 @@
 @Html.AntiForgeryToken()
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
+    ViewBag.Title = @sharedResource["Manage Products"];
+    ViewBag.pTitle = @sharedResource["Manage Products"];
+    ViewBag.pageTitle = @sharedResource["All Products"];
     Layout = "_Layout";
 }
 <!--datatable css-->
@@ -10,6 +13,7 @@
 <!--datatable responsive css-->
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
 <style>
     .dataTables_filter {
         display: none;
@@ -22,20 +26,25 @@
         <div class="card" id="List">
             <div class="card-header border-0">
                 <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
+               @* <input type="text" asp-for="@Model.Vendor.StoreId" value="@Model.Vendor.StoreId" hidden />*@
 
                 <div class="row g-4 align-items-center">
-
-                    <div class="col-sm-auto ms-auto">
-                        <div class="hstack gap-2">
-
-                            <button type="button" class="btn btn-success add-btn"
-                                    data-bs-toggle="modal" id="create-btn"
-                                    data-bs-target="#AddModal">
-                                <i class="ri-add-line align-bottom me-1"></i> @sharedResource["Add Product"]
-                            </button>
-
+                    <div class="col-sm-3">
+                        <div class="search-box">
+                            <input type="text" class="form-control search" id="txtSearch"
+                                   placeholder="@sharedResource["Search for..."]">
+                            <i class="ri-search-line search-icon"></i>
                         </div>
                     </div>
+                   @* <div class="col-sm-auto ms-auto">
+                        <div class="hstack gap-2">
+
+                            <a  class="btn btn-success add-btn" asp-area="Store" asp-page="/ManageItem/AddItem">
+                                <i class="ri-add-line align-bottom me-1"></i> @sharedResource["Add Product"]
+                            </a>
+
+                        </div>
+                    </div>*@
                 </div>
             </div>
             <div class="card-body">
@@ -44,9 +53,13 @@
                         <table id="myTable" class="table  dt-responsive nowrap  align-middle" style="width:100%">
                             <thead class="table-light">
                                 <tr>
+                                    
+                                    
                                     <th data-ordering="false">@sharedResource["Image"]</th>
                                     <th data-ordering="false">@sharedResource["Arabic Title"]</th>
                                     <th data-ordering="false">@sharedResource["English Title"]</th>
+                                    <th data-ordering="false">@sharedResource["Our Selling Price"]</th>
+                                    <th data-ordering="false">@sharedResource["Selling Price To Customer"]</th>
                                     <th data-ordering="false">@sharedResource["Price"]</th>
                                     <th data-ordering="false">@sharedResource["Sort Index"]</th>
                                     <th data-ordering="false">@sharedResource["Is Active?"]</th>
@@ -54,80 +67,80 @@
                                     <th data-ordering="false">@sharedResource["Actions"]</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @{
-                                <tbody class="list form-check-all">
-                                        @{
-                                            foreach (var item in Model.itemsList)
-                                            {
-                                            <tr>
 
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="~/@item.ItemImage" alt=""
-                                                                 class="avatar-xxs rounded-circle image_src object-cover">
-                                                        </div>
-                                                    </div>
-                                                </td>
+                            @* @{
+                            <tbody class="list form-check-all">
+                            @{
+                            foreach (var item in Model.itemsList)
+                            {
+                            <tr>
 
-                                                <td class="company_name">@item.ItemTitleAr</td>
-                                                <td class="leads_score">@item.ItemTitleEn</td>
-                                                <td class="phone">@item.ItemPrice</td>
-                                                <td class="phone">@item.OrderIndex</td>
-                                                <td class="location">@item.IsActive</td>
-                                                <td class="location">@item.HasSubProduct</td>
+                            <td>
+                            <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                            <img src="~/@item.ItemImage" alt=""
+                            class="avatar-xxs rounded-circle image_src object-cover">
+                            </div>
+                            </div>
+                            </td>
 
-
-                                                <td>
-                                                    <ul class="list-inline hstack gap-2 mb-0">
+                            <td class="company_name">@item.ItemTitleAr</td>
+                            <td class="leads_score">@item.ItemTitleEn</td>
+                            <td class="phone">@item.ItemPrice</td>
+                            <td class="phone">@item.OrderIndex</td>
+                            <td class="location">@item.IsActive</td>
+                            <td class="location">@item.HasSubProduct</td>
 
 
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["View"]>
-                                                            <a asp-page="../ManageItem/ProductDetails" asp-route-ItemId="@item.ItemId">
-                                                                <i class="ri-eye-fill align-bottom text-muted" ></i>
-                                                            </a>
-                                                        </li>
-                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["Edit"]>
-                                                            <a class="edit-item-btn" asp-page="../ManageItem/EditItem" asp-route-ItemId="@item.ItemId">
-                                                             
-                                                                <i class="ri-pencil-fill align-bottom text-muted"></i>
-                                                            </a>
-                                                        </li>
-                                                   @*     <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                            data-bs-trigger="hover" data-bs-placement="top"
-                                                            title=@sharedResource["Delete"]>
-                                                            <a class="remove-item-btn" data-bs-toggle="modal"
-                                                               href="javascript:void(0)">
-                                                                <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteItem(@item.ItemId)"></i>
-                                                            </a>
-                                                        </li>*@
-                                                            @if (item.HasSubProduct)
-                                                            {
-                                                            <li class="list-inline-item">
-
-                                                                <a class="btn btn-success btn-sm" asp-page="../ManageItem/index" asp-route-CatagoryId="@item.ItemId">
-                                                                        @sharedResource["Sub Products"]
-
-                                                                </a>
-                                                            </li>
-                                                            }
-
-                                                    </ul>
-                                                </td>
+                            <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
 
 
-                                            </tr>
-                                            }
-                                        }
+                            <li class="list-inline-item" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover" data-bs-placement="top"
+                            title=@sharedResource["View"]>
+                            <a asp-page="../ManageItem/ProductDetails" asp-route-ItemId="@item.ItemId">
+                            <i class="ri-eye-fill align-bottom text-muted" ></i>
+                            </a>
+                            </li>
+                            <li class="list-inline-item" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover" data-bs-placement="top"
+                            title=@sharedResource["Edit"]>
+                            <a class="edit-item-btn" asp-page="../ManageItem/EditItem" asp-route-ItemId="@item.ItemId">
 
-                                </tbody>
-                                }
+                            <i class="ri-pencil-fill align-bottom text-muted"></i>
+                            </a>
+                            </li>
+                            @*     <li class="list-inline-item" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover" data-bs-placement="top"
+                            title=@sharedResource["Delete"]>
+                            <a class="remove-item-btn" data-bs-toggle="modal"
+                            href="javascript:void(0)">
+                            <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteItem(@item.ItemId)"></i>
+                            </a>
+                            </li>*@
+                            @* @if (item.HasSubProduct)
+                            {
+                            <li class="list-inline-item">
 
+                            <a class="btn btn-success btn-sm" asp-page="../ManageItem/index" asp-route-CatagoryId="@item.ItemId">
+                            @sharedResource["Sub Products"]
+
+                            </a>
+                            </li>
+                            }
+
+                            </ul>
+                            </td>
+
+
+                            </tr>
+                            }
+                            }
+
+                            </tbody>
+                            }
+                            *@
                         </table>
                     </div>
 
@@ -141,13 +154,8 @@
     <!--end col-->
 </div>
 
-<partial name="_AddPopup" model="@Model.item" view-data="ViewData" />
+@*<partial name="_DatchDelete" model="@Model.item" view-data="ViewData" />*@
 
-@*<partial name="_ViewPopup" model="@Model.item" view-data="ViewData" />
-<partial name="_EditPopup" model="@Model.item" view-data="ViewData" />*@
-<partial name="_DatchDelete" model="@Model.item" view-data="ViewData" />
-
-<!--datatable js-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -158,9 +166,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
+@*<script src="~/Other/lib/jquery/dist/jquery.min.js"></script>*@
 @section scripts{
-       <!-- list.js min js -->
+    <!-- list.js min js -->
     <script src="~/assets/libs/list.js/list.min.js"></script>
     <script src="~/assets/libs/list.pagination.js/list.pagination.min.js"></script>
     <!-- crm leads init -->
@@ -185,6 +193,206 @@
 
 
 
+    //$(document).ready(function () {
+    //    var domainUrl = document.getElementById("UrlId").value;
+    //    console.log("domainUrl: " + domainUrl);
+    //    $('#myTable').DataTable({
+    //        "dom": 'rt<"bottom"ip><"clear">',
+    //        ajax: {
+    //            url: domainUrl + '/api/Lists/GetProducts'
+    //        },
+    //        columns: [
+    //            {
+    //                "data": "ItemImage",
+    //                "render": function (data, row) {
+    //                    return "<img src='/" + data + "' alt='' class='avatar-xxs rounded-circle image_src object-cover'>";
+    //                }
+    //            },
+    //            { data: 'ItemTitleAr' },
+    //            { data: 'ItemTitleEn' },
+
+    //            { data: 'ItemPrice' },
+    //            { data: 'OrderIndex' },
+    //            { data: 'IsActive' },
+    //            { data: 'HasSubProduct' },
+
+    //            {
+    //                data: "ItemId",
+    //                render: function (data, type, row) {
+
+    //                    const linkHtml = `<ul class="list-inline hstack gap-2 mb-0">
+
+
+    //                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
+    //                                                            data-bs-trigger="hover" data-bs-placement="top"
+    //                                                            title=@sharedResource["View"]>
+    //                                                                <a asp-page="../ManageItem/ProductDetails" asp-route-ItemId="data">
+    //                                                                <i class="ri-eye-fill align-bottom text-muted" ></i>
+    //                                                            </a>
+    //                                                        </li>
+    //                                                        <li class="list-inline-item" data-bs-toggle="tooltip"
+    //                                                            data-bs-trigger="hover" data-bs-placement="top"
+    //                                                            title=@sharedResource["Edit"]>
+    //                                                                <a class="edit-item-btn" asp-page="../ManageItem/EditItem" asp-route-ItemId="data">
+
+    //                                                                <i class="ri-pencil-fill align-bottom text-muted"></i>
+    //                                                            </a>
+    //                                                        </li>
+    //                                                       <li class="list-inline-item" data-bs-toggle="tooltip"
+    //                                                            data-bs-trigger="hover" data-bs-placement="top"
+    //                                                            title=@sharedResource["Delete"]>
+    //                                                            <a class="remove-item-btn" data-bs-toggle="modal"
+    //                                                               href="javascript:void(0)">
+    //                                                                    <i class="ri-delete-bin-fill align-bottom text-muted" onclick="deleteItem(data)"></i>
+    //                                                            </a>
+    //                                                        </li>
+
+
+    //                                                    </ul>`;
+    //                    return linkHtml;
+
+    //                },
+    //                className: "dt-body-center"
+    //            },
+
+
+    //        ],
+
+
+
+    //    });
+    //});
+    $(document).ready(function () {
+        $("#myTable").DataTable({
+            "proccessing": true,
+            "serverSide": true,
+            "ajax": {
+
+                url: "/CRM/Configurations/ManageItem/Index",
+                type: 'POST',
+                headers: { 'XSRF-TOKEN': $('@Html.AntiForgeryToken()').val() }
+            },
+            "columnDefs": [
+                {
+                    "targets": -1,
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        let linkHtml = ` <ul class="list-inline hstack gap-2 mb-0">
+
+
+                                <li class="list-inline-item" data-bs-toggle="tooltip"
+                                data-bs-trigger="hover" data-bs-placement="top"
+                                title=@sharedResource["View"]>
+                                                        <a  href="/crm/configurations/ManageItem/ProductDetails?ItemId=${row.ItemId}">
+                                <i class="ri-eye-fill align-bottom text-muted" ></i>
+                                </a>
+                                </li>
+                                <li class="list-inline-item" data-bs-toggle="tooltip"
+                                data-bs-trigger="hover" data-bs-placement="top"
+                                title=@sharedResource["Edit"]>
+                                        <a class="edit-item-btn" href="./ManageItem/EditItem?ItemId="${row.ItemId}">
+
+                                <i class="ri-pencil-fill align-bottom text-muted"></i>
+                                </a>
+                                </li>
+
+                                    `;
+                        if (row.HasSubProduct){
+                          let NewHtml=`  <li class="list-inline-item" >
+
+                                                <a class="btn btn-success btn-sm" href="./ManageSubProduct/AddStepOneSubProduct/index?itemId=${row.ItemId}">@sharedResource["Sub Products"] </a></li>`
+                           linkHtml=linkHtml + NewHtml
+                        }
+                       
+                        let appendhtml = `</ul>`
+                              
+                        linkHtml = linkHtml + appendhtml
+                                                                                    
+                        return linkHtml;
+                    },
+                    "sortable": false
+                },
+
+                //{ "name": "ItemId", "data": "ItemId", "targets": 0, "visible": false },
+
+                {
+                    "name": "ItemImage", "data": "ItemImage", "targets": 0,"visible": true,
+                    "render": function (data, type, row, meta)
+                    {
+
+                        return `<img src='/${data}' alt='' class='avatar-xxs rounded-circle image_src object-cover'>`;
+
+                    }
+                },
+                { "name": "ItemTitleAr", "data": "ItemTitleAr", "targets": 1 },
+                { "name": "ItemTitleEn", "data": "ItemTitleEn", "targets": 2 },
+                { "name": "OurSellingPrice", "data": "OurSellingPrice", "targets": 3 },
+               
+                { "name": "SellingPriceForCustomer", "data": "SellingPriceForCustomer", "targets": 4 },
+                { "name": "ItemPrice", "data": "ItemPrice", "targets": 5 },
+                { "name": "OrderIndex", "data": "OrderIndex", "targets": 6 },
+                {
+                    "name": "IsActive", "data": "IsActive", "targets": 7,
+
+                    "render": function (data, type, row, meta)
+                    {
+                        if (row.IsActive) {
+                            console.log("enter")
+                            return `<span>@sharedResource["Active"]</span>`;
+                        }
+                        else
+                        {
+                            console.log("Not enter")
+                            return `<span>@sharedResource["Not Active"]</span>`;
+                        }
+                    }
+
+                },
+                { "name": "HasSubProduct", "data": "HasSubProduct", "targets": 8 ,
+
+                    "render": function (data, type, row, meta) {
+                        if (row.HasSubProduct) {
+                          
+                            return `<span>@sharedResource["Yes"]</span>`;
+                        }
+                        else {
+                            console.log("Not enter")
+                            return `<span>@sharedResource["No"]</span>`;
+                        }
+                    }
+                
+                },
+
+
+
+
+            ],
+            "order": [[2, "desc"]],
+            "language": {
+                "lengthMenu": "Show _MENU_",
+            },
+            "dom":
+                "<'row'" +
+                "<'col-sm-6 d-flex align-items-center justify-conten-start'l>" +
+                "<'col-sm-6 d-flex align-items-center justify-content-end'f>" +
+                ">" +
+
+                "<'table-responsive'tr>" +
+
+                "<'row'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">",
+            "createdRow": function (row, data, dataIndex) {
+                var tdElements = $(row).find('td');
+                $(tdElements[tdElements.length - 1]).addClass('text-end');
+            }
+        });
+    });
+    $('#txtSearch').keyup(function () {
+        var table = $('#myTable').DataTable();
+        table.search($(this).val()).draw();
+    });
 
     function validateMyForm() {
 
@@ -195,221 +403,12 @@
         }
         return true;
     }
-    //function removePic(e) {
-    //    console.log("remove pic")
-    //    console.log(e);
-    //    console.log(e.target.id);
-    //    var domainUrl = document.getElementById("UrlId").value;
-    //    fetch(domainUrl + `/Api/Lists/RemoveImageById?id=${e.target.id}`, {
-    //        method: 'POST'
-    //    })
-    //        .then(response => response.json())
-    //        .then(data => {
-    //            console.log("remove from dom");
-    //            console.log(data);
-    //            var myobj = document.getElementsByClassName(data)[0];
-    //            myobj.remove();
 
-    //        }).catch(err => {
-    //            console.log("error")
-    //        })
-    //}
-    //function ShowEditPopUp(ItemId) {
-    //    $.ajax({
-    //        type: "GET",
-    //        beforeSend: function (xhr) {
-    //            xhr.setRequestHeader("XSRF-TOKEN",
-    //                $('input:hidden[name="__RequestVerificationToken"]').val());
-    //        }
-    //        ,
-    //        url: "/CRM/Configurations/ManageItem/Index?handler=SingleItemForEdit",
-    //        data: { "ItemId": ItemId },
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (response) {
-    //            console.log(response);
-
-    //            document.getElementsByClassName('itemImgCla')[0].src = "/" + response.ItemImage
-    //            document.getElementById("HiddenId").value = response.ItemId
-    //            document.getElementById("PicHiddenId").value = response.ItemImage
-    //            document.getElementById("ItemTLARId").value = response.ItemTitleAr
-    //            document.getElementById("ItemTLENId").value = response.ItemTitleEn
-    //            document.getElementById("editcatId").value = response.MiniSubCategoryId
-                
-    //            document.getElementById("ItemDescriptionId").innerHTML = response.ItemDescriptionAr
-    //            document.getElementById("EItemDescriptionId").innerHTML = response.ItemDescriptionEn
-    //            document.getElementById("IsActiveId").checked = response.IsActive
-    //            document.getElementById("OrderIndexId").value = response.OrderIndex
-    //            document.getElementById("ItemPriceId").value = response.ItemPrice
-    //            document.getElementById("VideoUrlId").value = response.VideoUrl
-    //            document.getElementById("HasSubProductId").checked = response.HasSubProduct
-    //            $('#showEditModal').modal('show');
-    //        },
-
-    //        failure: function (response) {
-    //            alert(response);
-    //        }
-    //    });
-    //    console.log('page is fully loaded');
-    //    console.log(event);
-    //    console.log("id= " + ItemId);
-    //    var domainUrl = document.getElementById("UrlId").value;
-    //    fetch(domainUrl + '/Api/Lists/GetImagesForItem?id=' + ItemId)
-    //        .then(response => response.json())
-    //        .then(data => {
-    //            console.log(data);
-    //            var item_images = document.getElementById("item_images");
-    //            document.getElementsByClassName("loader")[0].remove();
+           
 
 
-    //            for (const property in data) {
-    //                console.log(data[property]);
-    //                var img = document.createElement("img");
-    //                img.src = "/" + data[property].ImageName;
-    //                img.width = 150;
-    //                img.classList.add("m-3");
-    //                var div = document.createElement("div");
-    //                div.classList.add("position-relative");
-    //                div.classList.add(data[property].ItemImageId);
-    //                div.appendChild(img);
-    //                var x = document.createElement("div");
-    //                x.style.right = 0;
-    //                x.style.top = 0;
-    //                x.style.cursor = "pointer";
-    //                x.addEventListener("click", (e) => removePic(e))
-
-    //                x.classList.add("fas");
-    //                x.classList.add("fa-times");
-    //                x.classList.add("position-absolute")
-    //                 x.innerHTML = "x";
-
-    //                x.id = data[property].ItemImageId;
-    //                div.appendChild(x);
-
-    //                item_images.appendChild(div);
-
-    //            }
-
-    //            if (data.length <= 0) {
-    //                document.getElementsByClassName("message")[0].classList.remove("d-none");
-    //            }
-
-    //        });
-    //}
-    function deleteItem(ItemId) {
-        $.ajax({
-            type: "GET",
-            url: "/CRM/Configurations/ManageItem/Index?handler=SingleItemForDelete",
-            data: { "ItemId": ItemId },
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-                document.getElementById("DeleteItemId").value = response.ItemId
-                $('#deleteRecordModal').modal('show');
 
 
-            },
-            failure: function (response) {
-                alert(response);
-            }
-        });
-    }
-
-
-		
-
-
-        //    function editButtonClick(CategoryId) {
-        //        console.log(CategoryId);
-        //        $.ajax({
-        //            type: "GET",
-        //            beforeSend: function (xhr) {
-        //                xhr.setRequestHeader("XSRF-TOKEN",
-        //                    $('input:hidden[name="__RequestVerificationToken"]').val());
-        //            }
-        //            ,
-        //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForEdit",
-
-        //            data: { "CategoryId": CategoryId },
-        //            contentType: "application/json",
-        //            dataType: "json",
-        //            success: function (response) {
-        //                document.getElementsByClassName('categoryImgCla')[0].src = "/" + response.CategoryPic
-        //                document.getElementById("CategoryHiddenId").value = response.CategoryId
-        //                document.getElementById("CategoryPicHiddenId").value = response.CategoryPic
-        //                document.getElementById("CategoryTLARId").value = response.CategoryTLAR
-        //                document.getElementById("CategoryTLENId").value = response.CategoryTLEN
-        //                document.getElementById("IsActiveId").checked= response.IsActive
-        //                document.getElementById("SortOrderId").value = response.OrderIndex
-
-
-        //                $('#showEditModal').modal('show');
-
-
-        //            },
-
-        //            failure: function (response) {
-        //                alert(response);
-        //            }
-        //        });
-        //    }
-
-
-        //function ShowViewPopUp(CategoryId) {
-
-        //        $.ajax({
-        //            type: "GET",
-        //            url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForView",
-        //            data: { "CategoryId": CategoryId },
-        //            contentType: "application/json",
-        //            dataType: "json",
-        //            success: function (response) {
-
-        //                    document.getElementById("DCategoryPicId").src = "/" + response.CategoryPic
-        //                document.getElementById("DCategoryTLARId").innerHTML = response.CategoryTLAR
-        //                document.getElementById("DCategoryTLENId").innerHTML = response.CategoryTLEN
-
-        //                document.getElementById("DSortOrderId").innerHTML = response.OrderIndex
-        //                document.getElementById("DIsActiveId").innerHTML = response.IsActive
-        //                    if (response.IsActive == true) {
-        //                    document.getElementById("DIsActiveId").innerHTML = "Active"
-
-        //                }
-        //                else {
-        //                    document.getElementById("DIsActiveId").innerHTML = "Not Active"
-        //                }
-
-        //                $('#QuickViewPoup').modal('show');
-
-        //            },
-        //            failure: function (response) {
-        //                alert(response);
-        //            }
-        //        });
-
-        //    }
-        //function deleteCatagory(CategoryId) {
-
-
-        //        $.ajax({
-        //            type: "GET",
-        //                url: "/CRM/Configurations/ManageCatagory/Index?handler=SingleCategoryForDelete",
-        //            data: { "CategoryId": CategoryId },
-        //            contentType: "application/json",
-        //            dataType: "json",
-        //            success: function (response) {
-        //                console.log("Enter In Catagory")
-        //                document.getElementById("DeleteCategoryId").value = response.CategoryId
-        //                console.log("After In Catagory")
-        //                $('#deleteRecordModal').modal('show');
-
-
-        //            },
-        //            failure: function (response) {
-        //                alert(response);
-        //            }
-        //        });
-        //    }
 
 
 

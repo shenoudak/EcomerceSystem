@@ -982,28 +982,23 @@
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script>
-    //async function ChooseStepTwo() {
-    //    var stepOneId = document.getElementById("stepOneId").value;
-    //        console.log(stepOneId);
-    //        var selectElement = document.getElementById("stepTwoId");
-    //        var optionsToRemove = Array.from(selectElement.options).slice(1);
 
-    //        // Remove all options except the first one
-    //        optionsToRemove.forEach(function (option) {
-    //            selectElement.removeChild(option);
-    //        });
-    //    return $.ajax({
-    //        url: 'ViewProductTest?handler=allStepTwo',
-    //        type: 'get',
-    //        dataType: 'json',
-    //    })
-    //        .then(response => response.data);
-    //}
     window.onload = async function () {
         await ChooseStepTwo();
        
     }
-
+        function assignValuesInLocalStorage(catagoryId,Query) {
+        localStorage.setItem('catagoryId', catagoryId);
+        localStorage.setItem('Query', Query);
+        window.location.href = "https://localhost:44367/indextest";
+        
+    }
+    function collectFormData()
+    {
+        var categoryId = document.getElementById("catagoriyId").value;
+        var QuerParam = document.getElementById("headerSearch").value;
+        assignValuesInLocalStorage(categoryId, QuerParam)
+    }
     function AddItemToFavourite(ItemId) {
         var ConcatId = "item" + ItemId;
         
@@ -1087,53 +1082,13 @@
                 }
                 
                 
-                //count=count+1;
-
-                //if (option.MiniSubProductId == cityIdvalue.value) {
-                //    optionElement.selected = true;
-                //}
+               
                 selectElement.appendChild(optionElement);
             });
         } catch (error) {
             console.error(error);
         }
     }
-    // function ChooseStepTwo() {
-    //        var stepOneId = document.getElementById("stepOneId").value;
-    //        console.log(stepOneId);
-    //        var selectElement = document.getElementById("stepTwoId");
-    //        var optionsToRemove = Array.from(selectElement.options).slice(1);
-
-    //        // Remove all options except the first one
-    //        optionsToRemove.forEach(function (option) {
-    //            selectElement.removeChild(option);
-    //        });
-    //     $.ajax({
-    //        type: "GET",
-    //        url: "/ViewProductTest?handler=SingleAllStepTwo",
-    //        data: { "stepOneId": stepOneId },
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (response) {
-    //            console.log(response);
-    //        //response.forEach(function (option) {
-                    
-    //        //    var optionElement = document.createElement('option');
-    //        //    optionElement.value = option.MiniSubProductId;
-    //        //    optionElement.textContent = option.StepTwoTLEN;
-
-    //        //    //if (option.MiniSubProductId == cityIdvalue.value) {
-    //        //    //    optionElement.selected = true;
-    //        //    //}
-    //        //    selectElement.appendChild(optionElement);
-    //        //});
-
-    //        },
-    //        failure: function (response) {
-    //            alert(response);
-    //        }
-    //    });
-       
-    //}
+   
 
 </script>

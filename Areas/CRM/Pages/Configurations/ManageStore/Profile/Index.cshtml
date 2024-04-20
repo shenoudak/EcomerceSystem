@@ -9,12 +9,30 @@
 @section styles{
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 }
+@if (BrowserCulture == "en-US")
+{
 
-<style>
-    .main-content {
-        margin-right: 120px !important;
-    }
-</style>
+    <style>
+        .main-content {
+            margin-left: 120px !important;
+        }
+    </style>
+
+
+
+}
+//Arabic
+else
+{
+    <style>
+        .main-content {
+            margin-right: 120px !important;
+        }
+    </style>
+
+
+}
+
 
 <div class="main-content">
 
@@ -30,7 +48,7 @@
             <input type="text" asp-for="@Model.url" value="@Model.url" hidden id="UrlId" />
             <form method="post" enctype="multipart/form-data" onsubmit="return validateMyForm();">
                 <input asp-for="storeProfileVM.StoreId" value="@Model.storeProfileVM.StoreId" hidden id="HiddenId" />
-                
+
                 <div class="row">
                     <div class="col-xxl-3">
                         <div class="card mt-n5">
@@ -121,7 +139,7 @@
                                                     <input class="form-control" name="LicPhoto" type="file">
                                                 </div>
                                             </div>
-                                           
+
 
                                             <!--end col-->
                                             <div class="col-lg-6">
@@ -232,21 +250,21 @@
                                                     </label>
 
 
-                                                  
+
 
                                                     <select name="states[]" multiple="multiple" class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem>
-                                                        @if (@Model.selectedStoreCatagories!=null)
+                                                        @if (@Model.selectedStoreCatagories != null)
                                                         {
                                                             @foreach (var item in @Model.selectedStoreCatagories)
                                                             {
                                                                 <option value="@item" selected>@item</option>
                                                             }
                                                         }
-                                                        
+
 
                                                         @foreach (var item in @Model.catagories)
                                                         {
-                                                            if (Model.selectedStoreCatagories!=null)
+                                                            if (Model.selectedStoreCatagories != null)
                                                             {
                                                                 if ((Model.selectedStoreCatagories.Contains(item.SubCategoryTLEN)) || (Model.selectedStoreCatagories.Contains(item.SubCategoryTLAR)))
                                                                 {
@@ -282,7 +300,7 @@
 
 
 
-                                                       
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -315,18 +333,18 @@
                                         <div class="row">
                                             @if (Model.storeProfileVM.HasOtherCatgory)
                                             {
-                                                   <div class="col-lg-12" id="txtCustom">
-                                                <div class="mb-3">
+                                                <div class="col-lg-12" id="txtCustom">
+                                                    <div class="mb-3">
 
-                                                    <label asp-for="storeProfileVM.OtherCatagory" class="form-label text-muted">
-                                                        @sharedResource["Other Catagories"]
-                                                    </label>
+                                                        <label asp-for="storeProfileVM.OtherCatagory" class="form-label text-muted">
+                                                            @sharedResource["Other Catagories"]
+                                                        </label>
 
-                                                    <input class="form-control" id="choices-text-remove-button" asp-for="storeProfileVM.OtherCatagory" data-choices data-choices-limit="5" data-choices-removeItem type="text" />
+                                                        <input class="form-control" id="choices-text-remove-button" asp-for="storeProfileVM.OtherCatagory" data-choices data-choices-limit="5" data-choices-removeItem type="text" />
 
 
+                                                    </div>
                                                 </div>
-                                            </div>                                                
                                             }
                                             else
                                             {
@@ -342,9 +360,9 @@
 
                                                     </div>
                                                 </div>
-                                                
+
                                             }
-                                         
+
 
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
@@ -362,7 +380,7 @@
                                                     <div class="row mt-2" id="images_container">
                                                         <div class="col-12">
 
-                                                          
+
                                                             <div id="item_images" class="d-flex justify-content-center align-items-center" style="flex-wrap:wrap">
                                                                 <div class="loader">@sharedResource["Loading..."]</div>
                                                                 <div class="message d-none">@sharedResource["No Images"]  </div>
@@ -370,10 +388,10 @@
                                                         </div>
 
                                                     </div>
-                                                    
+
                                                 }
                                             }
-                                           
+
                                             <div class="col-lg-6">
                                                 <div class="mb-3 form-check">
 
@@ -385,7 +403,7 @@
                                             </div>
                                             @if (Model.storeProfileVM.AddingTax)
                                             {
-                                                <div class="col-lg-12" id="taxNumberId" >
+                                                <div class="col-lg-12" id="taxNumberId">
                                                     <div class="mb-3">
                                                         <label asp-for="storeProfileVM.TaxingNumber" class="form-label">
                                                             @sharedResource["Taxing Number"]
@@ -514,16 +532,16 @@
         var markers = [];
         var uniqueId = 1;
         var latOb = document.getElementById("LatId").value;
-        if(latOb==""){
-           latOb=25.380112;
+        if (latOb == "") {
+            latOb = 25.380112;
         }
         var NlatOb = Number(latOb)
         var lngOb = document.getElementById("LngId").value;
         if (lngOb == "") {
-            lngOb=55.458249;
-            
+            lngOb = 55.458249;
+
         }
-       
+
         var NlngOb = Number(lngOb)
         console.log("lngOb = " + lngOb);
         var myLatlng = { lat: NlatOb, lng: NlngOb };
@@ -603,7 +621,7 @@
     window.addEventListener('load', (event) => {
         console.log('page is fully loaded');
         console.log(event);
-        
+
         var domainUrl = document.getElementById("UrlId").value;
         var ItemId = document.getElementById("HiddenId").value;
 

@@ -1,5 +1,8 @@
 ﻿@page
 @model Jovera.Areas.CRM.Pages.Configurations.ManageItem.ProductDetailsModel
+@using Microsoft.EntityFrameworkCore;
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
 }
 @{
@@ -26,15 +29,18 @@
                                         <img src="/@Model.ItemDetails.ItemImage" alt="@sharedResource["Main Product Image"]"
                                              class="img-fluid d-block" />
                                     </div>
-                                    @foreach (var item in Model.ItemDetails.ItemImages)
+                                    @if(Model.ItemDetails.ItemImages!=null){
+                                        foreach (var item in Model.ItemDetails.ItemImages)
                                     {
                                         <div class="swiper-slide">
                                             <img src="/@item.ImageName" alt="@sharedResource["Product Image"]"
                                                  class="img-fluid d-block" />
                                         </div>
                                     }
-                                   
-                                   
+                                    }
+                                    
+
+
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -42,6 +48,7 @@
                             <!-- end swiper thumbnail slide -->
                             <div class="swiper product-nav-slider mt-2">
                                 <div class="swiper-wrapper">
+                                    @if(Model.ItemDetails.ItemImages!=null){
                                     @foreach (var item in Model.ItemDetails.ItemImages)
                                     {
                                         <div class="swiper-slide">
@@ -51,8 +58,9 @@
                                             </div>
                                         </div>
                                     }
-                                  
-                                  
+                                    }
+
+
                                 </div>
                             </div>
                             <!-- end swiper nav slide -->
@@ -67,30 +75,30 @@
                                     @if (Model.BrowserCulture == "en-US")
                                     {
 
-                                    <h4>@Model.ItemDetails.ItemTitleEn</h4>
+                                        <h4>@Model.ItemDetails.ItemTitleEn</h4>
                                     }
                                     else
                                     {
-                                    <h4>@Model.ItemDetails.ItemTitleAr</h4>
+                                        <h4>@Model.ItemDetails.ItemTitleAr</h4>
 
                                     }
-                                   
+
                                     <div class="hstack gap-3 flex-wrap">
-                                      @*  <div>
-                                            <a href="#" class="text-primary d-block">
-                                                Tommy
-                                                Hilfiger
-                                            </a>
+                                        @*  <div>
+                                        <a href="#" class="text-primary d-block">
+                                        Tommy
+                                        Hilfiger
+                                        </a>
                                         </div>
                                         <div class="vr"></div>*@
-                                         @if (Model.BrowserCulture == "en-US")
+                                        @if (Model.BrowserCulture == "en-US")
                                         {
-                                            
-                                              <div class="text-muted">
+
+                                            <div class="text-muted">
                                                 @sharedResource["Category :"]  <span class="text-body fw-medium">@Model.ItemDetails.MiniSubCategory.MiniSubCategoryTLEN</span>
-                                        </div>
-                                        <div class="vr"></div>
-                                        <div class="text-muted">
+                                            </div>
+                                            <div class="vr"></div>
+                                            <div class="text-muted">
                                                 @sharedResource["Published :"] <span class="text-body fw-medium">@Model.ItemDetails.PublishedDate.ToShortDateString()</span>
                                             </div>
                                         }
@@ -107,28 +115,32 @@
 
                                     </div>
                                 </div>
+
                                 <div class="flex-shrink-0">
+
                                     <div>
-                                        <a asp-page="../ManageItem/EditItem" asp-route-ItemId="@Model.ItemDetails.ItemId"
+                                        <a href="./EditItem?ItemId=@Model.ItemDetails.ItemId"
                                            class="btn btn-light" data-bs-toggle="tooltip"
                                            data-bs-placement="top" title="Edit">
                                             <i class="ri-pencil-fill align-bottom"></i>
                                         </a>
                                     </div>
+
+
                                 </div>
                             </div>
 
-                           @* <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
+                            <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
                                 <div class="text-muted fs-16">
-                                    <span class="mdi mdi-star text-warning"></span>
-                                    <span class="mdi mdi-star text-warning"></span>
-                                    <span class="mdi mdi-star text-warning"></span>
-                                    <span class="mdi mdi-star text-warning"></span>
-                                    <span class="mdi mdi-star text-warning"></span>
-                                </div>
-                                <div class="text-muted">( 5.50k Customer Review )</div>
-                            </div>*@
+                                    @for (int i = 0; i < Model.ItemReviews; i++)
+                                    {
+                                        <span class="mdi mdi-star text-warning"></span>
+                                    }
 
+
+                                </div>
+                                <div class="text-muted">(@Model.ItemReviewCount Customer Review )</div>
+                            </div>
                             <div class="row mt-4">
                                 <div class="col-lg-3 col-sm-6">
                                     <div class="p-2 border border-dashed rounded">
@@ -172,7 +184,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <p class="text-muted mb-1">@sharedResource["Available Stocks :"]</p>
-                                                <h5 class="mb-0">10</h5>
+                                                <h5 class="mb-0">@Model.AvailableQuantityInStore</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -195,171 +207,183 @@
                                 </div>
                                 <!-- end col -->
                             </div>
+                            @*  @if (Model.ItemDetails.HasSubProduct)
+                            {
+                            if (Model.ItemDetails.SubProducts != null)
+                            {
+                            <div class="row">
+                            <div class="col-xl-12">
+                            <div class=" mt-4">
+                            <h5 class="fs-14">Step 1 :</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                            @foreach (var item in Model.ItemDetails.SubProducts)
+                            {
+                            @if (item.Quantity == 0)
+                            {
 
-                         @*   <div class="row">
-                                <div class="col-xl-6">
-                                    <div class=" mt-4">
-                                        <h5 class="fs-14">Sizes :</h5>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="Out of Stock">
-                                                <input type="radio" class="btn-check"
-                                                       name="productsize-radio" id="productsize-radio1"
-                                                       disabled>
-                                                <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
-                                                       for="productsize-radio1">S</label>
-                                            </div>
+                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title="@sharedResource["Out of Stock"]">
+                            <input type="radio" class="btn-check"
+                            name="productsize-radio" id="productsize-radio1"
+                            disabled>
+                            @if (Model.BrowserCulture == "en-US")
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio1">@item.step.ColorTLEN <span>(@item.Size.SizeTLEN)</span></label>
+                            }
+                            else
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio1">@item.Color.ColorTLAR <span>(@item.Size.SizeTLAR)</span></label>
+                            }
 
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="04 Items Available">
-                                                <input type="radio" class="btn-check"
-                                                       name="productsize-radio"
-                                                       id="productsize-radio2">
-                                                <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
-                                                       for="productsize-radio2">M</label>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="06 Items Available">
-                                                <input type="radio" class="btn-check"
-                                                       name="productsize-radio"
-                                                       id="productsize-radio3">
-                                                <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
-                                                       for="productsize-radio3">L</label>
-                                            </div>
+                            </div>
 
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="Out of Stock">
-                                                <input type="radio" class="btn-check"
-                                                       name="productsize-radio" id="productsize-radio4"
-                                                       disabled>
-                                                <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
-                                                       for="productsize-radio4">XL</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end col -->
+                            }
+                            else
+                            {
+                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title="@item.Quantity Items Available">
+                            <input type="radio" class="btn-check"
+                            name="productsize-radio"
+                            id="productsize-radio2">
+                            @if (Model.BrowserCulture == "en-US")
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio2">@item.Color.ColorTLEN<span>(@item.Size.SizeTLEN)</span></label>
 
-                                <div class="col-xl-6">
-                                    <div class=" mt-4">
-                                        <h5 class="fs-14">Colors :</h5>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="Out of Stock">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-primary"
-                                                        disabled>
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="03 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-secondary">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="03 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-success">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="02 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-info">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="01 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-warning">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="04 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-danger">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="03 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-light">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                                 data-bs-placement="top" title="04 Items Available">
-                                                <button type="button"
-                                                        class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-dark">
-                                                    <i class="ri-checkbox-blank-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                            </div>*@
+                            }
+                            else
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio2">@item.Color.ColorTLAR<span>(@item.Size.SizeTLAR)</span></label>
+                            }
+                            </div>
+                            }
+
+                            }
+
+
+
+
+                            </div>
+                            </div>
+                            </div>
+                            <!-- end col -->
+
+                            @*<div class="col-xl-6">
+                            <div class=" mt-4">
+                            <h5 class="fs-14">Step 2</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                            @foreach (var item in Model.ItemDetails.SubProducts)
+                            {
+                            @if (item.Quantity == 0)
+                            {
+                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title="@sharedResource["Out of Stock"]">
+                            <input type="radio" class="btn-check"
+                            name="productsize-radio" id="productsize-radio1"
+                            disabled>
+                            @if (Model.BrowserCulture == "en-US")
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio1">@item.Color.ColorTLEN</label>
+                            }
+                            else
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio1">@item.Color.ColorTLAR</label>
+                            }
+
+                            </div>
+
+                            }
+                            else
+                            {
+                            <div data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title="04 Items Available">
+                            <input type="radio" class="btn-check"
+                            name="productsize-radio"
+                            id="productsize-radio2">
+                            @if (Model.BrowserCulture == "en-US")
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio2">@item.Color.ColorTLEN</label>
+
+                            }
+                            else
+                            {
+                            <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                            for="productsize-radio2">@item.Color.ColorTLAR</label>
+                            }
+                            </div>
+                            }
+
+                            }
+
+                            </div>
+                            </div>
+                            </div>
+                            <!-- end col -->
+                            </div>
+
+                            }
+
                             <!-- end row -->
+                            }*@
 
                             <div class="mt-4 text-muted">
                                 <h5 class="fs-14">@sharedResource["Description :"]</h5>
                                 <p>
-                                      @if (Model.BrowserCulture == "en-US")
+                                    @if (Model.BrowserCulture == "en-US")
                                     {
-                                        @Html.Raw(@Model.ItemDetails.ItemDescriptionEn  )
-                                                                               
+                                        @Model.ItemDetails.ItemMiniDetailsEn
+
                                     }
                                     else
                                     {
-                                        @Html.Raw(@Model.ItemDetails.ItemDescriptionAr)
-                                        
-                                    }                                   
-                                   
+                                        @Model.ItemDetails.ItemMiniDetailsAr
 
-                                   
+                                    }
+
+
+
                                 </p>
                             </div>
 
-                          @*  <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="mt-3">
-                                        <h5 class="fs-14">Features :</h5>
-                                        <ul class="list-unstyled">
-                                            <li class="py-1">
-                                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                Full Sleeve
-                                            </li>
-                                            <li class="py-1">
-                                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                Cotton
-                                            </li>
-                                            <li class="py-1">
-                                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                All Sizes available
-                                            </li>
-                                            <li class="py-1">
-                                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                4 Different Color
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="mt-3">
-                                        <h5 class="fs-14">Services :</h5>
-                                        <ul class="list-unstyled product-desc-list">
-                                            <li class="py-1">10 Days Replacement</li>
-                                            <li class="py-1">Cash on Delivery available</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            @*  <div class="row">
+                            <div class="col-sm-6">
+                            <div class="mt-3">
+                            <h5 class="fs-14">Features :</h5>
+                            <ul class="list-unstyled">
+                            <li class="py-1">
+                            <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
+                            Full Sleeve
+                            </li>
+                            <li class="py-1">
+                            <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
+                            Cotton
+                            </li>
+                            <li class="py-1">
+                            <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
+                            All Sizes available
+                            </li>
+                            <li class="py-1">
+                            <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
+                            4 Different Color
+                            </li>
+                            </ul>
+                            </div>
+                            </div>
+                            <div class="col-sm-6">
+                            <div class="mt-3">
+                            <h5 class="fs-14">Services :</h5>
+                            <ul class="list-unstyled product-desc-list">
+                            <li class="py-1">10 Days Replacement</li>
+                            <li class="py-1">Cash on Delivery available</li>
+                            </ul>
+                            </div>
+                            </div>
                             </div>*@
 
 
@@ -380,6 +404,17 @@
                                                aria-controls="nav-detail"
                                                aria-selected="false">@sharedResource["Details"]</a>
                                         </li>
+                                        @if (Model.ItemDetails.HasSubProduct)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-supPro-tab"
+                                                   data-bs-toggle="tab" href="#nav-supPro" role="tab"
+                                                   aria-controls="nav-supPro"
+                                                   aria-selected="false">@sharedResource["Sub Products"]</a>
+                                            </li>
+
+                                        }
+
                                     </ul>
                                 </nav>
                                 <div class="tab-content border border-top-0 p-4"
@@ -398,16 +433,53 @@
                                                             <td>@Model.ItemDetails.MiniSubCategory.MiniSubCategoryTLEN</td>
                                                         </tr>
                                                         <tr>
-                                                            <th scope="row">@sharedResource["Price"]</th>
+                                                            <th scope="row">@sharedResource["Our Selling Price"]</th>
+                                                            <td>@Model.ItemDetails.OurSellingPrice</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Selling Price To Customer"]</th>
+                                                            <td>@Model.ItemDetails.SellingPriceForCustomer</td>
+                                                        </tr>
+                                                          <tr>
+                                                            <th scope="row">@sharedResource["Discount Ratio"]</th>
+                                                            <td>@Model.ItemDetails.DiscountRatio %</td>
+                                                        </tr>
+                                                          <tr>
+                                                            <th scope="row">@sharedResource["Price After Discount"]</th>
+                                                            <td>@Model.ItemDetails.OldPrice</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Product Price On Public Site"]</th>
                                                             <td>@Model.ItemDetails.ItemPrice</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row">@sharedResource["Has SubProduct"]</th>
                                                             <td>@Model.ItemDetails.HasSubProduct</td>
                                                         </tr>
+                                                        @if (!(@Model.ItemDetails.HasSubProduct))
+                                                        {
+                                                            <tr>
+                                                                <th scope="row">@sharedResource["Quantity"]</th>
+                                                                <td>@Model.ItemDetails.Quantity</td>
+                                                            </tr>
+                                                        }
                                                         <tr>
-                                                            <th scope="row">@sharedResource["Quantity"]</th>
-                                                            <td>@Model.ItemDetails.Quantity</td>
+                                                            <th scope="row">@sharedResource["Product Status"]</th>
+                                                            @if (@Model.ItemDetails.ItemStatusId==1)
+                                                            {
+                                                            <td> <span class="badge badge-soft-danger text-uppercase">@Model.ItemDetails.ItemStatus.StatusEnglishTitle</span></td>
+                                                                
+                                                            }else if(@Model.ItemDetails.ItemStatusId==2){
+                                                                <td> <span class="badge badge-soft-primary text-uppercase">@Model.ItemDetails.ItemStatus.StatusEnglishTitle</span></td>
+
+                                                            }else if(@Model.ItemDetails.ItemStatusId==3){
+                                                                <td> <span class="badge badge-soft-success  text-uppercase">@Model.ItemDetails.ItemStatus.StatusEnglishTitle</span></td>
+
+                                                            }
+                                                            else{
+                                                                <td> <span class="badge badge-soft-warning text-uppercase">@Model.ItemDetails.ItemStatus.StatusEnglishTitle</span></td>
+
+                                                            }
                                                         </tr>
                                                         <tr>
                                                             <th scope="row">@sharedResource["Active"]</th>
@@ -433,31 +505,71 @@
                                                             <td>@Model.ItemDetails.MiniSubCategory.MiniSubCategoryTLAR</td>
                                                         </tr>
                                                         <tr>
-                                                            <th scope="row">@sharedResource["Price"]</th>
+                                                            <th scope="row">@sharedResource["Our Selling Price"]</th>
+                                                            <td>@Model.ItemDetails.OurSellingPrice</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Selling Price To Customer"]</th>
+                                                            <td>@Model.ItemDetails.SellingPriceForCustomer</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Discount Ratio"]</th>
+                                                            <td>@Model.ItemDetails.DiscountRatio %</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Price After Discount"]</th>
+                                                            <td>@Model.ItemDetails.OldPrice</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">@sharedResource["Product Price On Public Site"]</th>
                                                             <td>@Model.ItemDetails.ItemPrice</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row">@sharedResource["Has SubProduct"]</th>
                                                             <td>@Model.ItemDetails.HasSubProduct</td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row">@sharedResource["Quantity"]</th>
-                                                            <td>@Model.ItemDetails.Quantity</td>
-                                                        </tr>
+                                                        @if (!(@Model.ItemDetails.HasSubProduct))
+                                                        {
+                                                            <tr>
+                                                                <th scope="row">@sharedResource["Quantity"]</th>
+                                                                <td>@Model.ItemDetails.Quantity</td>
+                                                            </tr>
+                                                        }
                                                         <tr>
                                                             <th scope="row">@sharedResource["Active"]</th>
                                                             <td>@Model.ItemDetails.IsActive</td>
                                                         </tr>
-                                                        @if (!@Model.ItemDetails.HasSubProduct){
+                                                          <tr>
+                                                            <th scope="row">@sharedResource["Product Status"]</th>
+                                                            @if (@Model.ItemDetails.ItemStatusId==1)
+                                                            {
+                                                            <td> <span class="badge badge-soft-danger text-uppercase">@Model.ItemDetails.ItemStatus.StatusArabicTitle</span></td>
+                                                                
+                                                            }else if(@Model.ItemDetails.ItemStatusId==2){
+                                                                <td> <span class="badge badge-soft-primary text-uppercase">@Model.ItemDetails.ItemStatus.StatusArabicTitle</span></td>
+
+                                                            }else if(@Model.ItemDetails.ItemStatusId==3){
+                                                                <td> <span class="badge badge-soft-success  text-uppercase">@Model.ItemDetails.ItemStatus.StatusArabicTitle</span></td>
+
+                                                            }
+                                                            else{
+                                                                <td> <span class="badge badge-soft-warning text-uppercase">@Model.ItemDetails.ItemStatus.StatusArabicTitle</span></td>
+
+                                                            }
+                                                        </tr>
+                                                        
+
+                                                        @if (!@Model.ItemDetails.HasSubProduct)
+                                                        {
                                                             <tr>
                                                                 <th scope="row">@sharedResource["BarCode"]</th>
                                                                 <td><img src="/@Model.ItemDetails.BarCode" width="50px" height="50px" /></td>
                                                             </tr>
                                                         }
-                                                        
+
                                                     </tbody>
                                                 }
-                                               
+
                                             </table>
                                         </div>
                                     </div>
@@ -469,7 +581,7 @@
                                                 <h5 class="font-size-16 mb-3">
                                                     @Model.ItemDetails.ItemTitleEn
                                                 </h5>
-                                                
+
                                             }
                                             else
                                             {
@@ -478,7 +590,7 @@
                                                 </h5>
 
                                             }
-                                            
+
                                             <p>
                                                 @if (Model.BrowserCulture == "en-US")
                                                 {
@@ -489,373 +601,134 @@
                                                     @Html.Raw(@Model.ItemDetails.ItemDescriptionAr)
                                                 }
                                             </p>
-                                         @*   <div>
-                                                <p class="mb-2">
-                                                    <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                    Machine Wash
-                                                </p>
-                                                <p class="mb-2">
-                                                    <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                    Fit Type: Regular
-                                                </p>
-                                                <p class="mb-2">
-                                                    <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                    100% Cotton
-                                                </p>
-                                                <p class="mb-0">
-                                                    <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                    Long sleeve
-                                                </p>
-                                            </div>*@
+
                                         </div>
                                     </div>
-                                   
+                                    @if (Model.ItemDetails.HasSubProduct)
+                                    {
+                                        <div class="tab-pane fade" id="nav-supPro" role="tabpanel"
+                                             aria-labelledby="nav-supPro-tab">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="card" id="List">
+
+                                                        <div class="card-body">
+                                                            <div>
+                                                                <div class="table-responsive table-card">
+                                                                    <table id="myTable" class="table  dt-responsive nowrap  align-middle" style="width:100%">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+
+
+
+                                                                                <th data-ordering="false">@sharedResource["QRCode"]</th>
+                                                                                <th data-ordering="false">@sharedResource["Step One Arabic Title"]</th>
+                                                                                <th data-ordering="false">@sharedResource["Step One English Title"]</th>
+                                                                                <th data-ordering="false">@sharedResource["Step Two Arabic Title"]</th>
+                                                                                <th data-ordering="false">@sharedResource["Step Two English Title"]</th>
+                                                                                <th data-ordering="false">@sharedResource["Quantity"]</th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var item in Model.miniSubProductsList)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="d-flex align-items-center">
+                                                                                            <div class="flex-shrink-0">
+                                                                                                <img src="~/@item.ItemQRCode" alt=""
+                                                                                                     class="avatar-xxs rounded-circle image_src object-cover">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td class="company_name">@item.StepOneTLAR</td>
+                                                                                    <td class="leads_score">@item.StepOneTLEN</td>
+                                                                                    <td class="phone">@item.StepTwoTLAR</td>
+                                                                                    <td class="location">@item.StepTwoTLEN</td>
+                                                                                    <td class="location">@item.Quantity</td>
+                                                                                </tr>
+
+
+                                                                            }
+                                                                        </tbody>
+
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <!--end modal-->
+                                                    </div>
+                                                </div>
+                                                <!--end col-->
+                                            </div>
+                                        </div>
+                                    }
+
+
                                 </div>
                             </div>
                             <!-- product-content -->
+                            <div class="row">
+                                @if (@Model.ItemDetails.ItemStatusId != 3)
+                                {
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">@sharedResource["Update Product Status"]</h5>
+                                            <div class="d-flex flex-wrap gap-2 fs-15">
+                                                @if (@Model.ItemDetails.ItemStatusId == 2 || @Model.ItemDetails.ItemStatusId == 4)
+                                                {
+                                                    <div class="col-lg-4">
+                                                        <div class="hstack gap-2 justify-content-end">
+                                                            <a href="javascript:void(0)"
+                                                               class="btn btn-primary" data-bs-toggle="modal"
+                                                               data-bs-placement="top" title="Activate Product" onclick="editButtonClick(@Model.ItemDetails.ItemId)">
+                                                                @sharedResource["Activate Product"]
+                                                            </a>
 
-                          @*  <div class="mt-5">
-                                <div>
-                                    <h5 class="fs-14 mb-3">Ratings & Reviews</h5>
-                                </div>
-                                <div class="row gy-4 gx-0">
-                                    <div class="col-lg-4">
-                                        <div>
-                                            <div class="pb-3">
-                                                <div class="bg-light px-3 py-2 rounded-2 mb-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1">
-                                                            <div class="fs-16 align-middle text-warning">
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-half-fill"></i>
-                                                            </div>
+
                                                         </div>
-                                                        <div class="flex-shrink-0">
-                                                            <h6 class="mb-0">4.5 out of 5</h6>
+
+                                                    </div>
+
+                                                }
+                                                @if (@Model.ItemDetails.ItemStatusId == 2)
+                                                {
+                                                    <div class="col-lg-4">
+                                                        <div class="hstack gap-2 justify-content-end">
+                                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#showEditModal">
+                                                                @sharedResource["Reject Product"]
+                                                            </button>
+
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="text-center">
-                                                    <div class="text-muted">
-                                                        Total <span class="fw-medium">5.50k</span> reviews
-                                                    </div>
-                                                </div>
+                                                }
+
+
+
+
                                             </div>
-
-                                            <div class="mt-3">
-                                                <div class="row align-items-center g-2">
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0">5 star</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="p-2">
-                                                            <div class="progress animated-progress progress-sm">
-                                                                <div class="progress-bar bg-success"
-                                                                     role="progressbar"
-                                                                     style="width: 50.16%"
-                                                                     aria-valuenow="50.16"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0 text-muted">2758</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end row -->
-
-                                                <div class="row align-items-center g-2">
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0">4 star</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="p-2">
-                                                            <div class="progress animated-progress progress-sm">
-                                                                <div class="progress-bar bg-success"
-                                                                     role="progressbar"
-                                                                     style="width: 19.32%"
-                                                                     aria-valuenow="19.32"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0 text-muted">1063</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end row -->
-
-                                                <div class="row align-items-center g-2">
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0">3 star</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="p-2">
-                                                            <div class="progress animated-progress progress-sm">
-                                                                <div class="progress-bar bg-success"
-                                                                     role="progressbar"
-                                                                     style="width: 18.12%"
-                                                                     aria-valuenow="18.12"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0 text-muted">997</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end row -->
-
-                                                <div class="row align-items-center g-2">
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0">2 star</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="p-2">
-                                                            <div class="progress animated-progress progress-sm">
-                                                                <div class="progress-bar bg-warning"
-                                                                     role="progressbar"
-                                                                     style="width: 7.42%"
-                                                                     aria-valuenow="7.42"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0 text-muted">408</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end row -->
-
-                                                <div class="row align-items-center g-2">
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0">1 star</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="p-2">
-                                                            <div class="progress animated-progress progress-sm">
-                                                                <div class="progress-bar bg-danger"
-                                                                     role="progressbar"
-                                                                     style="width: 4.98%"
-                                                                     aria-valuenow="4.98"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="p-2">
-                                                            <h6 class="mb-0 text-muted">274</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end row -->
-                                            </div>
-                                        </div>
+                                        </div><!-- end card body -->
                                     </div>
-                                    <!-- end col -->
 
-                                    <div class="col-lg-8">
-                                        <div class="ps-lg-4">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <h5 class="fs-14">Reviews: </h5>
-                                            </div>
+                                    <!-- end card -->
+                                }
 
-                                            <div class="me-lg-n3 pe-lg-4" data-simplebar
-                                                 style="max-height: 225px;">
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="py-2">
-                                                        <div class="border border-dashed rounded p-3">
-                                                            <div class="d-flex align-items-start mb-3">
-                                                                <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0">
-                                                                        <i class="mdi mdi-star"></i>
-                                                                        4.2
-                                                                    </div>
-                                                                    <div class="vr"></div>
-                                                                    <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">
-                                                                            Superb sweatshirt. I
-                                                                            loved it. It is for
-                                                                            winter.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="d-flex flex-grow-1 gap-2 mb-3">
-                                                                <a href="#" class="d-block">
-                                                                    <img src="~/assets/images/small/img-12.jpg"
-                                                                         alt=""
-                                                                         class="avatar-sm rounded object-cover">
-                                                                </a>
-                                                                <a href="#" class="d-block">
-                                                                    <img src="~/assets/images/small/img-11.jpg"
-                                                                         alt=""
-                                                                         class="avatar-sm rounded object-cover">
-                                                                </a>
-                                                                <a href="#" class="d-block">
-                                                                    <img src="~/assets/images/small/img-10.jpg"
-                                                                         alt=""
-                                                                         class="avatar-sm rounded object-cover">
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-end">
-                                                                <div class="flex-grow-1">
-                                                                    <h5 class="fs-14 mb-0">
-                                                                        Henry
-                                                                    </h5>
-                                                                </div>
-
-                                                                <div class="flex-shrink-0">
-                                                                    <p class="text-muted fs-13 mb-0">
-                                                                        12 Jul, 21
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="py-2">
-                                                        <div class="border border-dashed rounded p-3">
-                                                            <div class="d-flex align-items-start mb-3">
-                                                                <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0">
-                                                                        <i class="mdi mdi-star"></i>
-                                                                        4.0
-                                                                    </div>
-                                                                    <div class="vr"></div>
-                                                                    <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">
-                                                                            Great at this price,
-                                                                            Product quality and look
-                                                                            is awesome.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex align-items-end">
-                                                                <div class="flex-grow-1">
-                                                                    <h5 class="fs-14 mb-0">
-                                                                        Nancy
-                                                                    </h5>
-                                                                </div>
-
-                                                                <div class="flex-shrink-0">
-                                                                    <p class="text-muted fs-13 mb-0">
-                                                                        06 Jul, 21
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="py-2">
-                                                        <div class="border border-dashed rounded p-3">
-                                                            <div class="d-flex align-items-start mb-3">
-                                                                <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0">
-                                                                        <i class="mdi mdi-star"></i>
-                                                                        4.2
-                                                                    </div>
-                                                                    <div class="vr"></div>
-                                                                    <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">
-                                                                            Good product. I am so
-                                                                            happy.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex align-items-end">
-                                                                <div class="flex-grow-1">
-                                                                    <h5 class="fs-14 mb-0">
-                                                                        Joseph
-                                                                    </h5>
-                                                                </div>
-
-                                                                <div class="flex-shrink-0">
-                                                                    <p class="text-muted fs-13 mb-0">
-                                                                        06 Jul, 21
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="py-2">
-                                                        <div class="border border-dashed rounded p-3">
-                                                            <div class="d-flex align-items-start mb-3">
-                                                                <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0">
-                                                                        <i class="mdi mdi-star"></i>
-                                                                        4.1
-                                                                    </div>
-                                                                    <div class="vr"></div>
-                                                                    <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">
-                                                                            Nice Product, Good
-                                                                            Quality.
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex align-items-end">
-                                                                <div class="flex-grow-1">
-                                                                    <h5 class="fs-14 mb-0">
-                                                                        Jimmy
-                                                                    </h5>
-                                                                </div>
-
-                                                                <div class="flex-shrink-0">
-                                                                    <p class="text-muted fs-13 mb-0">
-                                                                        24 Jun, 21
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end col -->
-                                </div>
-                                <!-- end Ratings & Reviews -->
-                            </div>*@
+                            </div>
                             <!-- end card body -->
                         </div>
                     </div>
                     <!-- end col -->
                 </div>
-                <!-- end row -->
+
+               
+
+                <!--end row-->
+
             </div>
             <!-- end card body -->
         </div>
@@ -863,6 +736,8 @@
     </div>
     <!-- end col -->
 </div><!-- end row -->
+<partial name="_AddPopup" view-data="ViewData" />
+<partial name="_EditPopup" model="@Model.ItemDetails" view-data="ViewData" />
 @section scripts{
     <!--Swiper slider js-->
     <script src="~/assets/libs/swiper/swiper-bundle.min.js"></script>
@@ -870,3 +745,40 @@
     <!-- ecommerce product details init -->
     <script src="~/assets/js/pages/ecommerce-product-details.init.js"></script>
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    function editButtonClick(ItemId) {
+        console.log(ItemId);
+        $.ajax({
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+
+            ,
+            url: "/CRM/Configurations/ManageItem/ProductDetails?handler=SingleUpdateItemToActivateForEdit",
+
+            data: { "ItemId": ItemId },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+
+                document.getElementById("EditHiddenItemId").value = response.ItemId
+                document.getElementById("EDiscountRatioId").value = response.DiscountRatio
+                document.getElementById("EItemPriceId").value = response.SellingPriceForCustomer
+                input = document.getElementById("EItemPriceId");
+                input.setAttribute("min", response.SellingPriceForCustomer);
+                $('#showEditModal').modal('show');
+
+
+            },
+
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+</script>
